@@ -32,12 +32,16 @@ let linkCategory = [
 
 export function Main() {
   const location = useLocation();
-  const pathParts = location.pathname.split('/');
+  const pathParts = location.pathname;
   const pageNumber = pathParts.length > 1 ? pathParts[pathParts.length - 1] : null;
-
+  
+  let temp = pathParts.split(`/${pageNumber}`);
   const listCategory = category.map((element, index) => {
-    let isActive = location.pathname === linkCategory[index];
-    if (location.pathname === '/' && index === 0) {
+    let isActive = false;
+    if(temp[0] == linkCategory[index]){
+      isActive = true;
+    }
+    if (temp === '/' && index === 0) {
       isActive = true;
     }
     return (
@@ -57,7 +61,6 @@ export function Main() {
   }else{
     resultLocation = "/Tat_ca_san_pham";
   }
-
   return (
     <div>
       <Header />
@@ -80,21 +83,14 @@ export function Main() {
           <div className='w-[80%] mt-[50px]'>
             <Routes>
               <Route path="/" element={<Tat_ca_san_pham />} />
-              <Route path="/Tat_ca_san_pham" element={<Tat_ca_san_pham />} />
-              <Route path="/Kien_thuc_khoa_hoc" element={<Kien_thuc_khoa_hoc />} />
-              <Route path="/Lich_su_truyen_thong" element={<Lich_su_truyen_thong />} />
-              <Route path="/Truyen_tranh" element={<Truyen_tranh />} />
-              <Route path="/Van_hoc_nuoc_ngoai" element={<Van_hoc_nuoc_ngoai />} />
-              <Route path="/Van_hoc_Viet_Nam" element={<Van_hoc_Viet_Nam />} />
-              <Route path="/Wings_book" element={<Wings_book />} />
+              <Route path="/Tat_ca_san_pham/:pageNumber?" element={<Tat_ca_san_pham resultLocation="/Tat_ca_san_pham" />} />              
+              <Route path="/Kien_thuc_khoa_hoc/:pageNumber?" element={<Kien_thuc_khoa_hoc resultLocation="/Kien_thuc_khoa_hoc" />} />
+              <Route path="/Lich_su_truyen_thong/:pageNumber?" element={<Lich_su_truyen_thong resultLocation="/Lich_su_truyen_thong" />} />
+              <Route path="/Truyen_tranh/:pageNumber?" element={<Truyen_tranh resultLocation="/Truyen_tranh" />} />
+              <Route path="/Van_hoc_nuoc_ngoai/:pageNumber?" element={<Van_hoc_nuoc_ngoai resultLocation="/Van_hoc_nuoc_ngoai" />} />
+              <Route path="/Van_hoc_Viet_Nam/:pageNumber?" element={<Van_hoc_Viet_Nam resultLocation="/Van_hoc_Viet_Nam" />} />
+              <Route path="/Wings_book/:pageNumber?" element={<Wings_book resultLocation="/Wings_book" />} />
             </Routes>
-            <div className="flex relative">
-              {location.pathname}
-              
-              {
-                paginationHelper(pageNumber, resultLocation)
-              }
-            </div>
           </div>
         </div>
       </div>
