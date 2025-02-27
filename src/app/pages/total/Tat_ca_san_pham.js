@@ -9,8 +9,7 @@ import image6 from './images/Nàng tiên hạt bụi - Những câu chuyện nh�
 import image7 from './images/Oddtaxi.webp';
 import { useLocation } from 'react-router-dom';
 import image8 from './images/ô bạn tôi thầm thích lại quên mang kính rồi.webp';
-import { paginationHelper } from './../helper/pagination'; // Make sure to import your pagination helper as a function
-import {pagination} from './../main'
+import { paginationHelper } from './../helper/pagination'; 
 
 let item1 = { img: image1, gia_goc: "50.000", gia: "45.000", giam_gia: "10%", name: "Charlie tài ba - Phiêu lưu nơi đảo xa" };
 let item2 = { img: image2, gia_goc: "50.000", gia: "50.000", giam_gia: "10%", name: "Nhím Charlie tài ba - Xông pha trị thủy" };
@@ -46,6 +45,7 @@ let images = [
   item14,
   item15,
   item16,
+  item16,
 ];
 
 export function Tat_ca_san_pham(item) {
@@ -60,16 +60,10 @@ export function Tat_ca_san_pham(item) {
       itemNumber = "1";       
     }
     else itemNumber = String(pageNumber);
-    
-    console.log(resultLocation); 
 
     return (
-      <div>
-        <Frame item={images} />
-        <div className="flex relative">
+      <div className='w-full'>
           { paginationHelper(itemNumber, resultLocation, images) }
-
-        </div>
       </div>
     );
 }

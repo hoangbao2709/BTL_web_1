@@ -1,6 +1,10 @@
 import logoDark from "./../images/logo.webp";
 import "./style.css";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList } from '@fortawesome/free-solid-svg-icons'; 
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'; // Corrected import
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 let category = [
     "Tất cả sản phẩm",
     "Lịch sử truyền thống",
@@ -74,7 +78,7 @@ export function Header() {
             </div>
             <ul className="flex items-center text-[150%] absolute left-[13%]">
                 <li className="pr-[30px] danhmuc absolute pb-[37px] pt-[37px]">
-                    <i className="fa-solid fa-list"></i>
+                    <i><FontAwesomeIcon icon={faList} /></i>
                     <ul className="category w-[260px] rounded-b-lg text-[20px] ">
                         {listCategory}
                     </ul>
@@ -83,9 +87,9 @@ export function Header() {
             </ul>
             <ul className="right-[25%] absolute flex">
                 <input type="text" className="border-2 border-solid rounded-[10px] w-[300px] pl-[20px] text-[20px] mr-[50px]" placeholder="Tìm kiếm sản phẩm" />
-                <li className="text-[30px] pr-[50px]"><i className="fa-solid fa-magnifying-glass"></i></li>
-                <li className="text-[30px] pr-[50px]"><i className="fa-regular fa-heart"></i></li>
-                <li className="text-[30px]"><i className="fa-solid fa-bag-shopping"></i></li>
+                <li className="text-[30px] pr-[50px]"><FontAwesomeIcon icon={faMagnifyingGlass} /></li>
+                <li className="text-[30px] pr-[50px]"><FontAwesomeIcon icon={faHeart} /></li>
+                <li className="text-[30px]"><FontAwesomeIcon icon={faBagShopping} /> </li>
             </ul>
             <a href="#" className="p-[30px] pt-[10px] pb-[10px] bg-[black] text-[white] text-[30px] right-[3%] absolute rounded-[8px] transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500">Đăng Nhập</a>
             <a href="" className="p-[30px] pt-[10px] pb-[10px] text-[black] text-[30px] right-[15%] absolute rounded-[8px] transition delay-150 duration-300 ease-in-out hover:text-[white] hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500">Đăng ký</a>

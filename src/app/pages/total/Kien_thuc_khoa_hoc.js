@@ -1,5 +1,5 @@
 import React from 'react';
-import Frame from '../helper/frame';
+import Frame from './../helper/frame';
 import image1 from './images/Nhím Charlie tài ba - Phiêu lưu nơi đảo xa.webp';
 import image2 from './images/Nhím Charlie tài ba - Xông pha trị thủy.webp';
 import image3 from './images/Những đứa con của đường rừng.webp';
@@ -9,7 +9,7 @@ import image6 from './images/Nàng tiên hạt bụi - Những câu chuyện nh�
 import image7 from './images/Oddtaxi.webp';
 import { useLocation } from 'react-router-dom';
 import image8 from './images/ô bạn tôi thầm thích lại quên mang kính rồi.webp';
-import { paginationHelper } from './../helper/pagination'; // Make sure to import your pagination helper as a function
+import { paginationHelper } from './../helper/pagination'; 
 
 
 let item1 = { img: image1, gia_goc: "50.000", gia: "45.000", giam_gia: "10%", name: "Charlie tài ba - Phiêu lưu nơi đảo xa" };
@@ -64,19 +64,25 @@ const listCategory = category.map((element, index) => {
 });
 
 export function Kien_thuc_khoa_hoc(item) {
-  const location = useLocation();
-  const pathParts = location.pathname;
-  const pageNumber = pathParts.replace(item.resultLocation + "/", "");
-  const resultLocation = pathParts.replace("/" + pageNumber, "");
-  console.log(pageNumber); 
-  console.log(resultLocation); 
+    const location = useLocation();
+    const pathParts = location.pathname;
+    const pageNumber = pathParts.includes(item.resultLocation)
+  ? pathParts.replace(item.resultLocation + '/', "")  // Thay thế resultLocation bằng "1" nếu có
+  : pathParts.replace(item.resultLocation, "1"); // Loại bỏ resultLocation khi không có
+    const resultLocation = pathParts.replace("/" + pageNumber, "");
+    let itemNumber = "";
+    if(String(pageNumber) === String(resultLocation)){
+      itemNumber = "1";       
+    }
+    else itemNumber = String(pageNumber);
+    
+    console.log(resultLocation); 
 
-  return (
-    <div>
-      <Frame item={images} />
-      <div className="flex relative">
-        { paginationHelper(pageNumber, resultLocation) }
+    return (
+      <div>
+        <div className="flex relative">
+          { paginationHelper(itemNumber, resultLocation, images) }
+        </div>
       </div>
-    </div>
-  );
+    );
 }

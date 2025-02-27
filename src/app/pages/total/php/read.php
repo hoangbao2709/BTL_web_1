@@ -8,11 +8,15 @@
         die("Kết nối thất bại". $conn->connect_error);
     }
     mysqli_set_charset(mysql: $conn, charset:"utf8");
-    echo"Kết nối thành công";
+    //echo"Kết nối thành công";
     $sql = 'SELECT * FROM item';
     $result = $conn->query($sql);
     if($result->num_rows > 0){
-        var_dump(value: $row);
+        while($row = $result->fetch_assoc()){
+            var_dump($row);
+        }
+    }else{
+        echo'ket noi that bai';
     }
     $conn->close();
 ?>
