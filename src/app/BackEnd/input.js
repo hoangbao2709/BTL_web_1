@@ -112,7 +112,7 @@ export function Input() {
 
     return (
 
-        <div className="w-[100%] bg-black h-screen flex content-center justify-center">
+        <div className="w-[100%]  h-screen flex content-center justify-center">
             <form className="w-[80%] content-center" action="http://localhost:8000/input.php" method="post" onSubmit={handleSubmit}>
                 <div>
                     <div className="grid gap-6 mb-6 md:grid-cols-2">

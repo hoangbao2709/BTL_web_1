@@ -19,7 +19,7 @@ export function Admin()
         <div className="flex w-[100%]">
             <Navbar/>
             <Routes>
-                <Route path="/" element={<div className='bg-black w-full '></div>} />
+                <Route path="/" element={<div className=' w-full '></div>} />
                 <Route path="input" element={<Input />} />
             </Routes>
         </div>

@@ -4,7 +4,6 @@ import { Main } from './app/pages/main';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Input } from './app/BackEnd/input';
 import { Admin } from './app/pages/Admin/index';
 
 export function App() {
