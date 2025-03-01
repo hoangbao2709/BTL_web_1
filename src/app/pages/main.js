@@ -8,9 +8,6 @@ import { Van_hoc_nuoc_ngoai } from "./total/Van_hoc_nuoc_ngoai";
 import { Van_hoc_Viet_Nam } from "./total/Van_hoc_Viet_Nam";
 import { Wings_book } from "./total/Wings_book";
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { paginationHelper } from './helper/pagination'; 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Input } from './total/php/input';
 
 let category = [
   "Tất cả sản phẩm",
@@ -64,7 +61,7 @@ export function Main() {
     resultLocation = "/Tat_ca_san_pham";
   }
   return (
-    <div>
+    <div className="">
       <Header />
       <div className="flex">
         <Images />
@@ -82,7 +79,7 @@ export function Main() {
               </div>
             </header>
           </div>
-          <div className='w-[80%] mt-[50px]'>
+          <div className='w-[80%] mt-[50px] container mx-auto px-10'>
             <Routes>
               <Route path="/" element={<Tat_ca_san_pham />} />
               <Route path="/Tat_ca_san_pham/:pageNumber?" element={<Tat_ca_san_pham resultLocation="/Tat_ca_san_pham" />} />              
@@ -92,7 +89,6 @@ export function Main() {
               <Route path="/Van_hoc_nuoc_ngoai/:pageNumber?" element={<Van_hoc_nuoc_ngoai resultLocation="/Van_hoc_nuoc_ngoai" />} />
               <Route path="/Van_hoc_Viet_Nam/:pageNumber?" element={<Van_hoc_Viet_Nam resultLocation="/Van_hoc_Viet_Nam" />} />
               <Route path="/Wings_book/:pageNumber?" element={<Wings_book resultLocation="/Wings_book" />} />
-              <Route path="/input" element={<Input/>}></Route>
             </Routes>
           </div>
         </div>
