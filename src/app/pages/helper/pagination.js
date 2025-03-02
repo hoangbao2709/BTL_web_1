@@ -46,8 +46,6 @@ export const paginationHelper = (currentPage, location, images = []) => {
 
     if (i <= 0) i = 1;
 
-    console.log(i);
-
     for (i; i <= max && i <= totalPages; i++) {
         let temp = location + "/" + i;
         if (i !== currentPage) {

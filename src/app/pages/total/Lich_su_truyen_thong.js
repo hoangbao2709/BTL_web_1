@@ -53,8 +53,6 @@ export function Lich_su_truyen_thong(item) {
       itemNumber = "1";       
     }
     else itemNumber = String(pageNumber);
-    
-    console.log(resultLocation); 
 
     return (
       <div>

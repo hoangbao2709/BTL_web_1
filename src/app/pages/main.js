@@ -20,27 +20,32 @@ let category = [
 ];
 
 let linkCategory = [
-  "/Tat_ca_san_pham",
-  "/Lich_su_truyen_thong",
-  "/Van_hoc_Viet_Nam",
-  "/Van_hoc_nuoc_ngoai",
-  "/Kien_thuc_khoa_hoc",
-  "/Truyen_tranh",
-  "/Wings_book",
+  "/main/Tat_ca_san_pham",
+  "/main/Lich_su_truyen_thong",
+  "/main/Van_hoc_Viet_Nam",
+  "/main/Van_hoc_nuoc_ngoai",
+  "/main/Kien_thuc_khoa_hoc",
+  "/main/Truyen_tranh",
+  "/main/Wings_book",
 ];
 
 export function Main() {
   const location = useLocation();
   const pathParts = location.pathname;
-  const pageNumber = pathParts.length > 1 ? pathParts[pathParts.length - 1] : null;
-  
-  let temp = pathParts.split(`/${pageNumber}`);
+
   const listCategory = category.map((element, index) => {
     let isActive = false;
-    if(temp[0] == linkCategory[index]){
+
+    const pathSegments = location.pathname.split('/');
+    const path = pathSegments[pathSegments.length - 1];
+
+    const pageNumber = Number(path) ? pathParts.replace( "/" + path, "") : pathParts;
+
+    console.log("page", pageNumber);
+    if( pageNumber == linkCategory[index]){
       isActive = true;
     }
-    if (temp === '/' && index === 0) {
+    if (pageNumber === '/main' && index === 0) {
       isActive = true;
     }
     return (
@@ -82,13 +87,13 @@ export function Main() {
           <div className='w-[80%] mt-[50px] container mx-auto px-10'>
             <Routes>
               <Route path="/" element={<Tat_ca_san_pham />} />
-              <Route path="/Tat_ca_san_pham/:pageNumber?" element={<Tat_ca_san_pham resultLocation="/Tat_ca_san_pham" />} />              
-              <Route path="/Kien_thuc_khoa_hoc/:pageNumber?" element={<Kien_thuc_khoa_hoc resultLocation="/Kien_thuc_khoa_hoc" />} />
-              <Route path="/Lich_su_truyen_thong/:pageNumber?" element={<Lich_su_truyen_thong resultLocation="/Lich_su_truyen_thong" />} />
-              <Route path="/Truyen_tranh/:pageNumber?" element={<Truyen_tranh resultLocation="/Truyen_tranh" />} />
-              <Route path="/Van_hoc_nuoc_ngoai/:pageNumber?" element={<Van_hoc_nuoc_ngoai resultLocation="/Van_hoc_nuoc_ngoai" />} />
-              <Route path="/Van_hoc_Viet_Nam/:pageNumber?" element={<Van_hoc_Viet_Nam resultLocation="/Van_hoc_Viet_Nam" />} />
-              <Route path="/Wings_book/:pageNumber?" element={<Wings_book resultLocation="/Wings_book" />} />
+              <Route path="/Tat_ca_san_pham/:pageNumber?" element={<Tat_ca_san_pham resultLocation="/main/Tat_ca_san_pham" />} />              
+              <Route path="/Kien_thuc_khoa_hoc/:pageNumber?" element={<Kien_thuc_khoa_hoc resultLocation="/main/Kien_thuc_khoa_hoc" />} />
+              <Route path="/Lich_su_truyen_thong/:pageNumber?" element={<Lich_su_truyen_thong resultLocation="/main/Lich_su_truyen_thong" />} />
+              <Route path="/Truyen_tranh/:pageNumber?" element={<Truyen_tranh resultLocation="/main/Truyen_tranh" />} />
+              <Route path="/Van_hoc_nuoc_ngoai/:pageNumber?" element={<Van_hoc_nuoc_ngoai resultLocation="/main/Van_hoc_nuoc_ngoai" />} />
+              <Route path="/Van_hoc_Viet_Nam/:pageNumber?" element={<Van_hoc_Viet_Nam resultLocation="/main/Van_hoc_Viet_Nam" />} />
+              <Route path="/Wings_book/:pageNumber?" element={<Wings_book resultLocation="/main/Wings_book" />} />
             </Routes>
           </div>
         </div>

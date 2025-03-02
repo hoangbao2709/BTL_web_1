@@ -27,12 +27,7 @@ export function Navbar() {
 
     const handleClickBottom = () => {
         setShowHtmlBottom(!showHtmlBottom);
-    };
-    let href = "";
-    if(isActive === "admin"){
-        href = "admin/";
-    }
-    
+    };  
 
     const navigate = useNavigate();
     return (
@@ -56,7 +51,7 @@ export function Navbar() {
                     </li>
                     <li>
                         <a
-                            href={href + "dashboard"}
+                            href={"/admin/dashboard"}
                             className={`my-1 flex py-4 w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "dashboard" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''}`}
                         >
                             <img className="pr-4 w-[36px]" src={home}></img>
@@ -65,7 +60,7 @@ export function Navbar() {
                     </li>
                     <li>
                         <a 
-                            href={href + "audience"}
+                            href={"/admin/audience"}
                             className={`my-1 flex py-4 relative w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "audience" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''}`}>
                             <img className="pr-4 w-[36px]" src={audience}></img>
                             <p>Audience</p>
@@ -96,14 +91,14 @@ export function Navbar() {
                         </div>
                     )}
                     <li>
-                        <a href={href + "post"} className={`my-1 flex py-4 w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "post" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
+                        <a href={"/admin/post"} className={`my-1 flex py-4 w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "post" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
                             <img className="pr-4 w-[36px]" src={post}></img>
                             <p>Post</p>
                         </a>
                     </li>
 
                     <li >
-                        <a href={href + "input"} className={`my-1 cursor-pointer ${isActive === "input" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
+                        <a href={"/admin/input"} className={`my-1 cursor-pointer ${isActive === "input" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
                             {isActive !== "input" && (
                                 <a className="flex py-4 bg-[none] w-full pl-4 rounded-lg content-center hover:bg-[#2D2F39] cursor-pointer">
                                     <FontAwesomeIcon className="pr-4 pt-1" icon={faRightToBracket} />
@@ -119,13 +114,13 @@ export function Navbar() {
                         </a>
                     </li>
                     <li>
-                        <a href={href + "schedules"} className={`my-1 flex py-4 w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "schedules" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
+                        <a href={"/admin/schedules"} className={`my-1 flex py-4 w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "schedules" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
                             <img className="pr-4 w-[36px]" src={schedule}></img>
                             <p>Schedules</p>
                         </a>
                     </li>
                     <li>
-                        <a href={href + "income"} className={`my-1 flex py-4 w-full bg-[none] relative pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "income" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `} onClick={() => {
+                        <a href={"/admin/income"} className={`my-1 flex py-4 w-full bg-[none] relative pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "income" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `} onClick={() => {
                             handleClickBottom();
                         }}> <img className="pr-4 w-[36px]" src={report}></img>
                             <p>Income</p>

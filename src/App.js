@@ -11,7 +11,7 @@ export function App() {
     <BrowserRouter>
       <Routes>
         <Route path="admin/*" element={<Admin />} />
-        <Route path="/*" element={<Main />} />
+        <Route path="/main*" element={<Main />} />
       </Routes>
     </BrowserRouter>
   );

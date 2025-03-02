@@ -10,7 +10,6 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index }) => {
     let oneView: JSX.Element[] = []; 
 
     const view = item.slice(index, index + max_index ).map((element, idx) => {
-        console.log(idx);
         if (idx % 4 === 0) {
             if (idx !== 0) {
                 totalView.push(

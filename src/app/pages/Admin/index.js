@@ -12,8 +12,7 @@ export function Admin()
     const [isActive, setIsActive] = useState(Array(6).fill(false));
     const [additem, setAdditem] = useState(false);
     const [inputSegment, setInputSegment] = useState(pathSegments[pathSegments.length - 1]);
-    console.log(inputSegment);
-    navigate(-1);
+
     return (
         
         <div className="flex w-[100%]">

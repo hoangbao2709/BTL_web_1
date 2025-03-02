@@ -11,6 +11,11 @@ import { useLocation } from 'react-router-dom';
 import image8 from './images/ô bạn tôi thầm thích lại quên mang kính rồi.webp';
 import { paginationHelper } from './../helper/pagination'; 
 
+function importAll(r) {
+  return r.keys().map(r);
+}
+
+const img = importAll(require.context('./../../BackEnd/php/images', false, /\.(png|webp|svg)$/));
 
 let item1 = { img: image1, gia_goc: "50.000", gia: "45.000", giam_gia: "10%", name: "Charlie tài ba - Phiêu lưu nơi đảo xa" };
 let item2 = { img: image2, gia_goc: "50.000", gia: "50.000", giam_gia: "10%", name: "Nhím Charlie tài ba - Xông pha trị thủy" };
@@ -67,8 +72,8 @@ export function Kien_thuc_khoa_hoc(item) {
     const location = useLocation();
     const pathParts = location.pathname;
     const pageNumber = pathParts.includes(item.resultLocation)
-  ? pathParts.replace(item.resultLocation + '/', "")  // Thay thế resultLocation bằng "1" nếu có
-  : pathParts.replace(item.resultLocation, "1"); // Loại bỏ resultLocation khi không có
+  ? pathParts.replace(item.resultLocation + '/', "")  
+  : pathParts.replace(item.resultLocation, "1");
     const resultLocation = pathParts.replace("/" + pageNumber, "");
     let itemNumber = "";
     if(String(pageNumber) === String(resultLocation)){

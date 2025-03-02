@@ -7,7 +7,6 @@ export function Input() {
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
     const [result, setResult] = useState("");
-
     const [final, setFullfinal] = useState({
         Kien_thuc_khoa_hoc: false,
         Lich_su_truyen_thong: false,
@@ -16,7 +15,7 @@ export function Input() {
         Van_hoc_nuoc_ngoai: false,
         Van_hoc_Viet_Nam: false,
         Wings_book: false
-    })
+    });
 
     const [item, setFullitem] = useState({
         id: '',
@@ -42,7 +41,6 @@ export function Input() {
                 [name]: checked,
             }));
         }
-
     };
 
     const handleChange = (event) => {
@@ -60,38 +58,37 @@ export function Input() {
         }
     };
 
+    const [files, setFiles] = useState([]); // Sửa thành files
+    const inputRef = useRef(null);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = $(e.target);
+
+        // Tạo đối tượng FormData để gửi dữ liệu
+        const formData = new FormData(form[0]); // Sử dụng form[0] để lấy đối tượng DOM
+        for (let i = 0; i < files.length; i++) {
+            formData.append(`file[]`, files[i]); // Dùng `file[]` để gửi mảng tệp
+        }
+
+        // Gửi dữ liệu từ form và tệp bằng AJAX
         $.ajax({
             type: "POST",
-            url: form.attr("action"),
-            data: form.serialize(),
+            url: form.attr("action"), // Đảm bảo action đúng URL tới PHP
+            data: formData,
+            processData: false, // Ngăn jQuery xử lý dữ liệu
+            contentType: false, // Ngăn jQuery thiết lập Content-Type
             success(data) {
                 setResult(data);
             },
         });
-        const formData = new FormData();
-        formData.append('file', file);
-
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-        }
-
-        const xhttp = new XMLHttpRequest();
-        xhttp.open("POST", "http://localhost:8000/input.php", true);
-        xhttp.send(formData);
     };
-
-    const [file, setFile] = useState(null);
-    const inputRef = useRef(null);
 
     const handleDrop = (event) => {
         event.preventDefault();
         const droppedFiles = event.dataTransfer.files;
         if (droppedFiles.length > 0) {
-            const fileObj = droppedFiles[0];
-            setFile(fileObj);
+            setFiles(prevFiles => [...prevFiles, ...Array.from(droppedFiles)]);
         }
     };
 
@@ -104,11 +101,10 @@ export function Input() {
     };
 
     const handleFileChange = (e) => {
-        const selectedFile = e.target.files[0];
-        if (selectedFile) {
-            setFile(selectedFile);
-        }
+        const selectedFiles = Array.from(e.target.files);
+        setFiles(prevFiles => [...prevFiles, ...selectedFiles]);
     };
+
 
     return (
 
@@ -214,11 +210,13 @@ export function Input() {
                         <div className="button m-[20px]" onClick={handleBrowseClick}>Browse Image</div>
                         <input
                             type="file"
+                            name="file"
                             ref={inputRef}
                             onChange={handleFileChange}
                             hidden
+                            multiple
                         />
-                        {file && <p>File: {file.name}</p>}
+                        {files && <p>File: {files.name}</p>}
                     </div>
                 </div>
             </form>
