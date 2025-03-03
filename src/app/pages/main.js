@@ -41,7 +41,6 @@ export function Main() {
 
     const pageNumber = Number(path) ? pathParts.replace( "/" + path, "") : pathParts;
 
-    console.log("page", pageNumber);
     if( pageNumber == linkCategory[index]){
       isActive = true;
     }

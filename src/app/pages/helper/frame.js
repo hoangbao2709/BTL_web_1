@@ -8,8 +8,10 @@ type FrameProps = {
 const Frame: React.FC<FrameProps> = ({ item, index, max_index }) => {
     let totalView: JSX.Element[] = []; 
     let oneView: JSX.Element[] = []; 
-
+    
     const view = item.slice(index, index + max_index ).map((element, idx) => {
+        
+        console.log("item ", element);
         if (idx % 4 === 0) {
             if (idx !== 0) {
                 totalView.push(
@@ -26,8 +28,9 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index }) => {
                 key={`item-${index}`}
             >   <a href="">
                     <div className='h-[400px] overflow-hidden'>
+                        
                         <img
-                            src={element.img}
+                            src={element.img[0]}
                             alt="Framed"
                         />
                     </div>
@@ -49,7 +52,7 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index }) => {
 
     if (oneView.length > 0) {
         totalView.push(
-            <ul className='flex mb-[50px] w-[100%]' key={`group-last`}>
+            <ul className='flex mb-[50px] w-[1400px]' key={`group-last`}>
                 {oneView}
             </ul>
         );

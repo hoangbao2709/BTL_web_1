@@ -53,37 +53,62 @@ foreach ($tables as $table) {
 echo "Active: " . ($isActive['kien_thuc_khoa_hoc'] ? 'true' : 'false');
 
 $upload_dirs = [
-    'kien_thuc_khoa_hoc' => './images/kien_thuc_khoa_hoc/',
-    'lich_su_truyen_thong' => './images/lich_su_truyen_thong/',
-    'tat_ca_san_pham' => './images/tat_ca_san_pham/',
-    'truyen_tranh' => './images/truyen_tranh/',
-    'van_hoc_nuoc_ngoai' => './images/van_hoc_nuoc_ngoai/',
-    'van_hoc_viet_nam' => './images/van_hoc_viet_nam/',
-    'wings_book' => './images/wings_book/'
+    'kien_thuc_khoa_hoc' => './images/kien_thuc_khoa_hoc/' . $id . '/',
+    'lich_su_truyen_thong' => './images/lich_su_truyen_thong/' . $id . '/',
+    'tat_ca_san_pham' => './images/tat_ca_san_pham/' . $id . '/',
+    'truyen_tranh' => './images/truyen_tranh/' . $id . '/',
+    'van_hoc_nuoc_ngoai' => './images/van_hoc_nuoc_ngoai/' . $id . '/',
+    'van_hoc_viet_nam' => './images/van_hoc_viet_nam/' . $id . '/',
+    'wings_book' => './images/wings_book/' . $id . '/'
 ];
+
+echo $upload_dirs['kien_thuc_khoa_hoc'];
 
 if (isset($_FILES['file'])) {
     foreach ($_FILES['file']['name'] as $key => $name) {
-        $filename = time() . '_' . basename($name);
+        $filename = $id . '_' . basename($name);
         $temp_path = $_FILES['file']['tmp_name'][$key];
         $target_path = $upload_dirs['tat_ca_san_pham'] . $filename;
+
+        if (!file_exists($upload_dirs['tat_ca_san_pham'])) {
+            mkdir($upload_dirs['tat_ca_san_pham'], 0777, true);
+        }
+
         if (move_uploaded_file($temp_path, $target_path)) {
             if ($isActive['kien_thuc_khoa_hoc']) {
+                if (!file_exists($upload_dirs['kien_thuc_khoa_hoc'])) {
+                    mkdir($upload_dirs['kien_thuc_khoa_hoc'], 0777, true);
+                }
                 copy($target_path, $upload_dirs['kien_thuc_khoa_hoc'] . $filename);
             }
             if ($isActive['lich_su_truyen_thong']) {
+                if (!file_exists($upload_dirs['lich_su_truyen_thong'])) {
+                    mkdir($upload_dirs['lich_su_truyen_thong'], 0777, true);
+                }
                 copy($target_path, $upload_dirs['lich_su_truyen_thong'] . $filename);
             }
             if ($isActive['truyen_tranh']) {
+                if (!file_exists($upload_dirs['truyen_tranh'])) {
+                    mkdir($upload_dirs['truyen_tranh'], 0777, true);
+                }
                 copy($target_path, $upload_dirs['truyen_tranh'] . $filename);
             }
             if ($isActive['van_hoc_nuoc_ngoai']) {
+                if (!file_exists($upload_dirs['van_hoc_nuoc_ngoai'])) {
+                    mkdir($upload_dirs['van_hoc_nuoc_ngoai'], 0777, true); 
+                }
                 copy($target_path, $upload_dirs['van_hoc_nuoc_ngoai'] . $filename);
             }
             if ($isActive['van_hoc_viet_nam']) {
+                if (!file_exists($upload_dirs['van_hoc_viet_nam'])) {
+                    mkdir($upload_dirs['van_hoc_viet_nam'], 0777, true); 
+                }
                 copy($target_path, $upload_dirs['van_hoc_viet_nam'] . $filename);
             }
             if ($isActive['wings_book']) {
+                if (!file_exists($upload_dirs['wings_book'])) {
+                    mkdir($upload_dirs['wings_book'], 0777, true);
+                }
                 copy($target_path, $upload_dirs['wings_book'] . $filename);
             }
         } else {
