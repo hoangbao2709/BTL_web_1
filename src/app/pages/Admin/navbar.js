@@ -11,8 +11,7 @@ import React, { useState } from 'react';
 import Radius from "./image/Radius.png";
 import thang from "./image/thang.png";
 import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { Input } from "./../../BackEnd/input"
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export function Navbar() {
     const location = useLocation();
@@ -59,29 +58,25 @@ export function Navbar() {
                         </a>
                     </li>
                     <li>
-                        <a 
-                            href={"/admin/audience"}
-                            className={`my-1 flex py-4 relative w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "audience" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''}`}>
+                        <a onClick={handleClick} className={`my-1 flex py-4 relative w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "audience" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''}`}>
                             <img className="pr-4 w-[36px]" src={audience}></img>
                             <p>Audience</p>
-                        </a>
-
-                        {isActive !== "audience" && (
+                            {!showHtml && (
                             <button className="pr-4 absolute right-0 text-sm font-medium text-gray-900 dark:text-gray-400 dark:hover:bg-black"
                                 onClick={handleClick}
                             >
                                 <FontAwesomeIcon icon={faChevronDown} />
                             </button>
-                        )}{isActive === "audience" && (
-
-                            <button className="pr-4 absolute right-0 text-sm font-medium text-gray-900 dark:text-gray-400 dark:hover:bg-black"
-                                onClick={handleClick}
-                            >
-                                <FontAwesomeIcon icon={faChevronUp} />
-                            </button>
-                        )}
+                            )}{showHtml && (
+                                <button className="pr-4 absolute right-0 text-sm font-medium text-gray-900 dark:text-gray-400 dark:hover:bg-black"
+                                    onClick={handleClick}
+                                >
+                                    <FontAwesomeIcon icon={faChevronUp} />
+                                </button>
+                            )}
+                        </a>
                     </li>
-                    {isActive === "audience" && (
+                    {showHtml && (
                         <div className="flex justify-center">
                             <img className="h-[20px] w-[20px] mr-[20px] object-cover" src={avt}></img>
                             <div>
@@ -91,8 +86,8 @@ export function Navbar() {
                         </div>
                     )}
                     <li>
-                        <a href={"/admin/post"} className={`my-1 flex py-4 w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "post" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
-                            <img className="pr-4 w-[36px]" src={post}></img>
+                        <a href={"/admin/post"} className={`my-1 flex py-4 w-full pl-4 rounded-lg hover:bg-[#2D2F39] relative cursor-pointer ${isActive === "post" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
+                            <img className="pr-4 w-[36px] relative" src={post}></img>
                             <p>Post</p>
                         </a>
                     </li>

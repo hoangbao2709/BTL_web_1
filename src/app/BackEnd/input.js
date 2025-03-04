@@ -2,11 +2,30 @@ import { useState, useRef } from "react";
 import $ from "jquery";
 import Modal from "../pages/helper/modal";
 import "./css/style.css";
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 export function Input() {
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
     const [result, setResult] = useState("");
+    const [submittedName, setSubmittedName] = useState('');
+    const [submittedGia_goc, setSubmittedGia_goc] = useState('');
+    const [submittedGiam_gia, setSubmittedGiam_gia] = useState('');
+    const [submittedTap, setSubmittedTap] = useState('');
+    const [submittedTac_gia, setSubmittedTac_gia] = useState('');
+    const [submittedDoi_tuong, setSubmittedDoi_tuong] = useState('');
+    const [submittedKhuon_kho, setSubmittedKhuon_kho] = useState('');
+    const [submittedSo_trang, setSubmittedSo_trang] = useState('');
+    const [submittedTrong_luong, setSubmittedTrong_luong] = useState('');
+    const rating = 4;
     const [final, setFullfinal] = useState({
         Kien_thuc_khoa_hoc: false,
         Lich_su_truyen_thong: false,
@@ -43,8 +62,22 @@ export function Input() {
         }
     };
 
+    function formatPrice(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + 'đ';
+    }
+
     const handleChange = (event) => {
         const { name, value, checked, type } = event.target;
+        if (name === "name") setSubmittedName(value);
+        if (name === "gia_goc") setSubmittedGia_goc(value);
+        if (name === "giam_gia") setSubmittedGiam_gia(value);
+        if (name === "tap") setSubmittedTap("Tập: " + value);
+        if (name === "tac_gia") setSubmittedTac_gia(value);
+        if (name === "doi_tuong") setSubmittedDoi_tuong(value);
+        if (name === "khuon_kho") setSubmittedKhuon_kho(value);
+        if (name === "so_trang") setSubmittedSo_trang(value);
+        if (name === "trong_luong") setSubmittedTrong_luong(value + " gram");
+        
         if (type === "checkbox") {
             setFullitem((prev) => ({
                 ...prev,
@@ -58,26 +91,24 @@ export function Input() {
         }
     };
 
-    const [files, setFiles] = useState([]); // Sửa thành files
+    const [files, setFiles] = useState([]);
     const inputRef = useRef(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = $(e.target);
 
-        // Tạo đối tượng FormData để gửi dữ liệu
-        const formData = new FormData(form[0]); // Sử dụng form[0] để lấy đối tượng DOM
+        const formData = new FormData(form[0]);
         for (let i = 0; i < files.length; i++) {
-            formData.append(`file[]`, files[i]); // Dùng `file[]` để gửi mảng tệp
+            formData.append(`file[]`, files[i]);
         }
 
-        // Gửi dữ liệu từ form và tệp bằng AJAX
         $.ajax({
             type: "POST",
-            url: form.attr("action"), // Đảm bảo action đúng URL tới PHP
+            url: form.attr("action"),
             data: formData,
-            processData: false, // Ngăn jQuery xử lý dữ liệu
-            contentType: false, // Ngăn jQuery thiết lập Content-Type
+            processData: false,
+            contentType: false,
             success(data) {
                 setResult(data);
             },
@@ -108,43 +139,64 @@ export function Input() {
 
     return (
 
-        <div className="w-[100%]  h-screen flex content-center justify-center">
-            <form className="w-[80%] content-center" action="http://localhost:8000/input.php" method="post" onSubmit={handleSubmit}>
+        <div className="w-[100%] lg px-4 bg-[#E0E3E7] justify-center content-center flex h-screen">
+            <form className="w-[20%] z-10 justify-center content-center" action="http://localhost:8000/input.php" method="post" onSubmit={handleSubmit}>
                 <div>
-                    <div className="grid gap-6 mb-6 md:grid-cols-2">
-                        <div>
-                            <label htmlFor="id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID</label>
+                    <div className="grid mb-10">
+                        <div className="mb-2">
+                            <label htmlFor="id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">ID</label>
                             <input type="text" id="id" name="id" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ID" />
                         </div>
-                        <div>
-                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                        <div className="mb-2">
+                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Name</label>
                             <input type="text" id="name" name="name" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Name" />
                         </div>
-                        <div>
-                            <label htmlFor="gia_goc" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Giá gốc</label>
+                        <div className="mb-2">
+                            <label htmlFor="gia_goc" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Giá gốc</label>
                             <input type="text" id="gia_goc" name="gia_goc" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Giá gốc" />
                         </div>
-                        <div>
-                            <label htmlFor="gia" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Giá</label>
-                            <input type="text" id="gia" name="gia" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Giá" />
-                        </div>
-                        <div>
-                            <label htmlFor="giam_gia" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Giảm giá</label>
+                        <div className="mb-2">
+                            <label htmlFor="giam_gia" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Giảm giá</label>
                             <input type="text" id="giam_gia" name="giam_gia" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Giảm giá" />
                         </div>
+                        <button type="button" onClick={() => setOpen2(true)} className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 mt-[25px]">
+                        Thêm vào những trang mà bạn muốn
+                    </button>
+                    <Modal className="z-10" open={open2} onClose={() => setOpen2(false)}>
                         <div>
-                            <label htmlFor="link" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Website URL</label>
-                            <input type="text" id="link" name="link" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Link" />
+                            <label htmlFor="tap" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Tập</label>
+                            <input type="text" id="tap" name="tap" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tập" />
                         </div>
+                        <div>
+                            <label htmlFor="tac_gia" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Tác giả</label>
+                            <input type="text" id="tac_gia" name="tac_gia" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tác giả" />
+                        </div>
+                        <div>
+                            <label htmlFor="doi_tuong" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Đối tượng</label>
+                            <input type="text" id="doi_tuong" name="doi_tuong" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Đối tượng" />
+                        </div>
+                        <div>
+                            <label htmlFor="khuon_kho" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Khuôn khổ</label>
+                            <input type="text" id="khuon_kho" name="khuon_kho" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Khuôn khổ" />
+                        </div>
+                        <div>
+                            <label htmlFor="so_trang" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Số trang</label>
+                            <input type="text" id="so_trang" name="so_trang" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Số trang" />
+                        </div>
+                        <div>
+                            <label htmlFor="trong_luong" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Trọng lượng</label>
+                            <input type="text" id="trong_luong" name="trong_luong" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Trọng lượng" />
+                        </div>
+                    </Modal>
                     </div>
                     <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5">Submit</button>
                     <h1>{result}</h1>
                     <button type="button" onClick={() => setOpen(true)} className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 mt-[25px]">
                         Thêm vào những trang mà bạn muốn
                     </button>
-                    <Modal open={open} onClose={() => setOpen(false)}>
-                        <div className="content-center w-[500px] mt-[30px] flex">
-                            <ul className="w-[500px] text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <Modal className="z-10" open={open} onClose={() => setOpen(false)}>
+                        <div className=" content-center z-10 w-[500px] mt-[30px] flex">
+                            <ul className="w-[500px] text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-black">
                                 {Object.keys(final).filter(key => key.startsWith("Kien_thuc") || key.startsWith("Lich_su") || key.startsWith("Tat_ca") || key.startsWith("Truyen") || key.startsWith("Van_hoc") || key.startsWith("Wings")).map((key) => (
                                     <li key={key} className="w-full border-b border-gray-200 dark:border-gray-600">
                                         <div className="flex items-center ps-3 h-[50px]">
@@ -192,7 +244,6 @@ export function Input() {
                                 Object.keys(item).slice(6).forEach((key, index) => {
                                     item[key] = false;
                                     final[key] = false;
-                                    console.log(`Index: ${index}, Key: ${key}, Value: ${item[key]}`);
                                 });
                             }} type="button" className="w-full text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5">
                                 Cancel
@@ -220,6 +271,112 @@ export function Input() {
                     </div>
                 </div>
             </form>
+            <div className="w-[70%] z-0 flex justify-center  items-center bg-">
+                <div className="border z-0 bg-[#629194] h-[715px]  w-[500px] border-white shadow-2xl rounded-3xl overflow-hidden transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#E0E3E7] relative fix w-[280px] border border-[#e9e9e9] p-0 m-0 ml-[25px] mr-[25px]">
+                    {files.length > 0 && (
+                        <div>
+                            <Swiper
+                                spaceBetween={30}
+                                centeredSlides={true}
+                                navigation={true}
+                                modules={[Navigation]}
+                                className="w-100%"
+                            >
+                                {files.map((image, index) => (
+                                    <SwiperSlide key={index}>
+                                        <img className="w-100% flex items-center" src={URL.createObjectURL(image)} alt={`Slide ${index + 1}`} />
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                        </div>
+                    )}
+                </div>
+                <div className="w-[55%] h-[715px] pl-[20px] rounded-3xl block relative">
+                    <div className="items-center break-words">
+                        {submittedName && (
+                            <div className="break-words font-sans-serif">
+                                <label className="text-[50px] block break-words">
+                                    {submittedName}
+                                </label>
+                                {submittedTap && (
+                                    <label className="mt-0 text-[30px] block">
+                                        {submittedTap}
+                                    </label>
+                                )}
+                                <div className="flex items-center">
+                                    <div>
+                                        <label className="text-[25px]">Rating: </label>
+                                        {Array.from({ length: 5 }, (_, index) => (
+                                            <span key={index} className={(index < rating ? "text-yellow-500" : "text-gray-400")}>
+                                                <FontAwesomeIcon icon={faStar} />
+                                            </span>
+                                        ))}
+
+                                        <label className="text-[25px]">{" | " + 10 + " đánh giá"} </label>
+                                        <p className="text-[25px]">Đã bán: 100</p>
+                                    </div>
+                                    <label className="text-[30px] pr-[50px] absolute right-0"><FontAwesomeIcon icon={faHeart} /></label>
+                                </div>
+
+                            </div>
+                        )}
+                    </div>
+
+                    {submittedGia_goc && (
+                        <div>
+                            <div className="border-t-2 border-black w-full my-2"></div>
+                            {submittedGiam_gia && (
+                                <div className="flex">
+                                    <div >
+                                        <label className="text-[red] text-[25px] mr-[30px]"><strong>{formatPrice(parseInt(parseInt(submittedGia_goc) - (parseInt(submittedGia_goc) * parseInt(submittedGiam_gia)) / 100))}</strong></label>
+                                    </div>
+                                    <div >
+                                        <label className="text-gray-400 text-[25px] line-through" id="original-price"><strong>{formatPrice(parseInt(submittedGia_goc))}</strong></label>
+                                    </div>
+                                    <div >
+                                        <label className="text-[25px] absolute right-0" id="original-price"><strong>Bạn đã tiết kiệm được {formatPrice(parseInt((parseInt(submittedGia_goc) * parseInt(submittedGiam_gia)) / 100))}</strong></label>
+                                    </div>
+                                </div>
+                            )}
+                            {!submittedGiam_gia && (
+                                <div>
+                                    <div className="mt-4">
+                                        <label className="text-[red] text-[30px]"><strong>{formatPrice(submittedGia_goc)}</strong></label>
+                                    </div>
+                                </div>
+                            )}
+                            <div className="border-t-2 border-black w-full mt-2"></div>
+                        </div>
+                    )}
+        
+                    {submittedTac_gia && (
+                        <li>
+                            <label className="text-[30px]">Tác giả: <strong className="text-[red]">{submittedTac_gia}</strong></label>
+                        </li>
+                    )}
+                    {submittedDoi_tuong && (
+                        <li>
+                            <label className="text-[30px]">Đối tượng: <strong className="text-[red]">{submittedDoi_tuong}</strong></label>
+                        </li>
+                    )}
+
+                    {submittedKhuon_kho && (
+                        <li>
+                            <label className="text-[30px]">Khuôn khổ: <strong className="text-[red]">{submittedKhuon_kho}</strong></label>
+                        </li>
+                    )}
+                    {submittedSo_trang && (
+                        <li>
+                            <label className="text-[30px]">Số trang: <strong className="text-[red]">{submittedSo_trang}</strong></label>
+                        </li>
+                    )}
+                    {submittedTrong_luong && (
+                        <li>
+                            <label className="text-[30px]">Trọng lượng: <strong className="text-[red]">{submittedTrong_luong}</strong></label>
+                        </li>
+                    )}
+                </div>
+            </div>
         </div>
 
     );

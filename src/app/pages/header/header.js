@@ -49,13 +49,13 @@ const listCategory = category.map((element, index) => {
     if (index !== category.length - 1) {
         return (
             <li key={index} className="border-b border-black pt-[5px] pb-[5px] bg-[#FFFAEC] hover:bg-[#F5ECD5] hover:text-[red]">
-                <a className="pl-[30px] pr-[30px]" href={linkCategory[index]}>{element}</a>
+                <a className="pl-[5] pr-[30px]" href={linkCategory[index]}>{element}</a>
             </li>
         );
     } else {
         return (
             <li key={index} className="rounded-b-lg border-b border-black pt-[5px] pb-[5px] bg-[#FFFAEC] hover:bg-[#F5ECD5] hover:text-[red]">
-                <a className="pl-[30px] pr-[30px]" href={linkCategory[index]}>{element}</a>
+                <a className="pl-[%] pr-[30px]" href={linkCategory[index]}>{element}</a>
             </li>
         );
     }
@@ -76,7 +76,7 @@ export function Header() {
             <div className="logo flex items-center ">
                 <img src={logoDark} className="size-[80px] mr-[50px]" alt="" />
             </div>
-            <ul className="flex items-center text-[150%] absolute left-[13%]">
+            <ul className="flex items-center text-[150%] absolute left-[10%]">
                 <li className="pr-[30px] danhmuc absolute pb-[37px] pt-[37px]">
                     <i><FontAwesomeIcon icon={faList} /></i>
                     <ul className="category w-[260px] rounded-b-lg text-[20px] ">

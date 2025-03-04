@@ -8,10 +8,12 @@ type FrameProps = {
 const Frame: React.FC<FrameProps> = ({ item, index, max_index }) => {
     let totalView: JSX.Element[] = []; 
     let oneView: JSX.Element[] = []; 
+
+    //console.log("item ", item[0]);
     
     const view = item.slice(index, index + max_index ).map((element, idx) => {
         
-        console.log("item ", element);
+        
         if (idx % 4 === 0) {
             if (idx !== 0) {
                 totalView.push(

@@ -8,7 +8,6 @@ import image4 from './../images/ms_banner_img4.webp';
 import image5 from './../images/ms_banner_img5.webp';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 
