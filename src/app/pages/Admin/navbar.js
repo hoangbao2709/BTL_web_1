@@ -13,6 +13,7 @@ import thang from "./image/thang.png";
 import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { faSquareCaretLeft } from '@fortawesome/free-solid-svg-icons';
+import { faSquareCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 export function Navbar() {
     const location = useLocation();
@@ -29,19 +30,19 @@ export function Navbar() {
     const [width, setWidth] = useState(0);
 
     const handleClick1 = () => {
-        setShowHtml(prev => !prev);
+        setShowHtml(!showHtml);
     };
 
     useEffect(() => {
         if (divRef.current) {
-            const divHeight = divRef.current.offsetHeight; 
+            const divHeight = divRef.current.offsetHeight;
             setHeight(divHeight);
         }
     }, [showHtml]);
 
     useEffect(() => {
         if (divRef1.current) {
-            const divWidth = divRef1.current.offsetWidth; 
+            const divWidth = divRef1.current.offsetWidth;
             setWidth(divWidth);
         }
     }, [open]);
@@ -63,19 +64,27 @@ export function Navbar() {
     return (
         <div className="bg-[#161A23] h-screen">
             <div className={` ${open ? "w-[292px]" : ""}  bg-[#161A23] h-screen font-sans`}>
-                <header  className="relative">
+                <header className="relative">
                     <div className="flex mt-[20px] justify-center ">
-                        <img className={`h-[50px] ${open ? "mr-7" : ""} w-[50px] object-cover" `}src={avt}></img>
+                        <img className={`h-[50px] ${open ? "mr-7" : ""} w-[50px] object-cover" `} src={avt}></img>
                         {open && (
                             <div>
                                 <p className="text-[#8A8C91] text-base">PRODUCT MANAGER</p>
                                 <p className="text-white text-14">Andrew Smith</p>
-                            </div>
-                        )}
 
-                        <button onClick={handleClickOpen} type="button" class={`focus:outline-none absolute right-[-40px]   hover:bg-white focus:ring-white font-medium rounded-lg text-sm dark:hover:bg-white dark:focus:ring-white`}>
-                            <FontAwesomeIcon className="rounded-lg m-0 p-0 size-10 " icon={faSquareCaretLeft} />
-                        </button>
+                            </div>
+
+                        )}
+                        {open && (
+                            <button onClick={handleClickOpen} type="button" class={`focus:outline-none absolute right-[-40px]   hover:bg-white focus:ring-white font-medium rounded-lg text-sm dark:hover:bg-white dark:focus:ring-white`}>
+                                <FontAwesomeIcon className="rounded-lg m-0 p-0 size-10 " icon={faSquareCaretLeft} />
+                            </button>
+                        )}
+                        {!open && (
+                            <button onClick={handleClickOpen} type="button" class={`focus:outline-none absolute right-[-40px]   hover:bg-white focus:ring-white font-medium rounded-lg text-sm dark:hover:bg-white dark:focus:ring-white`}>
+                                <FontAwesomeIcon className="rounded-lg m-0 p-0 size-10 " icon={faSquareCaretRight} />
+                            </button>
+                        )}
                     </div>
                     <div className="flex justify-center items-center content-center">
                         <div className="w-[80%] mt-[20px] border-b-[5px] border-[#2D2F39] rounded-full"></div>
@@ -112,15 +121,15 @@ export function Navbar() {
                             </li>
 
                             <li >
-                                <div className={`my-1 ${isActive === "input" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
+                                <div className={`my-1} `}>
                                     {isActive !== "input" && (
                                         <div className="flex py-4 bg-[none] w-full pl-2 rounded-lg content-center">
                                             <FontAwesomeIcon className="pr-4 pt-1 w-[50px] text-[35px]" icon={faRightToBracket} />
                                         </div>
                                     )}
                                     {isActive === "input" && (
-                                        <div onClick={() => navigate(-1)} className="flex bg-[none] w-full pl-4 rounded-lg content-center">
-                                            <FontAwesomeIcon className="pr-4 pt-1 w-[50px] " icon={faRightToBracket} />
+                                        <div onClick={() => navigate(-1)} className="flex py-4 bg-[none] w-full pl-2 rounded-lg content-center">
+                                            <FontAwesomeIcon className="pr-4 pt-1 w-[50px] text-[35px]" icon={faRightToBracket} />
                                         </div>
                                     )}
                                 </div>
@@ -143,7 +152,7 @@ export function Navbar() {
                         style={{
                             width: open ? `${width - 100}px` : '0px',
                             overflow: open ? '' : 'hidden',
-                            opacity: open ? 1000 : 0,
+                            opacity: open ? 10000 : 0,
                         }}>
                         <ul>
                             <li className="flex py-7 relative content-center">
@@ -159,7 +168,7 @@ export function Navbar() {
                             </li>
                             <li >
                                 <div >
-                                    <a onClick={handleClick1} className={`my-1 flex py-5 relative w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer items-center`}>
+                                    <a onClick={handleClick1}  className={`my-1 flex py-5 relative w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer items-center ${showHtml ? 'bg-[#2D2F39] text-[#62fcaf]' : ''}`}>
                                         <p className="text-[20px]">Audience</p>
                                         <button className="pr-4 absolute right-0 text-sm font-medium text-gray-900 dark:text-gray-400 dark:hover:bg-black">
                                             <FontAwesomeIcon icon={showHtml ? faChevronUp : faChevronDown} />
@@ -200,8 +209,8 @@ export function Navbar() {
                                         </a>
                                     )}
                                     {isActive === "input" && (
-                                        <a onClick={() => navigate(-1)} className="flex py-4 bg-[none] w-full pl-4 rounded-lg content-center hover:bg-[#2D2F39] cursor-pointer">
-                                            <p>Add Item</p>
+                                        <a onClick={() => navigate(-1)} className="flex py-7 bg-[none] w-full pl-4 rounded-lg content-center hover:bg-[#2D2F39] cursor-pointer">
+                                            <p className="text-[20px]">Add Item</p>
                                         </a>
                                     )}
                                 </a>

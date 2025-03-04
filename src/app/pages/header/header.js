@@ -6,6 +6,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'; // Correc
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { Search } from './search'
 let category = [
     "Tất cả sản phẩm",
     "Lịch sử truyền thống",
@@ -34,9 +35,9 @@ let menu = [
     // "Contact Us"
 ];
 
-let linkMenu = [
-
-];
+function test(){
+    console.log("hehe");
+}
 
 const listCategory = category.map((element, index) => {
     if (index !== category.length - 1) {
@@ -80,7 +81,10 @@ export function Header() {
                 {listMenu}
             </ul>
             <ul className="right-[25%] absolute flex">
-                <input type="text" className="border-2 border-solid rounded-[10px] w-[300px] pl-[20px] text-[20px] mr-[50px]" placeholder="Tìm kiếm sản phẩm" />
+                <form>
+                    <Search/>              
+                    <button class="btn btn-info" type="submit">Search</button>
+                </form>
                 <li className="text-[30px] pr-[50px]"><FontAwesomeIcon icon={faMagnifyingGlass} /></li>
                 <li className="text-[30px] pr-[50px]"><FontAwesomeIcon icon={faHeart} /></li>
                 <li className="text-[30px]"><FontAwesomeIcon icon={faBagShopping} /> </li>
