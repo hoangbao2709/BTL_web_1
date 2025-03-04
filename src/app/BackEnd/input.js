@@ -65,7 +65,9 @@ export function Input() {
     function formatPrice(price) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + 'đ';
     }
-
+    function formatGram(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
     const handleChange = (event) => {
         const { name, value, checked, type } = event.target;
         if (name === "name") setSubmittedName(value);
@@ -77,7 +79,7 @@ export function Input() {
         if (name === "khuon_kho") setSubmittedKhuon_kho(value);
         if (name === "so_trang") setSubmittedSo_trang(value);
         if (name === "trong_luong") setSubmittedTrong_luong(value + " gram");
-        
+
         if (type === "checkbox") {
             setFullitem((prev) => ({
                 ...prev,
@@ -139,8 +141,8 @@ export function Input() {
 
     return (
 
-        <div className="w-[100%] lg px-4 bg-[#E0E3E7] justify-center content-center flex h-screen">
-            <form className="w-[20%] z-10 justify-center content-center" action="http://localhost:8000/input.php" method="post" onSubmit={handleSubmit}>
+        <div className="w-[100%] lg bg-[#E0E3E7] justify-center content-center flex h-screen">
+            <form className="w-[20%] z-10 content-center" action="http://localhost:8000/input.php" method="post" onSubmit={handleSubmit}>
                 <div>
                     <div className="grid mb-10">
                         <div className="mb-2">
@@ -152,6 +154,10 @@ export function Input() {
                             <input type="text" id="name" name="name" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Name" />
                         </div>
                         <div className="mb-2">
+                            <label htmlFor="tap" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Tập</label>
+                            <input type="text" id="tap" name="tap" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tập" />
+                        </div>
+                        <div className="mb-2">
                             <label htmlFor="gia_goc" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Giá gốc</label>
                             <input type="text" id="gia_goc" name="gia_goc" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Giá gốc" />
                         </div>
@@ -159,41 +165,44 @@ export function Input() {
                             <label htmlFor="giam_gia" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Giảm giá</label>
                             <input type="text" id="giam_gia" name="giam_gia" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Giảm giá" />
                         </div>
-                        <button type="button" onClick={() => setOpen2(true)} className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 mt-[25px]">
-                        Thêm vào những trang mà bạn muốn
-                    </button>
-                    <Modal className="z-10" open={open2} onClose={() => setOpen2(false)}>
-                        <div>
-                            <label htmlFor="tap" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Tập</label>
-                            <input type="text" id="tap" name="tap" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tập" />
+                        <div className="flex">
+                            <button type="button" onClick={() => setOpen2(true)} className="w-[50%] mr-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 mt-[25px]">
+                                Thêm thông tin sản phẩm
+                            </button>
+                            <button type="button" onClick={() => setOpen(true)} className="w-[50%] ml-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm py-2.5 mt-[25px]">
+                                Thêm vào những trang mà bạn muốn
+                            </button>
                         </div>
-                        <div>
-                            <label htmlFor="tac_gia" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Tác giả</label>
-                            <input type="text" id="tac_gia" name="tac_gia" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tác giả" />
-                        </div>
-                        <div>
-                            <label htmlFor="doi_tuong" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Đối tượng</label>
-                            <input type="text" id="doi_tuong" name="doi_tuong" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Đối tượng" />
-                        </div>
-                        <div>
-                            <label htmlFor="khuon_kho" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Khuôn khổ</label>
-                            <input type="text" id="khuon_kho" name="khuon_kho" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Khuôn khổ" />
-                        </div>
-                        <div>
-                            <label htmlFor="so_trang" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Số trang</label>
-                            <input type="text" id="so_trang" name="so_trang" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Số trang" />
-                        </div>
-                        <div>
-                            <label htmlFor="trong_luong" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Trọng lượng</label>
-                            <input type="text" id="trong_luong" name="trong_luong" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Trọng lượng" />
+                        <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 mt-[25px]">
+                            Submit
+                        </button>
+                        <h1>{result}</h1>
+                    </div>
+                    <Modal open={open2} onClose={() => setOpen2(false)}>
+                        <div className="z-10 w-[400px]">
+                            <div className="mb-2">
+                                <label htmlFor="tac_gia" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tác giả</label>
+                                <input type="text" id="tac_gia" name="tac_gia" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tác giả" />
+                            </div>
+                            <div className="mb-2">
+                                <label htmlFor="doi_tuong" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Đối tượng</label>
+                                <input type="text" id="doi_tuong" name="doi_tuong" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Đối tượng" />
+                            </div>
+                            <div className="mb-2">
+                                <label htmlFor="khuon_kho" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Khuôn khổ</label>
+                                <input type="text" id="khuon_kho" name="khuon_kho" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Khuôn khổ" />
+                            </div>
+                            <div className="mb-2">
+                                <label htmlFor="so_trang" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Số trang</label>
+                                <input type="text" id="so_trang" name="so_trang" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Số trang" />
+                            </div>
+                            <div className="mb-2">
+                                <label htmlFor="trong_luong" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Trọng lượng</label>
+                                <input type="text" id="trong_luong" name="trong_luong" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Trọng lượng" />
+                            </div>
                         </div>
                     </Modal>
-                    </div>
-                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5">Submit</button>
-                    <h1>{result}</h1>
-                    <button type="button" onClick={() => setOpen(true)} className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 mt-[25px]">
-                        Thêm vào những trang mà bạn muốn
-                    </button>
+
                     <Modal className="z-10" open={open} onClose={() => setOpen(false)}>
                         <div className=" content-center z-10 w-[500px] mt-[30px] flex">
                             <ul className="w-[500px] text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-black">
@@ -251,13 +260,13 @@ export function Input() {
                         </div>
                     </Modal>
                     <div
-                        className="drag-area"
+                        className="drag-area shadow-2xl border-2 border-[#DDDDDD] transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-white hover:bg-white relative fix"
                         onDrop={handleDrop}
                         onDragOver={handleDragOver}
                     >
                         <div className="icon"><i className="fas fa-cloud-upload-alt"></i></div>
-                        <header className="text-white">Drag & Drop to Upload File</header>
-                        <span className="text-white">OR</span>
+                        <header className="bold">Drag & Drop to Upload File</header>
+                        <span className="bold">OR</span>
                         <div className="button m-[20px]" onClick={handleBrowseClick}>Browse Image</div>
                         <input
                             type="file"
@@ -271,16 +280,17 @@ export function Input() {
                     </div>
                 </div>
             </form>
-            <div className="w-[70%] z-0 flex justify-center  items-center bg-">
-                <div className="border z-0 bg-[#629194] h-[715px]  w-[500px] border-white shadow-2xl rounded-3xl overflow-hidden transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#E0E3E7] relative fix w-[280px] border border-[#e9e9e9] p-0 m-0 ml-[25px] mr-[25px]">
-                    {files.length > 0 && (
+            <div className="w-[70%] ml-[2%] z-0 flex justify-center  items-center bg-">
+                {files.length > 0 && (
+                    <div className="z-0 bg-white h-[715px]  w-[500px] border-white shadow-2xl rounded-3xl overflow-hidden transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-white relative fix w-[280px] border border-[#e9e9e9] p-0 m-0 ml-[25px] mr-[25px]">
+
                         <div>
                             <Swiper
                                 spaceBetween={30}
                                 centeredSlides={true}
                                 navigation={true}
                                 modules={[Navigation]}
-                                className="w-100%"
+                                className="w-100% h-[715px]"
                             >
                                 {files.map((image, index) => (
                                     <SwiperSlide key={index}>
@@ -289,8 +299,8 @@ export function Input() {
                                 ))}
                             </Swiper>
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
                 <div className="w-[55%] h-[715px] pl-[20px] rounded-3xl block relative">
                     <div className="items-center break-words">
                         {submittedName && (
@@ -311,17 +321,14 @@ export function Input() {
                                                 <FontAwesomeIcon icon={faStar} />
                                             </span>
                                         ))}
-
                                         <label className="text-[25px]">{" | " + 10 + " đánh giá"} </label>
                                         <p className="text-[25px]">Đã bán: 100</p>
                                     </div>
                                     <label className="text-[30px] pr-[50px] absolute right-0"><FontAwesomeIcon icon={faHeart} /></label>
                                 </div>
-
                             </div>
                         )}
                     </div>
-
                     {submittedGia_goc && (
                         <div>
                             <div className="border-t-2 border-black w-full my-2"></div>
@@ -348,7 +355,6 @@ export function Input() {
                             <div className="border-t-2 border-black w-full mt-2"></div>
                         </div>
                     )}
-        
                     {submittedTac_gia && (
                         <li>
                             <label className="text-[30px]">Tác giả: <strong className="text-[red]">{submittedTac_gia}</strong></label>
@@ -359,7 +365,6 @@ export function Input() {
                             <label className="text-[30px]">Đối tượng: <strong className="text-[red]">{submittedDoi_tuong}</strong></label>
                         </li>
                     )}
-
                     {submittedKhuon_kho && (
                         <li>
                             <label className="text-[30px]">Khuôn khổ: <strong className="text-[red]">{submittedKhuon_kho}</strong></label>
@@ -367,12 +372,12 @@ export function Input() {
                     )}
                     {submittedSo_trang && (
                         <li>
-                            <label className="text-[30px]">Số trang: <strong className="text-[red]">{submittedSo_trang}</strong></label>
+                            <label className="text-[30px]">Số trang: <strong className="text-[red]">{formatGram(submittedSo_trang)}</strong></label>
                         </li>
                     )}
                     {submittedTrong_luong && (
                         <li>
-                            <label className="text-[30px]">Trọng lượng: <strong className="text-[red]">{submittedTrong_luong}</strong></label>
+                            <label className="text-[30px]">Trọng lượng: <strong className="text-[red]">{formatGram(submittedTrong_luong)}</strong></label>
                         </li>
                     )}
                 </div>

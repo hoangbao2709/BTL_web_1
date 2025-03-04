@@ -30,7 +30,7 @@ export function Navbar() {
 
     const navigate = useNavigate();
     return (
-        <div className="w-[292px] bg-[#161A23] h-screen font-">
+        <div className="w-[292px] bg-[#161A23] h-screen font-sans">
             <header>
                 <div className="flex mt-[20px] justify-center">
                     <img className="h-[50px] w-[50px] mr-[20px] object-cover" src={avt}></img>
@@ -115,17 +115,17 @@ export function Navbar() {
                         </a>
                     </li>
                     <li>
-                        <a href={"/admin/income"} className={`my-1 flex py-4 w-full bg-[none] relative pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "income" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `} onClick={() => {
+                        <a className={`my-1 flex py-4 w-full bg-[none] relative pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${showHtmlBottom ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `} onClick={() => {
                             handleClickBottom();
                         }}> <img className="pr-4 w-[36px]" src={report}></img>
                             <p>Income</p>
-                            {isActive !== "income" && (
+                            {!showHtmlBottom && (
                                 <button className="pr-4 absolute bg-[none] hover:bg-[#2D2F39] right-0 text-sm font-medium text-gray-900 dark:text-gray-400"
                                     onClick={handleClickBottom}
                                 >
                                     <FontAwesomeIcon icon={faChevronDown} />
                                 </button>
-                            )}{isActive === "income" && (
+                            )}{showHtmlBottom && (
                                 <button className="pr-4 absolute bg-[none] hover:bg-[#2D2F39] right-0 text-sm font-medium text-gray-900 dark:text-gray-400"
                                     onClick={handleClickBottom}
                                 >
@@ -133,7 +133,7 @@ export function Navbar() {
                                 </button>
                             )}</a>
                     </li>
-                    {isActive === "income" && (
+                    {showHtmlBottom && (
                         <div className="flex relative ml-[20px]">
                             <div className="overflow-hidden h-[150px]">
                                 <img src={thang} className="w-[8px]"></img>
