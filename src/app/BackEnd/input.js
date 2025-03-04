@@ -293,8 +293,8 @@ export function Input() {
                                 className="w-100% h-[715px]"
                             >
                                 {files.map((image, index) => (
-                                    <SwiperSlide key={index}>
-                                        <img className="w-100% flex items-center" src={URL.createObjectURL(image)} alt={`Slide ${index + 1}`} />
+                                    <SwiperSlide key={index} className="flex content-center items-center justify-center">
+                                        <img className="w-100%" src={URL.createObjectURL(image)} alt={`Slide ${index + 1}`} />
                                     </SwiperSlide>
                                 ))}
                             </Swiper>

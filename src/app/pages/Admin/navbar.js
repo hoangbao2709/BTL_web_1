@@ -7,11 +7,12 @@ import schedule from "./image/schedule.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import React, { useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Radius from "./image/Radius.png";
 import thang from "./image/thang.png";
 import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { faSquareCaretLeft } from '@fortawesome/free-solid-svg-icons';
 
 export function Navbar() {
     const location = useLocation();
@@ -19,6 +20,31 @@ export function Navbar() {
     const [showHtmlBottom, setShowHtmlBottom] = useState(false);
     const pathSegments = location.pathname.split('/');
     const [isActive, setInputSegment] = useState(pathSegments[pathSegments.length - 1]);
+    const [open, setOpen] = useState(true);
+    const divRef = useRef(null);
+    const divRef1 = useRef(null);
+    const divRef2 = useRef(null);
+
+    const [height, setHeight] = useState(0);
+    const [width, setWidth] = useState(0);
+
+    const handleClick1 = () => {
+        setShowHtml(prev => !prev);
+    };
+
+    useEffect(() => {
+        if (divRef.current) {
+            const divHeight = divRef.current.offsetHeight; 
+            setHeight(divHeight);
+        }
+    }, [showHtml]);
+
+    useEffect(() => {
+        if (divRef1.current) {
+            const divWidth = divRef1.current.offsetWidth; 
+            setWidth(divWidth);
+        }
+    }, [open]);
 
     const handleClick = () => {
         setShowHtml(!showHtml);
@@ -26,140 +52,214 @@ export function Navbar() {
 
     const handleClickBottom = () => {
         setShowHtmlBottom(!showHtmlBottom);
-    };  
+    };
+
+    const handleClickOpen = () => {
+        setOpen(!open);
+    };
 
     const navigate = useNavigate();
+    console.log(width);
     return (
-        <div className="w-[292px] bg-[#161A23] h-screen font-sans">
-            <header>
-                <div className="flex mt-[20px] justify-center">
-                    <img className="h-[50px] w-[50px] mr-[20px] object-cover" src={avt}></img>
-                    <div>
-                        <p className="text-[#8A8C91] text-base">PRODUCT MANAGER</p>
-                        <p className="text-[#D0D1D3] text-14">Andrew Smith</p>
+        <div className="bg-[#161A23] h-screen">
+            <div className={` ${open ? "w-[292px]" : ""}  bg-[#161A23] h-screen font-sans`}>
+                <header  className="relative">
+                    <div className="flex mt-[20px] justify-center ">
+                        <img className={`h-[50px] ${open ? "mr-7" : ""} w-[50px] object-cover" `}src={avt}></img>
+                        {open && (
+                            <div>
+                                <p className="text-[#8A8C91] text-base">PRODUCT MANAGER</p>
+                                <p className="text-white text-14">Andrew Smith</p>
+                            </div>
+                        )}
+
+                        <button onClick={handleClickOpen} type="button" class={`focus:outline-none absolute right-[-40px]   hover:bg-white focus:ring-white font-medium rounded-lg text-sm dark:hover:bg-white dark:focus:ring-white`}>
+                            <FontAwesomeIcon className="rounded-lg m-0 p-0 size-10 " icon={faSquareCaretLeft} />
+                        </button>
+                    </div>
+                    <div className="flex justify-center items-center content-center">
+                        <div className="w-[80%] mt-[20px] border-b-[5px] border-[#2D2F39] rounded-full"></div>
+                    </div>
+                </header>
+                <div ref={divRef1} className="flex pr-4">
+                    <div className={`container mx-auto ${open ? "w-[110px]" : ""} text-white `}>
+                        <li className="flex py-7 relative content-center">
+                            <label className="hidden">Main </label>
+                        </li>
+                        <ul className="border-r-4 border-[#8A8C91] rounded-[50%]">
+                            <li>
+                                <div
+                                    className={`my-1 flex py-4 w-full pl-4 rounded-lg `}
+                                >
+                                    <img className="pr-4 w-[50px]" src={home}></img>
+                                </div>
+                            </li>
+                            <li>
+                                <a onClick={handleClick} className={`my-1 flex py-4 relative w-full pl-4 rounded-lg `}>
+                                    <img className="pr-4 w-[50px]" src={audience}></img>
+                                </a>
+                                {showHtml && (
+                                    <div style={{ height: `${height}px` }} className={`flex w-[20px] justify-center`}>
+
+                                    </div>
+                                )}
+                            </li>
+
+                            <li>
+                                <div className={`my-1 flex py-4 w-full pl-4 rounded-lg  relative`}>
+                                    <img className="pr-4 w-[50px] relative" src={post}></img>
+                                </div>
+                            </li>
+
+                            <li >
+                                <div className={`my-1 ${isActive === "input" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
+                                    {isActive !== "input" && (
+                                        <div className="flex py-4 bg-[none] w-full pl-2 rounded-lg content-center">
+                                            <FontAwesomeIcon className="pr-4 pt-1 w-[50px] text-[35px]" icon={faRightToBracket} />
+                                        </div>
+                                    )}
+                                    {isActive === "input" && (
+                                        <div onClick={() => navigate(-1)} className="flex bg-[none] w-full pl-4 rounded-lg content-center">
+                                            <FontAwesomeIcon className="pr-4 pt-1 w-[50px] " icon={faRightToBracket} />
+                                        </div>
+                                    )}
+                                </div>
+                            </li>
+                            <li>
+                                <div className={`flex py-4 my-2 w-full pl-4 rounded-lg`}>
+                                    <img className="pr-4 w-[50px]" src={schedule}></img>
+                                </div>
+                            </li>
+                            <li>
+                                <div className={`flex py-4 w-full my-3 bg-[none] relative pl-4 rounded-lg`} onClick={() => {
+                                    handleClickBottom();
+                                }}>
+                                    <img className="pr-4 w-[50px]" src={report}></img>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className={`text-white h-screen font-sans transition-all duration-700 ease-in-out`}
+                        style={{
+                            width: open ? `${width - 100}px` : '0px',
+                            overflow: open ? '' : 'hidden',
+                            opacity: open ? 1000 : 0,
+                        }}>
+                        <ul>
+                            <li className="flex py-7 relative content-center">
+                                <label className="hidden">Main </label>
+                            </li>
+                            <li>
+                                <a
+                                    href={"/admin/dashboard"}
+                                    className={`my-1 flex py-5 w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "dashboard" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''}`}
+                                >
+                                    <p className="text-[20px]">Dashboard</p>
+                                </a>
+                            </li>
+                            <li >
+                                <div >
+                                    <a onClick={handleClick1} className={`my-1 flex py-5 relative w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer items-center`}>
+                                        <p className="text-[20px]">Audience</p>
+                                        <button className="pr-4 absolute right-0 text-sm font-medium text-gray-900 dark:text-gray-400 dark:hover:bg-black">
+                                            <FontAwesomeIcon icon={showHtml ? faChevronUp : faChevronDown} />
+                                        </button>
+                                    </a>
+                                    {showHtml && (
+                                        <div ref={divRef} >
+                                            <div className="flex py-2 justify-center">
+                                                <img className="h-[20px] w-[20px] mr-[20px] object-cover" src={avt} alt="Avatar" />
+                                                <div>
+                                                    <p className="text-[#8A8C91] text-[15px]">PRODUCT MANAGER</p>
+                                                    <p className="text-white text-[15px]">Andrew Smith</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex py-2 justify-center">
+                                                <img className="h-[20px] w-[20px] mr-[20px] object-cover" src={avt} alt="Avatar" />
+                                                <div>
+                                                    <p className="text-[#8A8C91] text-[15px]">PRODUCT MANAGER</p>
+                                                    <p className="text-white text-[15px]">Andrew Smith</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </li>
+
+                            <li>
+                                <a href={"/admin/post"} className={`my-1 flex py-5 w-full pl-4 rounded-lg hover:bg-[#2D2F39] relative cursor-pointer ${isActive === "post" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
+                                    <p className="text-[20px]">Post</p>
+                                </a>
+                            </li>
+
+                            <li >
+                                <a href={"/admin/input"} className={`my-1 cursor-pointer ${isActive === "input" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
+                                    {isActive !== "input" && (
+                                        <a className="flex py-7 bg-[none] w-full pl-4 rounded-lg content-center hover:bg-[#2D2F39] cursor-pointer">
+                                            <p className="text-[20px]">Add Item</p>
+                                        </a>
+                                    )}
+                                    {isActive === "input" && (
+                                        <a onClick={() => navigate(-1)} className="flex py-4 bg-[none] w-full pl-4 rounded-lg content-center hover:bg-[#2D2F39] cursor-pointer">
+                                            <p>Add Item</p>
+                                        </a>
+                                    )}
+                                </a>
+                            </li>
+                            <li>
+                                <a href={"/admin/schedules"} className={`my-1 flex py-4 w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "schedules" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
+                                    <p className="text-[20px]">Schedules</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a className={`my-1 flex py-6 w-full bg-[none] relative pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${showHtmlBottom ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `} onClick={() => {
+                                    handleClickBottom();
+                                }}>
+                                    <p className="text-[20px]">Income</p>
+                                    {!showHtmlBottom && (
+                                        <button className="pr-4 absolute bg-[none] hover:bg-[#2D2F39] right-0 text-sm font-medium text-gray-900 dark:text-gray-400"
+                                            onClick={handleClickBottom}
+                                        >
+                                            <FontAwesomeIcon icon={faChevronDown} />
+                                        </button>
+                                    )}{showHtmlBottom && (
+                                        <button className="pr-4 absolute bg-[none] hover:bg-[#2D2F39] right-0 text-sm font-medium text-gray-900 dark:text-gray-400"
+                                            onClick={handleClickBottom}
+                                        >
+                                            <FontAwesomeIcon icon={faChevronUp} />
+                                        </button>
+                                    )}</a>
+                            </li>
+                            {showHtmlBottom && (
+                                <div className="flex relative ml-[20px]">
+                                    <div className="overflow-hidden h-[150px]">
+                                        <img src={thang} className="w-[8px]"></img>
+                                    </div>
+                                    <ul className="absolute">
+                                        <li className="mt-[15px] flex relative">
+                                            <img src={Radius} className="w-[53px]"></img>
+                                            <a className="absolute left-[60px] top-[3px] rounded-lg cursor-pointer hover:bg-[#2D2F39] p-[10px]"> Earnings</a>
+                                        </li>
+                                        <li className="mt-[15px] flex relative">
+                                            <img src={Radius} className="w-[53px]"></img>
+                                            <a className="absolute left-[60px] top-[3px] rounded-lg cursor-pointer hover:bg-[#2D2F39] p-[10px]">  Refunds</a>
+                                        </li>
+                                        <li className="mt-[15px] flex relative">
+                                            <img src={Radius} className="w-[53px]"></img>
+                                            <a className="absolute left-[60px] top-[3px] rounded-lg cursor-pointer hover:bg-[#2D2F39] p-[10px]">  Declines</a>
+                                        </li>
+                                        <li className="mt-[15px] flex relative">
+                                            <img src={Radius} className="w-[53px]"></img>
+                                            <a className="absolute left-[60px] top-[3px] rounded-lg cursor-pointer hover:bg-[#2D2F39] p-[10px]">  Payouts</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
+                        </ul>
                     </div>
                 </div>
-                <div className="flex justify-center">
-                    <div className="w-[80%] mt-[20px] border-b-[5px] border-[#2D2F39] rounded-full"></div>
-                </div>
-            </header>
-            <div className="container mx-auto px-7 text-[#D0D1D3]">
-                <ul>
-                    <li className="flex py-4">
-                        <label>Main</label>
-                    </li>
-                    <li>
-                        <a
-                            href={"/admin/dashboard"}
-                            className={`my-1 flex py-4 w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "dashboard" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''}`}
-                        >
-                            <img className="pr-4 w-[36px]" src={home}></img>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a onClick={handleClick} className={`my-1 flex py-4 relative w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "audience" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''}`}>
-                            <img className="pr-4 w-[36px]" src={audience}></img>
-                            <p>Audience</p>
-                            {!showHtml && (
-                            <button className="pr-4 absolute right-0 text-sm font-medium text-gray-900 dark:text-gray-400 dark:hover:bg-black"
-                                onClick={handleClick}
-                            >
-                                <FontAwesomeIcon icon={faChevronDown} />
-                            </button>
-                            )}{showHtml && (
-                                <button className="pr-4 absolute right-0 text-sm font-medium text-gray-900 dark:text-gray-400 dark:hover:bg-black"
-                                    onClick={handleClick}
-                                >
-                                    <FontAwesomeIcon icon={faChevronUp} />
-                                </button>
-                            )}
-                        </a>
-                    </li>
-                    {showHtml && (
-                        <div className="flex justify-center">
-                            <img className="h-[20px] w-[20px] mr-[20px] object-cover" src={avt}></img>
-                            <div>
-                                <p className="text-[#8A8C91] text-[15px]">PRODUCT MANAGER</p>
-                                <p className="text-[#D0D1D3] text-[15px]">Andrew Smith</p>
-                            </div>
-                        </div>
-                    )}
-                    <li>
-                        <a href={"/admin/post"} className={`my-1 flex py-4 w-full pl-4 rounded-lg hover:bg-[#2D2F39] relative cursor-pointer ${isActive === "post" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
-                            <img className="pr-4 w-[36px] relative" src={post}></img>
-                            <p>Post</p>
-                        </a>
-                    </li>
-
-                    <li >
-                        <a href={"/admin/input"} className={`my-1 cursor-pointer ${isActive === "input" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
-                            {isActive !== "input" && (
-                                <a className="flex py-4 bg-[none] w-full pl-4 rounded-lg content-center hover:bg-[#2D2F39] cursor-pointer">
-                                    <FontAwesomeIcon className="pr-4 pt-1" icon={faRightToBracket} />
-                                    <p>Add Item</p>
-                                </a>
-                            )}
-                            {isActive === "input" && (
-                                <a onClick={() => navigate(-1)} className="flex py-4 bg-[none] w-full pl-4 rounded-lg content-center hover:bg-[#2D2F39] cursor-pointer">
-                                    <FontAwesomeIcon className="pr-4 pt-1" icon={faRightToBracket} />
-                                    <p>Add Item</p>
-                                </a>
-                            )}
-                        </a>
-                    </li>
-                    <li>
-                        <a href={"/admin/schedules"} className={`my-1 flex py-4 w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${isActive === "schedules" ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `}>
-                            <img className="pr-4 w-[36px]" src={schedule}></img>
-                            <p>Schedules</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a className={`my-1 flex py-4 w-full bg-[none] relative pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer ${showHtmlBottom ? 'bg-[#2D2F39] text-[#62fcaf]' : ''} `} onClick={() => {
-                            handleClickBottom();
-                        }}> <img className="pr-4 w-[36px]" src={report}></img>
-                            <p>Income</p>
-                            {!showHtmlBottom && (
-                                <button className="pr-4 absolute bg-[none] hover:bg-[#2D2F39] right-0 text-sm font-medium text-gray-900 dark:text-gray-400"
-                                    onClick={handleClickBottom}
-                                >
-                                    <FontAwesomeIcon icon={faChevronDown} />
-                                </button>
-                            )}{showHtmlBottom && (
-                                <button className="pr-4 absolute bg-[none] hover:bg-[#2D2F39] right-0 text-sm font-medium text-gray-900 dark:text-gray-400"
-                                    onClick={handleClickBottom}
-                                >
-                                    <FontAwesomeIcon icon={faChevronUp} />
-                                </button>
-                            )}</a>
-                    </li>
-                    {showHtmlBottom && (
-                        <div className="flex relative ml-[20px]">
-                            <div className="overflow-hidden h-[150px]">
-                                <img src={thang} className="w-[8px]"></img>
-                            </div>
-                            <ul className="absolute">
-                                <li className="mt-[15px] flex relative">
-                                    <img src={Radius} className="w-[53px]"></img>
-                                    <a className="absolute left-[60px] top-[3px] rounded-lg cursor-pointer hover:bg-[#2D2F39] p-[10px]"> Earnings</a>
-                                </li>
-                                <li className="mt-[15px] flex relative">
-                                    <img src={Radius} className="w-[53px]"></img>
-                                    <a className="absolute left-[60px] top-[3px] rounded-lg cursor-pointer hover:bg-[#2D2F39] p-[10px]">  Refunds</a>
-                                </li>
-                                <li className="mt-[15px] flex relative">
-                                    <img src={Radius} className="w-[53px]"></img>
-                                    <a className="absolute left-[60px] top-[3px] rounded-lg cursor-pointer hover:bg-[#2D2F39] p-[10px]">  Declines</a>
-                                </li>
-                                <li className="mt-[15px] flex relative">
-                                    <img src={Radius} className="w-[53px]"></img>
-                                    <a className="absolute left-[60px] top-[3px] rounded-lg cursor-pointer hover:bg-[#2D2F39] p-[10px]">  Payouts</a>
-                                </li>
-                            </ul>
-                        </div>
-                    )}
-                </ul>
             </div>
+
         </div>
     );
 }

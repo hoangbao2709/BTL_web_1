@@ -3,10 +3,15 @@ import React from 'react';
 import { Input } from "./../../BackEnd/input";
 import { Navbar } from "./navbar";
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import {
+    Drawer,
+    Button,
+    Typography,
+    IconButton,
+  } from "@material-tailwind/react";
 
-
-export function Admin() 
-    {const navigate = useNavigate();
+export function Admin() {
+    const navigate = useNavigate();
     const location = useLocation();
     const pathSegments = location.pathname.split('/');
     const [isActive, setIsActive] = useState(Array(6).fill(false));
