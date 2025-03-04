@@ -1,15 +1,18 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 include 'DbConnect.php';
-$objDb = new DbConnect;
+$objDb = new DbConnect();
 $conn = $objDb->connect();
 
 $sql = "SELECT * FROM kien_thuc_khoa_hoc";
-
 $stmt = $conn->prepare($sql);
 $stmt->execute();
-$users = $stmt->fetch(PDO::FETCH_ASSOC);
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC); 
 
-
+$conn = null; 
 echo json_encode($users);
 ?>

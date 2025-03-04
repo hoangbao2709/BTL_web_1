@@ -15,8 +15,8 @@ $conn->set_charset("utf8");
 $id = mysqli_real_escape_string($conn, $_POST["id"]);
 $name = mysqli_real_escape_string($conn, $_POST["name"]);
 $gia_goc = mysqli_real_escape_string($conn, $_POST["gia_goc"]);
-$gia = mysqli_real_escape_string($conn, $_POST["gia"]);
 $giam_gia = mysqli_real_escape_string($conn, $_POST["giam_gia"]);
+$gia = intval( $gia_goc - ($gia_goc * $giam_gia)/100);
 $hehe = false;
 
 $tables = [
