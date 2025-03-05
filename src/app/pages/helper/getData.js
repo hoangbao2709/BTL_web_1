@@ -39,7 +39,7 @@ export function useData(img) {
             };
             items.push(tempItem);
             number = tempNumber;
-            tempImg = []; // Reset tempImg for the new number
+            tempImg = []; 
           }
         }
         if (number === tempNumber) {
@@ -50,7 +50,7 @@ export function useData(img) {
         setImages(items);
       }
     }
-  }, [data, img]); // Re-run when data or img changes
+  }, [data, img]); 
   console.log(images);
   return images;
 }

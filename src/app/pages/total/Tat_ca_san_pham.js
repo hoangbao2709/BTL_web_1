@@ -21,6 +21,7 @@ export function Tat_ca_san_pham(item) {
 
     return (
       <div className='flex relative'>
+        
         {paginationHelper(itemNumber, resultLocation, images)}
       </div>
     );
