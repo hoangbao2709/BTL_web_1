@@ -116,6 +116,7 @@ export function Input() {
             },
         });
     };
+    
 
     const handleDrop = (event) => {
         event.preventDefault();
@@ -166,12 +167,12 @@ export function Input() {
                             <input type="text" id="giam_gia" name="giam_gia" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Giảm giá" />
                         </div>
                         <div className="flex">
-                            <button type="button" onClick={() => setOpen2(true)} className="w-[50%] mr-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 mt-[25px]">
+                            <div type="button" onClick={() => setOpen2(true)} className="cursor-pointer w-[50%] mr-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm flex items-center px-3 py-2.5 mt-[25px]">
                                 Thêm thông tin sản phẩm
-                            </button>
-                            <button type="button" onClick={() => setOpen(true)} className="w-[50%] ml-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm py-2.5 mt-[25px]">
-                                Thêm vào những trang mà bạn muốn
-                            </button>
+                            </div>
+                            <div type="button" onClick={() => setOpen(true)} className="cursor-pointer w-[50%] ml-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm flex text-center justify-center py-2.5 mt-[25px]">
+                                Chọn trang thêm
+                            </div>
                         </div>
                         <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 mt-[25px]">
                             Submit

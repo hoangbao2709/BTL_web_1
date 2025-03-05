@@ -11,6 +11,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import bg from './images/nen2.jpg';
 let category = [
   "Tất cả sản phẩm",
   "Lịch sử truyền thống",
@@ -55,11 +56,11 @@ export function Main() {
 
       <li
         key={index}
-        className={`list-nonept-[10px] pb-[10px] pl-[30px] pr-[30px] hover:bg-[#F5ECD5] ${isActive ? 'bg-[#DDDDDD] ' : ''}`}
+        className={`list-nonept-[10px] flex text-center items-center py-[5px] pl-[20px] pr-[30px] hover:bg-[#F5ECD5] ${isActive ? 'bg-[#DDDDDD] ' : ''}`}
       >
         <FontAwesomeIcon icon={faBook} />
 
-        <a href={linkCategory[index]}>{element}</a>
+        <a className="pl-5" href={linkCategory[index]}>{element}</a>
       </li>
     );
   });
@@ -71,25 +72,54 @@ export function Main() {
   } else {
     resultLocation = "/Tat_ca_san_pham";
   }
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const handleScroll = () => {
+    setScrollPosition(window.scrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  if (scrollPosition >= 800) {
+    console.log(scrollPosition);
+  }
+
   return (
-    <div className="h-[2000px]" >
+    <div
+      className="h-[screen] bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${bg})`,
+        backgroundAttachment: 'fixed',
+      }}
+    >
       <Header />
-      <div className="flex">
+      <div className="flex mt-[110px]">
         <Images />
       </div>
-      <div className="flex w-[90%] justify-center mt-[50px]">
+      <div className={`main flex w-[100%] justify-center mt-[50px] `}>
         <div className='w-[90%] flex'>
-          <div className='w-[299px]'>
-            <header className="">
-              <div className='border border-black rounded-lg font-bold'>
-                <p className='font-bold flex justify-center content-center pt-[10px] pb-[10px] text-[20px]'>Danh mục sản phẩm</p>
-                <ul>
-                  {listCategory}
-                </ul>
-              </div>
-            </header>
+          <div className='w-[299px] relative'>
+
+
+        <header className={`fixed top-[20%] transition-transform duration-1000  ${scrollPosition >= 900 ? 'translate-y-0' : '-translate-y-full'}`}>
+          <div className="shadow-lg rounded-lg font-bold bg-white">
+            <div>
+              <p className="font-bold flex justify-center items-center pt-[10px] pb-[10px] text-[20px]">
+                Danh mục sản phẩm
+              </p>
+              <ul>
+                {listCategory}
+              </ul>
+            </div>
           </div>
-          <div className='w-[90%] mt-[50px] container mx-auto px-10 '>
+        </header>
+
+          </div>
+          <div className='w-[100%] mt-[50px] container mx-auto px-10 '>
             <Routes>
               <Route path="/" element={<Tat_ca_san_pham />} />
               <Route path="/Tat_ca_san_pham/:pageNumber?" element={<Tat_ca_san_pham resultLocation="/main/Tat_ca_san_pham" />} />

@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Admin } from './app/pages/Admin/index';
-import { ThemeProvider } from "@material-tailwind/react";
+import { Product } from "./app/pages/Product/product";
 
 export function App() {
   return (
@@ -14,6 +14,7 @@ export function App() {
         <Routes>
           <Route path="admin/*" element={<Admin />} />
           <Route path="/main*" element={<Main />} />
+          <Route path="/Product/:name?" element={<Product />} />
         </Routes>
       </BrowserRouter>
 

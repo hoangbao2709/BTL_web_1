@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'; // Corrected import
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 class Node {
     constructor() {
@@ -29,24 +28,21 @@ function removeAccents(str) {
 
     return str;
 }
+
 class Trie {
     constructor() {
         this.root = new Node();
-        this.newRoot = new Node();
     }
 
     addWord(word) {
         let currentNode = this.root;
-        let tempword = word;
-        tempword = tempword.toLowerCase();
+        let tempword = word.toLowerCase();
         tempword = removeAccents(tempword);
-        console.log(tempword);
+        
         for (let char of tempword) {
             const index = char.charCodeAt(0);
-            console.log(index);
             if (!currentNode.children[index]) {
-                const x = new Node();
-                currentNode.children[index] = x;
+                currentNode.children[index] = new Node();
             }
             currentNode = currentNode.children[index];
             if (!currentNode.result.includes(word)) {
@@ -61,6 +57,7 @@ class Trie {
         let result = [];
         prefix = prefix.toLowerCase();
         prefix = removeAccents(prefix);
+        
         for (let char of prefix) {
             const index = char.charCodeAt(0);
             if (!currentNode.children[index]) {
@@ -89,13 +86,11 @@ const trie = new Trie();
 trie.addWord('Hoàng Thanh Chí Bảo');
 trie.addWord('á');
 trie.addWord('ắ');
-// trie.addWord('Hoàng Thanh  Bảo');
-// trie.addWord('hellooo');
-// trie.addWord('Hoàng Thanh Chí Bảo');
 
 export function Search() {
     const [searchTerm, setSearchTerm] = React.useState('');
     const [results, setResults] = React.useState([]);
+    const resultsRef = useRef();
 
     function test(event) {
         const { value } = event.target;
@@ -104,8 +99,21 @@ export function Search() {
         setResults(foundWords);
     }
 
+    function handleClickOutside(event) {
+        if (resultsRef.current && !resultsRef.current.contains(event.target)) {
+            setResults([]);
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     return (
-        <div >
+        <div>
             <div className='flex items-center rounded-lg bg-white mr-[20px]'>
                 <input
                     onKeyUp={test}
@@ -114,14 +122,14 @@ export function Search() {
                     name="name"
                     placeholder="Tìm kiếm sản phẩm"
                 />
-                <button className='flex px-[20px] cursor-pointer py-2 rounded-r-lg border-l-2 border-collapse hover:bg-[#EEFFF7] '>
+                <button className='flex px-[20px] cursor-pointer py-2 rounded-r-lg border-l-2 border-collapse hover:bg-[#EEFFF7]'>
                     <li className="text-[20px]"><FontAwesomeIcon icon={faMagnifyingGlass} /></li>
                     <label className='ml-[20px] cursor-pointer'>Tìm kiếm</label> 
                 </button>
             </div>
-            <div className='flex absolute z-20 w-[440px] bg-white mt-[10px] rounded-lg'>
+            <div ref={resultsRef} className='flex absolute z-20 w-[440px] bg-white mt-[10px] rounded-lg'>
                 {results.length > 0 && (
-                    <ul className="pl-[20px] results-list text-[20px] ">
+                    <ul className="pl-[20px] results-list text-[20px]">
                         {results.map((result, index) => (
                             <li key={index}>{result}</li>
                         ))}

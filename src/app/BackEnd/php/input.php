@@ -17,6 +17,12 @@ $name = mysqli_real_escape_string($conn, $_POST["name"]);
 $gia_goc = mysqli_real_escape_string($conn, $_POST["gia_goc"]);
 $giam_gia = mysqli_real_escape_string($conn, $_POST["giam_gia"]);
 $gia = intval( $gia_goc - ($gia_goc * $giam_gia)/100);
+$tap = mysqli_real_escape_string($conn, $_POST["tap"]);
+$tac_gia = mysqli_real_escape_string($conn, $_POST["tac_gia"]);
+$doi_tuong = mysqli_real_escape_string($conn, $_POST["doi_tuong"]);
+$khuon_kho = mysqli_real_escape_string($conn, $_POST["khuon_kho"]);
+$so_trang = mysqli_real_escape_string($conn, $_POST["so_trang"]);
+$trong_luong = mysqli_real_escape_string($conn, $_POST["trong_luong"]);
 $hehe = false;
 
 $tables = [

@@ -5,7 +5,7 @@ export const paginationHelper = (currentPage, location, images = []) => {
 
     const pagination = {
         totalItems: images.length,
-        totalItemsPerPage: 8,
+        totalItemsPerPage: 16,
         pageRanges: 10
     };
 
