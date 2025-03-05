@@ -5,8 +5,8 @@ import { useData } from './../helper/getData';
 
 export function Wings_book(item) {
     const importAll = (r) => r.keys().map(r);
-    const img = importAll(require.context('./../../BackEnd/php/images/wings_book', true, /\.(png|webp|svg)$/));
-    const images = useData(img);
+    const img = importAll(require.context('./../../BackEnd/php/images/wings_book', true, /\.(png|webp|svg|jpg)$/));
+    const images = useData(img, "wings_book");
     const location = useLocation();
     const pathParts = location.pathname;
     const pageNumber = pathParts.includes(item.resultLocation)

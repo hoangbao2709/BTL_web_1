@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-export function useData(img = []) {  
+export function useData(img = [], url) {  
   const [data, setData] = useState([]);
   const [images, setImages] = useState([]);
-
   useEffect(() => {
-    fetch('https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/index.php')
+    fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/${url}.php`)
       .then((response) => response.json())
       .then((data) => {
         setData(data);
@@ -17,7 +16,7 @@ export function useData(img = []) {
   }, []);
 
   useEffect(() => {
-    if (data.length > 0 && img.length > 0) { // Kiểm tra img.length
+    if (data.length > 0 && img.length > 0) {
       const getData = {};
       data.forEach((element) => {
         getData[element.id] = element;
@@ -36,10 +35,17 @@ export function useData(img = []) {
             if (tempImg.length > 0) { 
               let tempItem = {
                 img: tempImg,
+                id: getData[parseInt(tempNumber)]["id"],
                 gia_goc: getData[parseInt(tempNumber)]["gia_goc"],
                 gia: getData[parseInt(tempNumber)]["gia"],
                 giam_gia: getData[parseInt(tempNumber)]["giam_gia"],
-                name: getData[parseInt(tempNumber)]["name"]
+                name: getData[parseInt(tempNumber)]["name"],
+                tap: getData[parseInt(tempNumber)]["tap"],
+                tac_gia: getData[parseInt(tempNumber)]["tac_gia"],
+                khuon_kho: getData[parseInt(tempNumber)]["khuon_kho"],
+                giam_gia: getData[parseInt(tempNumber)]["giam_gia"],
+                so_trang: getData[parseInt(tempNumber)]["so_trang"],
+                trong_luong: getData[parseInt(tempNumber)]["trong_luong"]
               };
               items.push(tempItem);
               tempImg = []; 

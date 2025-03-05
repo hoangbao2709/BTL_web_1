@@ -6,7 +6,7 @@ import { useData } from './../helper/getData';
 export function Kien_thuc_khoa_hoc(item) {
   const importAll = (r) => r.keys().map(r);
   const img = importAll(require.context('./../../BackEnd/php/images/kien_thuc_khoa_hoc/', true, /\.(png|webp|svg|jpg)$/));
-  const images = useData(img);
+  const images = useData(img,"kien_thuc_khoa_hoc");
   const location = useLocation();
   const pathParts = location.pathname;
   const pageNumber = pathParts.includes(item.resultLocation)

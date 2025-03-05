@@ -2,7 +2,6 @@ import logoDark from "./../images/logo.webp";
 import "./style.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList } from '@fortawesome/free-solid-svg-icons'; 
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'; // Corrected import
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 import { faBook } from '@fortawesome/free-solid-svg-icons';

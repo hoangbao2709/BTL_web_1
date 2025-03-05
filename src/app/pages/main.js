@@ -84,9 +84,6 @@ export function Main() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  if (scrollPosition >= 800) {
-    console.log(scrollPosition);
-  }
 
   return (
     <div
@@ -105,7 +102,7 @@ export function Main() {
           <div className='w-[299px] relative'>
 
 
-        <header className={`fixed top-[20%] transition-transform duration-1000  ${scrollPosition >= 900 ? 'translate-y-0' : '-translate-y-full'}`}>
+        <header className={`fixed top-[20%] transition-transform duration-1000  ${scrollPosition >= 800 ? 'translate-y-0' : '-translate-y-full'}`}>
           <div className="shadow-lg rounded-lg font-bold bg-white">
             <div>
               <p className="font-bold flex justify-center items-center pt-[10px] pb-[10px] text-[20px]">

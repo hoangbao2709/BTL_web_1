@@ -246,7 +246,7 @@ export function Input() {
                                 Object.entries(final).forEach(([key, value], index) => {
                                     item[key] = final[key];
                                 });
-                            }} type="button" className="w-full text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5">
+                            }} type="button" className="w-full text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 mb-5">
                                 Accept
                             </button>
                             <button onClick={() => {

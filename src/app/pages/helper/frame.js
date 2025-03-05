@@ -28,7 +28,7 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index }) => {
             <li
                 className='min-h-[520px] bg-white shadow-2xl rounded-3xl overflow-hidden transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#E0E3E7] relative fix w-[280px] border border-[#e9e9e9] p-0 m-0 ml-[25px] mr-[25px]'
                 key={`item-${index}`}
-            >   <a href="" className=''>
+            >   <a href={`/Product/${element.id}`} className=''>
                     <div className='h-[400px] overflow-hidden'>
                         
                         <img
@@ -59,7 +59,6 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index }) => {
             </ul>
         );
     }
-
     return (
         <div>
             {totalView}

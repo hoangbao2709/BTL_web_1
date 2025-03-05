@@ -31,7 +31,7 @@ $tables = [
     "Truyen_tranh",
     "Van_hoc_nuoc_ngoai",
     "Van_hoc_Viet_Nam",
-    "Wings_book"
+    "Wings_book",
 ];
 
 $isActive = [
@@ -40,23 +40,31 @@ $isActive = [
     'truyen_tranh' => false,
     'van_hoc_nuoc_ngoai' => false,
     'van_hoc_viet_nam' => false,
-    'wings_book' => false
+    'wings_book' => false,
 ];
 
+$test = false;
+
 foreach ($tables as $table) {
+
     if (isset($_POST[$table])) {
-        $hehe = true;
-        $sql = "INSERT INTO " . strtolower($table) . " (id, name, gia_goc, gia, giam_gia) 
-                VALUES ('$id', '$name', '$gia_goc', '$gia', '$giam_gia')";
+        $sql = "INSERT INTO " . strtolower($table) . " (id, name, gia_goc, gia, giam_gia, tap, tac_gia, doi_tuong, khuon_kho, so_trang, trong_luong)
+                VALUES ('$id', '$name', '$gia_goc', '$gia', '$giam_gia', '$tap', '$tac_gia', '$doi_tuong', '$khuon_kho', '$so_trang', '$trong_luong')";
+        if(!$test){
+            $sql = "INSERT INTO tat_ca_san_pham (id, name, gia_goc, gia, giam_gia, tap, tac_gia, doi_tuong, khuon_kho, so_trang, trong_luong) 
+                    VALUES ('$id', '$name', '$gia_goc', '$gia', '$giam_gia', '$tap', '$tac_gia', '$doi_tuong', '$khuon_kho', '$so_trang', '$trong_luong')";
+            $test = true;
+        }
+
+
         if ($conn->query($sql) === TRUE) {
             $isActive[strtolower($table)] = true;
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error inserting into " . strtolower($table) . ": " . $conn->error;
         }
     }
 }
 
-echo "Active: " . ($isActive['kien_thuc_khoa_hoc'] ? 'true' : 'false');
 
 $upload_dirs = [
     'kien_thuc_khoa_hoc' => './images/kien_thuc_khoa_hoc/' . $id . '/',
@@ -67,8 +75,6 @@ $upload_dirs = [
     'van_hoc_viet_nam' => './images/van_hoc_viet_nam/' . $id . '/',
     'wings_book' => './images/wings_book/' . $id . '/'
 ];
-
-echo $upload_dirs['kien_thuc_khoa_hoc'];
 
 if (isset($_FILES['file'])) {
     foreach ($_FILES['file']['name'] as $key => $name) {

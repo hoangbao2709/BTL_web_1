@@ -5,8 +5,8 @@ import { useData } from './../helper/getData';
 
 export function Tat_ca_san_pham(item) {
     const importAll = (r) => r.keys().map(r);
-    const img = importAll(require.context('./../../BackEnd/php/images/tat_ca_san_pham', true, /\.(png|webp|svg)$/));
-    const images = useData(img);
+    const img = importAll(require.context('./../../BackEnd/php/images/tat_ca_san_pham', true, /\.(png|webp|svg|jpg)$/));
+    const images = useData(img, "tat_ca_san_pham");
     const location = useLocation();
     const pathParts = location.pathname;
     const pageNumber = pathParts.includes(item.resultLocation)
@@ -21,7 +21,6 @@ export function Tat_ca_san_pham(item) {
 
     return (
       <div className='flex relative'>
-        
         {paginationHelper(itemNumber, resultLocation, images)}
       </div>
     );

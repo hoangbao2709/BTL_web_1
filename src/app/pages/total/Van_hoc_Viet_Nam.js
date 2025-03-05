@@ -5,8 +5,8 @@ import { useData } from './../helper/getData';
 
 export function Van_hoc_Viet_Nam(item) {
     const importAll = (r) => r.keys().map(r);
-    const img = importAll(require.context('./../../BackEnd/php/images/van_hoc_Viet_Nam', true, /\.(png|webp|svg)$/));
-    const images = useData(img);
+    const img = importAll(require.context('./../../BackEnd/php/images/van_hoc_Viet_Nam', true, /\.(png|webp|svg|jpg)$/));
+    const images = useData(img, "van_hoc_Viet_Nam");
     const location = useLocation();
     const pathParts = location.pathname;
     const pageNumber = pathParts.includes(item.resultLocation)

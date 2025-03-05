@@ -5,8 +5,8 @@ import { useData } from './../helper/getData';
 
 export function Lich_su_truyen_thong(item) {
     const importAll = (r) => r.keys().map(r);
-    const img = importAll(require.context('./../../BackEnd/php/images/lich_su_truyen_thong', true, /\.(png|webp|svg)$/));
-    const images = useData(img);
+    const img = importAll(require.context('./../../BackEnd/php/images/lich_su_truyen_thong', true, /\.(png|webp|svg|jpg)$/));
+    const images = useData(img, "lich_su_truyen_thong");
     const location = useLocation();
     const pathParts = location.pathname;
     const pageNumber = pathParts.includes(item.resultLocation)
