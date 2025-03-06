@@ -6,7 +6,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { Search } from './search'
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 let category = [
@@ -63,12 +63,28 @@ const listMenu = menu.map((element, index) => {
     );
 });
 
-
-
-
 export function Header() {
+    const [isVisible, setIsVisible] = useState(true);
+    const lastScrollY = useRef(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 700) {
+                setIsVisible(false);
+            } else {
+                setIsVisible(true);
+            }
+            lastScrollY.current = window.scrollY;
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
     return (
-        <header id="yourElementId" className="fixed w-full z-50 top-0 left-0 h-[110px] pl-[100px] items-center flex bg-[#E0E3E7]">
+        <header id="yourElementId" className={`fixed w-full z-50 top-0 left-0 h-[110px] pl-[100px] items-center flex bg-[#E0E3E7] transition-transform duration-700 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
             <div className="logo flex items-center ">
                 <img src={logoDark} className="size-[80px] mr-[50px]" alt="" />
             </div>
@@ -83,8 +99,8 @@ export function Header() {
                 </li>
                 {listMenu}
             </ul>
-            <ul className="right-[15%] absolute flex">
-                <form className="mr-10">
+            <ul className="right-[15%] absolute flex w-[45%]">
+                <form className="mr-10 w-full">
                     <Search/>              
                 </form>
                 <li className="text-[30px] pr-[50px]"><FontAwesomeIcon icon={faHeart} /></li>

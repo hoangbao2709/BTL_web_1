@@ -1,6 +1,6 @@
 import Modal from "../pages/helper/modal";
 import { useState, useEffect } from "react";
-import { useData } from "./getData";
+import { Data } from "./getData";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import $ from "jquery";
@@ -26,7 +26,7 @@ export function Post() {
     const [checked, setChecked] = useState(false);
     const [status, setStatus] = useState(false);
     const [data, setData] = useState([]);
-    const fetchedData = useData("kien_thuc_khoa_hoc"); 
+    const fetchedData = Data("kien_thuc_khoa_hoc"); 
     useEffect(() => {
         if (fetchedData) {
             setData(fetchedData);

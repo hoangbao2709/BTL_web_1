@@ -15,6 +15,7 @@ export function App() {
           <Route path="admin/*" element={<Admin />} />
           <Route path="/main*" element={<Main />} />
           <Route path="/Product/:page?/:name?" element={<Product />} />
+          <Route path="/Products/:name?" element={<Product />} />
         </Routes>
       </BrowserRouter>
 

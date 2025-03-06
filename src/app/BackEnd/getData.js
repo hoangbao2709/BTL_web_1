@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export function useData(url) {  
+export function Data(url) {  
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -9,10 +9,10 @@ export function useData(url) {
       .then((data) => {
         setData(data);
       })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        alert("An error occurred while fetching data. Please check the console for more details.");
-      });
+      // .catch((error) => {
+      //   console.error("Error fetching data: ", error);
+      //   alert("An error occurred while fetching data. Please check the console for more details.");
+      // });
   }, []);
 
   return data;

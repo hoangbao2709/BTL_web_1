@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { Data } from './../../BackEnd/getData'
 
 class Node {
     constructor() {
@@ -8,6 +9,7 @@ class Node {
         this.children = new Array(this.Max).fill(null);
         this.countWord = 0;
         this.result = [];
+        this.books = {}; // Sử dụng đối tượng để lưu trữ nhiều sách
     }
 }
 
@@ -34,7 +36,7 @@ class Trie {
         this.root = new Node();
     }
 
-    addWord(word) {
+    addWord(word, book) {
         let currentNode = this.root;
         let tempword = word.toLowerCase();
         tempword = removeAccents(tempword);
@@ -45,8 +47,10 @@ class Trie {
                 currentNode.children[index] = new Node();
             }
             currentNode = currentNode.children[index];
-            if (!currentNode.result.includes(word)) {
+
+            if (!currentNode.books[book.id]) {
                 currentNode.result.push(word);
+                currentNode.books[book.id] = book; // Lưu trữ sách theo ID
             }
         }
         currentNode.countWord++;
@@ -61,12 +65,13 @@ class Trie {
         for (let char of prefix) {
             const index = char.charCodeAt(0);
             if (!currentNode.children[index]) {
-                return [];
+                return []; 
             }
             currentNode = currentNode.children[index];
         }
-
-        this.collectWords(currentNode, result);
+    
+        result = Object.values(currentNode.books); 
+        console.log(result);
         return result;
     }
 
@@ -83,14 +88,16 @@ class Trie {
 }
 
 const trie = new Trie();
-trie.addWord('Hoàng Thanh Chí Bảo');
-trie.addWord('á');
-trie.addWord('ắ');
 
 export function Search() {
-    const [searchTerm, setSearchTerm] = React.useState('');
-    const [results, setResults] = React.useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [results, setResults] = useState([]);
     const resultsRef = useRef();
+    const data = Data("tat_ca_san_pham");
+ 
+    data.forEach(element => {
+        trie.addWord(element.name, element);
+    })
 
     function test(event) {
         const { value } = event.target;
@@ -113,25 +120,34 @@ export function Search() {
     }, []);
 
     return (
-        <div>
-            <div className='flex items-center rounded-lg bg-white mr-[20px]'>
+        <div className="w-[80%]">
+            <div className='flex items-center rounded-lg bg-white w-[100%] mr-[20px]'>
                 <input
                     onKeyUp={test}
                     type="text"
-                    className="form-control py-2 outline-none rounded-[10px] w-[440px] pl-[20px] text-[20px] mr-[10px]"
+                    className="form-control py-2 outline-none rounded-[10px] w-[70%] pl-[20px] text-[20px] mr-[10px]"
                     name="name"
                     placeholder="Tìm kiếm sản phẩm"
                 />
-                <button className='flex px-[20px] cursor-pointer py-2 rounded-r-lg border-l-2 border-collapse hover:bg-[#EEFFF7]'>
+                <button className='flex px-[20px] cursor-pointer w-[30%] py-2 rounded-r-lg border-l-2 border-collapse hover:bg-[#EEFFF7]'>
                     <li className="text-[20px]"><FontAwesomeIcon icon={faMagnifyingGlass} /></li>
                     <label className='ml-[20px] cursor-pointer'>Tìm kiếm</label> 
                 </button>
             </div>
-            <div ref={resultsRef} className='flex absolute z-20 w-[440px] bg-white mt-[10px] rounded-lg'>
+            <div ref={resultsRef} className='flex absolute z-20 w-[67%] bg-white mt-[10px] rounded-lg'>
                 {results.length > 0 && (
-                    <ul className="pl-[20px] results-list text-[20px]">
+                    <ul className=" results-list text-[20px] w-full">
                         {results.map((result, index) => (
-                            <li key={index}>{result}</li>
+                            <li className='w-full' key={index}>
+                                <a className='block w-fullh-full px-4 py-2 rounded-lg hover:bg-gray-100' href={`/Product/${result.Page}/${result.id}`}>
+                                    {result.name}
+                                </a>
+                                {index !== results.length - 1 && (
+                                    <div className='w-[100%] flex contain-content items-center justify-center'>
+                                        <div className='w-[95%] border-b border-b-black px-4'></div>
+                                    </div>
+                                )}
+                            </li>
                         ))}
                     </ul>
                 )}
