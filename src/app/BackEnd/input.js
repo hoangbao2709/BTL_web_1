@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import $ from "jquery";
 import Modal from "../pages/helper/modal";
 import "./css/style.css";
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -10,6 +10,8 @@ import 'swiper/swiper-bundle.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faMinus } from '@fortawesome/free-solid-svg-icons';
+import { Minus } from "react-feather";
 
 export function Input() {
     const [open, setOpen] = useState(false);
@@ -45,7 +47,6 @@ export function Input() {
         link: '',
         Kien_thuc_khoa_hoc: false,
         Lich_su_truyen_thong: false,
-        Tat_ca_san_pham: false,
         Truyen_tranh: false,
         Van_hoc_nuoc_ngoai: false,
         Van_hoc_Viet_Nam: false,
@@ -116,7 +117,6 @@ export function Input() {
             },
         });
     };
-    
 
     const handleDrop = (event) => {
         event.preventDefault();
@@ -139,10 +139,12 @@ export function Input() {
         setFiles(prevFiles => [...prevFiles, ...selectedFiles]);
     };
 
+    const handleMinus = (index) => {
+        setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    };
 
     return (
-
-        <div className="w-[100%] lg bg-[#E0E3E7] justify-center content-center flex h-screen">
+        <div className="w-[100%] lg bg-[#E0E3E7] justify-center content-center relative flex h-screen">
             <form className="w-[20%] z-10 content-center" action="http://localhost:8000/input.php" method="post" onSubmit={handleSubmit}>
                 <div>
                     <div className="grid mb-10">
@@ -177,7 +179,7 @@ export function Input() {
                         <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 mt-[25px]">
                             Submit
                         </button>
-                        <h1>{result}</h1>
+                        {/* <h1>{result}</h1> */}
                     </div>
                     <Modal open={open2} onClose={() => setOpen2(false)}>
                         <div className="z-10 w-[400px]">
@@ -207,7 +209,7 @@ export function Input() {
                     <Modal className="z-10" open={open} onClose={() => setOpen(false)}>
                         <div className=" content-center z-10 w-[500px] mt-[30px] flex">
                             <ul className="w-[500px] text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-black">
-                                {Object.keys(final).filter(key => key.startsWith("Kien_thuc") || key.startsWith("Lich_su") || key.startsWith("Tat_ca") || key.startsWith("Truyen") || key.startsWith("Van_hoc") || key.startsWith("Wings")).map((key) => (
+                                {Object.keys(final).filter(key => key.startsWith("Kien_thuc") || key.startsWith("Lich_su") || key.startsWith("Truyen") || key.startsWith("Van_hoc") || key.startsWith("Wings")).map((key) => (
                                     <li key={key} className="w-full border-b border-gray-200 dark:border-gray-600">
                                         <div className="flex items-center ps-3 h-[50px]">
                                             <input
@@ -221,20 +223,6 @@ export function Input() {
                                             <label htmlFor={key} className="w-[70%] py-3 ms-2 text-[25px] font-medium text-gray-900 dark:text-gray-300">
                                                 {key.replace(/_/g, ' ').toUpperCase()}
                                             </label>
-                                            {final[key] ? (
-                                                <>
-                                                    <button onClick={() => setOpen1(true)} type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                        Blue
-                                                    </button>
-                                                    <Modal open={open1} onClose={() => setOpen1(false)}>
-                                                        <div className="h-[200px] w-[200px] bg-white">
-                                                            <button onClick={() => setOpen1(false)} type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                                Blue
-                                                            </button>
-                                                        </div>
-                                                    </Modal>
-                                                </>
-                                            ) : null}
                                         </div>
                                     </li>
                                 ))}
@@ -283,9 +271,8 @@ export function Input() {
             </form>
             <div className="w-[70%] ml-[2%] z-0 flex justify-center  items-center bg-">
                 {files.length > 0 && (
-                    <div className="z-0 bg-white h-[715px]  w-[500px] border-white shadow-2xl rounded-3xl overflow-hidden transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-white relative fix w-[280px] border border-[#e9e9e9] p-0 m-0 ml-[25px] mr-[25px]">
-
-                        <div>
+                    <div className="z-0 bg-white w-[500px] relative shadow-2xl rounded-3xl overflow-hidden transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-white fix border border-[#e9e9e9] p-0 m-0 ml-[25px] mr-[25px]">
+                        <div className="relative h-[715px] w-[500px]">
                             <Swiper
                                 spaceBetween={30}
                                 centeredSlides={true}
@@ -293,9 +280,13 @@ export function Input() {
                                 modules={[Navigation]}
                                 className="w-100% h-[715px]"
                             >
+                                
                                 {files.map((image, index) => (
-                                    <SwiperSlide key={index} className="flex content-center items-center justify-center">
-                                        <img className="w-100%" src={URL.createObjectURL(image)} alt={`Slide ${index + 1}`} />
+                                    <SwiperSlide key={index} className="flex content-center relative items-center justify-center">
+                                        <div onClick={ () => handleMinus(index)} className="z-10 absolute cursor-pointer top-[3%] left-[85%]">
+                                            <FontAwesomeIcon className="size-10 bg-[red] rounded-[50%]" icon={faMinus} />
+                                        </div>
+                                        <img className="w-full h-auto  object-contain " src={URL.createObjectURL(image)} alt={`Slide ${index + 1}`} />
                                     </SwiperSlide>
                                 ))}
                             </Swiper>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import React from 'react';
 import { Input } from "./../../BackEnd/input";
+import { Post } from "./../../BackEnd/post";
 import { Navbar } from "./navbar";
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -25,6 +26,7 @@ export function Admin() {
             <Routes>
                 <Route path="/" element={<div className=' w-full '></div>} />
                 <Route path="input" element={<Input />} />
+                <Route path="/post" element={<Post />} />
             </Routes>
         </div>
     );

@@ -2,37 +2,51 @@ import React from 'react';
 import './style/frame.css';
 
 type FrameProps = {
-    item: { img: string }[]; 
+    item: { img: string[]; page: string; id: string; giam_gia: number; name: string; gia: number; gia_goc: number }[]; 
+    index: number; 
+    max_index: number; 
 };
 
 const Frame: React.FC<FrameProps> = ({ item, index, max_index }) => {
     let totalView: JSX.Element[] = []; 
     let oneView: JSX.Element[] = []; 
 
-    function formatPrice(price) {
+    function formatPrice(price: number) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + 'đ';
     }
-    
-    const view = item.slice(index, index + max_index ).map((element, idx) => {
-        if (idx % 4 === 0) {
-            if (idx !== 0) {
-                totalView.push(
-                    <ul className='flex mb-[50px]' key={`group-${idx}`}>
-                        {oneView}
-                    </ul>
-                );
-                oneView = []; 
-            }
+
+    const getImg = (img: string[]) => {
+        const result = img.filter(ele => {
+            const fileName = ele.split('/');
+            const pathParts = fileName[fileName.length - 1].split("_");
+            return pathParts.includes("isReview");
+        });
+        return result;
+    };
+
+    const view = item.slice(index, index + max_index).map((element, idx) => {
+        const imgs = getImg(element.img); // Lấy ảnh có chứa "isReview"
+
+        if (idx % 4 === 0 && idx !== 0) {
+            totalView.push(
+                <ul className='flex mb-[50px]' key={`group-${idx}`}>
+                    {oneView}
+                </ul>
+            );
+            oneView = []; 
         }
+
+        const imgSrc = imgs.length > 0 ? imgs[0] : ''; 
+
         oneView.push(
             <li
                 className='min-h-[520px] bg-white shadow-2xl rounded-3xl overflow-hidden transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#E0E3E7] relative fix w-[280px] border border-[#e9e9e9] p-0 m-0 ml-[25px] mr-[25px]'
-                key={`item-${index}`}
-            >   <a href={`/Product/${element.id}`} className=''>
+                key={`item-${element.id}`}
+            >   
+                <a href={`/Product/${element.page}/${element.id}`} className=''>
                     <div className='h-[400px] overflow-hidden'>
-                        
                         <img
-                            src={element.img[0]}
+                            src={imgSrc}
                             alt="Framed"
                         />
                     </div>
@@ -40,7 +54,7 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index }) => {
                     <div className='absolute top-[75%] left-0 right-0 p-3 '> 
                         <div className='mt-2 relative'>
                             <p className='font-bold h-[50px] mb-[10px]'>{element.name}</p>
-                            <p className='text-[red] text-[20px] absolute top-100'>
+                            <p className='text-[red] text-[20px]'>
                                 <label className='absolute left-0'>{formatPrice(element.gia)}</label>
                                 <label className='absolute ml-[10px] text-[black] left-[150px]'>{formatPrice(element.gia_goc)}</label>
                             </p>
@@ -49,6 +63,7 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index }) => {
                 </a>
             </li>
         );
+
         return null;
     });
 
@@ -59,6 +74,7 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index }) => {
             </ul>
         );
     }
+
     return (
         <div>
             {totalView}

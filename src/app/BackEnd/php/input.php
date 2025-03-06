@@ -23,7 +23,7 @@ $doi_tuong = mysqli_real_escape_string($conn, $_POST["doi_tuong"]);
 $khuon_kho = mysqli_real_escape_string($conn, $_POST["khuon_kho"]);
 $so_trang = mysqli_real_escape_string($conn, $_POST["so_trang"]);
 $trong_luong = mysqli_real_escape_string($conn, $_POST["trong_luong"]);
-$hehe = false;
+$status = "Active";
 
 $tables = [
     "Kien_thuc_khoa_hoc",
@@ -43,25 +43,22 @@ $isActive = [
     'wings_book' => false,
 ];
 
-$test = false;
+
+$sql = "INSERT INTO tat_ca_san_pham (id, name, gia_goc, gia, giam_gia, tap, tac_gia, doi_tuong, khuon_kho, so_trang, trong_luong, Page, Status) 
+        VALUES ('$id', '$name', '$gia_goc', '$gia', '$giam_gia', '$tap', '$tac_gia', '$doi_tuong', '$khuon_kho', '$so_trang', '$trong_luong', 'tat_ca_san_pham', 'Active')";
+
+if ($conn->query($sql) === TRUE) {
+} 
 
 foreach ($tables as $table) {
-
     if (isset($_POST[$table])) {
-        $sql = "INSERT INTO " . strtolower($table) . " (id, name, gia_goc, gia, giam_gia, tap, tac_gia, doi_tuong, khuon_kho, so_trang, trong_luong)
-                VALUES ('$id', '$name', '$gia_goc', '$gia', '$giam_gia', '$tap', '$tac_gia', '$doi_tuong', '$khuon_kho', '$so_trang', '$trong_luong')";
-        if(!$test){
-            $sql = "INSERT INTO tat_ca_san_pham (id, name, gia_goc, gia, giam_gia, tap, tac_gia, doi_tuong, khuon_kho, so_trang, trong_luong) 
-                    VALUES ('$id', '$name', '$gia_goc', '$gia', '$giam_gia', '$tap', '$tac_gia', '$doi_tuong', '$khuon_kho', '$so_trang', '$trong_luong')";
-            $test = true;
-        }
-
+        echo $table;
+        $sql = "INSERT INTO " . strtolower($table) . "(id, name, gia_goc, gia, giam_gia, tap, tac_gia, doi_tuong, khuon_kho, so_trang, trong_luong, Page, Status)
+                VALUES ('$id', '$name', '$gia_goc', '$gia', '$giam_gia', '$tap', '$tac_gia', '$doi_tuong', '$khuon_kho', '$so_trang', '$trong_luong', '$table', 'Active')";
 
         if ($conn->query($sql) === TRUE) {
             $isActive[strtolower($table)] = true;
-        } else {
-            echo "Error inserting into " . strtolower($table) . ": " . $conn->error;
-        }
+        } 
     }
 }
 
@@ -76,10 +73,18 @@ $upload_dirs = [
     'wings_book' => './images/wings_book/' . $id . '/'
 ];
 
+$test = true;
+
 if (isset($_FILES['file'])) {
     foreach ($_FILES['file']['name'] as $key => $name) {
-        $filename = $id . '_' . basename($name);
         $temp_path = $_FILES['file']['tmp_name'][$key];
+        $filename = $id . '_' . basename($name);
+
+        if($test == true){
+            $test = false;
+            $filename = $id . '_isReview_' . basename($name);
+        }
+
         $target_path = $upload_dirs['tat_ca_san_pham'] . $filename;
 
         if (!file_exists($upload_dirs['tat_ca_san_pham'])) {
@@ -123,8 +128,6 @@ if (isset($_FILES['file'])) {
                 }
                 copy($target_path, $upload_dirs['wings_book'] . $filename);
             }
-        } else {
-            echo "Lỗi khi tải tệp lên: " . $_FILES['file']['error'][$key] . "<br>";
         }
     }
 }

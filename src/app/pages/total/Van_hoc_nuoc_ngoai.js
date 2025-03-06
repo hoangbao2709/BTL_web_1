@@ -19,8 +19,6 @@ export function Van_hoc_nuoc_ngoai(item) {
     }
     else itemNumber = String(pageNumber);
 
-    console.log(resultLocation);
-
     return (
       <div>
         <div className="flex relative">

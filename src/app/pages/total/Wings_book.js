@@ -18,8 +18,6 @@ export function Wings_book(item) {
       itemNumber = "1";       
     }
     else itemNumber = String(pageNumber);
-    
-    console.log(resultLocation); 
 
     return (
       <div>

@@ -2,7 +2,7 @@ import { Header } from "./../header/header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import img from './../../BackEnd/php/images/kien_thuc_khoa_hoc/1/1_ngan-nam-su-viet_nha-le-trung-hung_cu-bang-don_b674ffa4770d4254a961bccc1703aad5_large.jpg';
+
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -20,16 +20,33 @@ export function Product() {
     const [soLuong, setSoLuong] = useState(1);
     const pathParts = location.pathname.split("/").filter(part => part); 
     const result = pathParts[pathParts.length - 1];
+    const link = pathParts[pathParts.length - 2];
     const importAll = (r) => r.keys().map(r);
-    const img = importAll(require.context(`./../../BackEnd/php/images/tat_ca_san_pham/`, true, /\.(png|webp|svg|jpg)$/));
+
+    let img = [];
     let image = [];
+
+    if(link === "tat_ca_san_pham"){
+        img = importAll(require.context(`./../../BackEnd/php/images/tat_ca_san_pham/`, true, /\.(png|webp|svg|jpg)$/));
+    }else if(link === "Kien_thuc_khoa_hoc"){
+        img = importAll(require.context(`./../../BackEnd/php/images/kien_thuc_khoa_hoc/`, true, /\.(png|webp|svg|jpg)$/))
+    }else if(link === "Lich_su_truyen_thong"){
+        img = importAll(require.context(`./../../BackEnd/php/images/lich_su_truyen_thong/`, true, /\.(png|webp|svg|jpg)$/))
+    }else if(link === "Truyen_tranh"){
+        img = importAll(require.context(`./../../BackEnd/php/images/truyen_tranh/`, true, /\.(png|webp|svg|jpg)$/))
+    }else if(link === "Van_hoc_nuoc_ngoai"){
+        img = importAll(require.context(`./../../BackEnd/php/images/van_hoc_nuoc_ngoai/`, true, /\.(png|webp|svg|jpg)$/))
+    }else if(link === "Van_hoc_Viet_Nam"){
+        img = importAll(require.context(`./../../BackEnd/php/images/van_hoc_Viet_Nam/`, true, /\.(png|webp|svg|jpg)$/))
+    }else if(link === "Wings_book"){
+        img = importAll(require.context(`./../../BackEnd/php/images/wings_book/`, true, /\.(png|webp|svg|jpg)$/))
+    }
 
     img.forEach((element, index) => {
         let parts = element.split("/");
         if (parts.length > 3) { 
             let subParts = parts[3].split("_");
             if (subParts.length > 0) {
-                console.log(subParts[0],result);
                 if (subParts[0] === result) { 
                     if (subParts[0] === result) { 
                         image.push(element);
@@ -38,7 +55,7 @@ export function Product() {
             }
         }
     });
-    console.log(image);
+
     function formatPrice(price) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + 'đ';
     }
@@ -63,28 +80,29 @@ export function Product() {
             backgroundAttachment: 'fixed',
         }}>
             <Header></Header>
-            <div className="bg-cover bg-center pt-[200px] px-[100px] container mx-auto flex justify-center border bg-[#F4F4F4] border-black">
+            <div className="bg-cover h-[1500px] bg-center pt-[200px] px-[100px] container mx-auto flex justify-center border bg-[#F4F4F4] border-black">
                 <div className="w-[100%] ml-[2%] z-0 flex justify-center  ">
-                    {/* {files.length > 0 && ( */}
-                    <div className="z-0 bg-white w-[40%]   overflow-hidden transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-white relative fix  p-0 m-0 ml-[25px] mr-[25px]">
+                    <div className="z-0 h-[760px] w-[40%] overflow-hidden relative fix  p-0 m-0 ml-[25px] mr-[25px]">
                         <div>
                             <Swiper
                                 spaceBetween={30}
                                 centeredSlides={true}
                                 navigation={true}
                                 modules={[Navigation]}
-                                className="w-full"
+                                className="w-100% h-[715px]"
                             >
-                                <SwiperSlide className="flex content-center items-center justify-center">
-                                    <img className="w-full h-auto object-contain" src={image[0]} alt="Slide" />
-                                </SwiperSlide>
+                                
+                                {image.map((image, index) => (
+                                    <SwiperSlide key={index} className="flex content-center relative items-center justify-center">
+
+                                        <img className="w-full h-auto  object-contain " src={image} alt={`Slide ${index + 1}`} />
+                                    </SwiperSlide>
+                                ))}
                             </Swiper>
                         </div>
                     </div>
-                    {/* )} */}
                     <div className="w-[60%] h-[715px] pl-[20px] rounded-3xl block relative">
                         <div className="items-center break-words">
-
                             <div className="break-words font-sans-serif">
                                 <label className="text-[50px] block break-words">
 
@@ -155,7 +173,7 @@ export function Product() {
                                         <input
                                             value={soLuong}
                                             onChange={(e) => setSoLuong(Number(e.target.value) || 0)}
-                                            className="w-[100%] text-center border border-[#8A8C91] form-control outline-none flex items-center justify-center"
+                                            className="w-[100%] text-center border bg-[#F4F4F4] border-[#8A8C91] form-control outline-none flex items-center justify-center"
                                             style={{ border: 'none' }}
                                         />
                                     </li>
@@ -163,8 +181,8 @@ export function Product() {
                                         <FontAwesomeIcon icon={faMinus} />
                                     </li>
                                 </ul>
-                                <p className="bg-[#DD283B] rounded-lg text-white mt-[20px] py-4 flex text-center justify-center items-center">THÊM VÀO GIỎ HÀNG</p>
-                                <p className="bg-[#28DD3B] rounded-lg text-white mt-[20px] py-4 flex text-center justify-center items-center">MUA NGAY</p>
+                                <p className="bg-[#FF4086] rounded-lg text-white mt-[20px] py-4 flex text-center justify-center items-center cursor-pointer transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#FF0000]">THÊM VÀO GIỎ HÀNG</p>
+                                <p className="bg-[#28DD3B] rounded-lg text-white mt-[20px] py-4 flex text-center justify-center items-center cursor-pointer transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#007F00]">MUA NGAY</p>
                             </div>
                         </div>
                     </div>

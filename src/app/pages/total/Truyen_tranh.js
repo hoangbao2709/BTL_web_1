@@ -18,9 +18,6 @@ export function Truyen_tranh(item) {
       itemNumber = "1";
     }
     else itemNumber = String(pageNumber);
-
-    console.log(resultLocation);
-
     return (
       <div>
         <div className="flex relative">

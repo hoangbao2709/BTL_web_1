@@ -37,10 +37,6 @@ let menu = [
     // "Contact Us"
 ];
 
-function test(){
-    console.log("hehe");
-}
-
 const listCategory = category.map((element, index) => {
     if (index !== category.length - 1) {
         return (

@@ -18,7 +18,7 @@ export function Tat_ca_san_pham(item) {
       itemNumber = "1";
     }
     else itemNumber = String(pageNumber);
-
+    
     return (
       <div className='flex relative'>
         {paginationHelper(itemNumber, resultLocation, images)}

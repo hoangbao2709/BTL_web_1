@@ -151,7 +151,7 @@ export function Navbar() {
                     <div className={`text-white h-screen font-sans transition-all duration-700 ease-in-out`}
                         style={{
                             width: open ? `${width - 100}px` : '0px',
-                            overflow: open ? '' : 'hidden',
+                            overflow: open ? 'visible' : 'hidden',
                             opacity: open ? 10000 : 0,
                         }}>
                         <ul>
