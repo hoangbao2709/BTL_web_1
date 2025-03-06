@@ -62,7 +62,7 @@ export function Navbar() {
     const navigate = useNavigate();
     console.log(width);
     return (
-        <div className="bg-[#161A23] h-screen">
+        <div className="bg-[#161A23] z-50 h-screen">
             <div className={` ${open ? "w-[292px]" : ""}  bg-[#161A23] h-screen font-sans`}>
                 <header className="relative">
                     <div className="flex mt-[20px] justify-center ">
@@ -123,12 +123,12 @@ export function Navbar() {
                             <li >
                                 <div className={`my-1} `}>
                                     {isActive !== "input" && (
-                                        <div className="flex py-4 bg-[none] w-full pl-2 rounded-lg content-center">
+                                        <div className="flex z-50 py-4 bg-[none] w-full pl-2 rounded-lg content-center">
                                             <FontAwesomeIcon className="pr-4 pt-1 w-[50px] text-[35px]" icon={faRightToBracket} />
                                         </div>
                                     )}
                                     {isActive === "input" && (
-                                        <div onClick={() => navigate(-1)} className="flex py-4 bg-[none] w-full pl-2 rounded-lg content-center">
+                                        <div onClick={() => navigate(-1)} className="flex z-50 py-4 bg-[none] w-full pl-2 rounded-lg content-center">
                                             <FontAwesomeIcon className="pr-4 pt-1 w-[50px] text-[35px]" icon={faRightToBracket} />
                                         </div>
                                     )}
@@ -151,7 +151,7 @@ export function Navbar() {
                     <div className={`text-white h-screen font-sans transition-all duration-700 ease-in-out`}
                         style={{
                             width: open ? `${width - 100}px` : '0px',
-                            overflow: open ? 'visible' : 'hidden',
+                            overflow: open ? '' : 'hidden',
                             opacity: open ? 10000 : 0,
                         }}>
                         <ul>
