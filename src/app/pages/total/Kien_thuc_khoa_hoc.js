@@ -21,7 +21,7 @@ export function Kien_thuc_khoa_hoc(item) {
   return (
     <div>
       <div className="flex relative">
-        {paginationHelper(itemNumber, resultLocation, images)}
+        {paginationHelper(itemNumber, resultLocation, images, item.Width)}
       </div>
     </div>
   );

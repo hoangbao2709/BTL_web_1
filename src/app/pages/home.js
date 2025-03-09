@@ -14,6 +14,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import bg from './images/nen2.jpg';
 import { faList } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import Banner_1 from './images/banner-1.jpg';
+import Banner_2 from './images/banner-2.jpg';
+import Banner_3 from './images/banner-3.jpg';
+import Banner_4 from './images/banner-4.jpg';
 
 let category = [
   "Tất cả",
@@ -51,7 +55,7 @@ const listMenu = menu.map((element, index) => {
   );
 });
 
-export function Main() {
+export function Home() {
   const location = useLocation();
   const pathParts = location.pathname;
   const headerRef = useRef(null);
@@ -104,50 +108,21 @@ export function Main() {
 
   return (
     <div
-      className="h-[screen] bg-cover bg-center"
+      className="h-[2000px] bg-cover bg-center"
       style={{
         backgroundImage: `url(${bg})`,
         backgroundAttachment: 'fixed',
       }}
     >
       <Header />
-
       <div className="flex mt-[150px] w-[200px]">
         <Images />
       </div>
-      <div className={`main flex w-[100%] justify-center mt-[50px] `}>
-        <div className='w-[90%] flex'>
-          <div className='w-[299px] relative'>
-            <header className={`fixed top-[20%] transition-transform duration-1000  ${scrollPosition >= 800 ? 'translate-y-0' : '-translate-y-[1000px]'}`}>
-              <div className="shadow-lg rounded-lg font-bold bg-white">
-                <div>
-                  <p className="font-bold flex justify-center items-center pt-[10px] bg-[red] rounded-t-lg pb-[10px] text-[20px]">
-                    Khoảng giá
-                  </p>
-                  <ul>
-                    {listCategory}
-                    <div className={`justify-center rounded-b-lg cursor-pointer flex text-center items-center py-[10px] pl-[10px] pr-[30px] border-b bg-[#00ffe1] hover:text-white hover:bg-[#00c4ad] `}>
-                      Xác nhận
-                    </div>
-                  </ul>
-                </div>
-              </div>
-            </header>
-          </div>
-          <div className='w-[100%] mt-[50px] container mx-auto px-10 '>
-            <Routes>
-              <Route path="/" element={<Tat_ca_san_pham />} />
-              <Route path="/Tat_ca_san_pham/:pageNumber?" element={<Tat_ca_san_pham resultLocation="/main/Tat_ca_san_pham" />} />
-              <Route path="/Kien_thuc_khoa_hoc/:pageNumber?" element={<Kien_thuc_khoa_hoc resultLocation="/main/Kien_thuc_khoa_hoc" />} />
-              <Route path="/Lich_su_truyen_thong/:pageNumber?" element={<Lich_su_truyen_thong resultLocation="/main/Lich_su_truyen_thong" />} />
-              <Route path="/Truyen_tranh/:pageNumber?" element={<Truyen_tranh resultLocation="/main/Truyen_tranh" />} />
-              <Route path="/Van_hoc_nuoc_ngoai/:pageNumber?" element={<Van_hoc_nuoc_ngoai resultLocation="/main/Van_hoc_nuoc_ngoai" />} />
-              <Route path="/Van_hoc_Viet_Nam/:pageNumber?" element={<Van_hoc_Viet_Nam resultLocation="/main/Van_hoc_Viet_Nam" />} />
-              <Route path="/Wings_book/:pageNumber?" element={<Wings_book resultLocation="/main/Wings_book" />} />
-            </Routes>
-          </div>
-        </div>
+      <div className="w-full justify-center flex h-[1000px] bg-white">
+        
       </div>
+
+
     </div>
   );
 }

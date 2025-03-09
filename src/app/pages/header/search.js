@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { Data } from './../../BackEnd/getData'
+import { faMagnifyingGlass, faBook, faAnglesDown } from '@fortawesome/free-solid-svg-icons';
+import { Data } from './getData';
+import "./style.css";
 
 class Node {
     constructor() {
@@ -9,7 +10,7 @@ class Node {
         this.children = new Array(this.Max).fill(null);
         this.countWord = 0;
         this.result = [];
-        this.books = {}; // Sử dụng đối tượng để lưu trữ nhiều sách
+        this.books = {};
     }
 }
 
@@ -50,7 +51,7 @@ class Trie {
 
             if (!currentNode.books[book.id]) {
                 currentNode.result.push(word);
-                currentNode.books[book.id] = book; // Lưu trữ sách theo ID
+                currentNode.books[book.id] = book;
             }
         }
         currentNode.countWord++;
@@ -65,25 +66,13 @@ class Trie {
         for (let char of prefix) {
             const index = char.charCodeAt(0);
             if (!currentNode.children[index]) {
-                return []; 
+                return [];
             }
             currentNode = currentNode.children[index];
         }
     
-        result = Object.values(currentNode.books); 
-        console.log(result);
+        result = Object.values(currentNode.books);
         return result;
-    }
-
-    collectWords(node, result) {
-        if (node.countWord > 0) {
-            result.push(...node.result);
-        }
-        for (let child of node.children) {
-            if (child) {
-                this.collectWords(child, result);
-            }
-        }
     }
 }
 
@@ -92,25 +81,61 @@ const trie = new Trie();
 export function Search() {
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState([]);
+    const [currentCategory, setCurrentCategory] = useState('Tất cả sản phẩm');
+    const [open, setOpen] = useState(false);
     const resultsRef = useRef();
+    const resultsRef1 = useRef();
     const data = Data("tat_ca_san_pham");
- 
-    data.forEach(element => {
-        trie.addWord(element.name, element);
-    })
 
-    function test(event) {
+    const categories = [
+        "Tất cả sản phẩm",
+        "Lịch sử truyền thống",
+        "Văn học Việt Nam",
+        "Văn học nước ngoài",
+        "Kiến thức, khoa học",
+        "Truyện tranh",
+        "Wings Books"
+    ];
+
+    const listCategory = categories.map((element, index) => (
+        <li
+            key={index}
+            className={`border-b border-black pt-[5px] p-[10px] bg-white hover:bg-[#F5ECD5] hover:text-[red]`}
+            onClick={() => {
+                setCurrentCategory(element);
+                handleClick();
+            }}
+        >
+            <FontAwesomeIcon icon={faBook} />
+            <span className="pl-[5px] ml-[10px]">{element}</span>
+        </li>
+    ));
+
+    useEffect(() => {
+        if (Array.isArray(data) && data.length > 0) {
+            data.forEach(element => {
+                if (element && element.name) {
+                    trie.addWord(element.name, element);
+                }
+            });
+        }
+    }, [data]);
+
+    const test = (event) => {
         const { value } = event.target;
         setSearchTerm(value);
         const foundWords = trie.findWord(value);
         setResults(foundWords);
-    }
+    };
 
-    function handleClickOutside(event) {
+    const handleClickOutside = (event) => {
         if (resultsRef.current && !resultsRef.current.contains(event.target)) {
             setResults([]);
         }
-    }
+        if (resultsRef1.current && !resultsRef1.current.contains(event.target)) {
+            setOpen(false);
+        }
+    };
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
@@ -119,27 +144,42 @@ export function Search() {
         };
     }, []);
 
+    const handleClick = () => {
+        setOpen(!open);
+    };
+
     return (
-        <div className="w-[80%]">
-            <div className='flex items-center rounded-lg bg-white w-[100%] mr-[20px]'>
+        <div className="w-[800px] z-50">
+            <div className='flex items-center z-50 bg-[#F8F8F8] w-[100%] relative'>
                 <input
                     onKeyUp={test}
                     type="text"
-                    className="form-control py-2 outline-none rounded-[10px] w-[70%] pl-[20px] text-[20px] mr-[10px]"
+                    className="form-control bg-[#F8F8F8] py-4 outline-none rounded-[10px] w-[90%] pl-[20px] text-[20px] mr-[10px]"
                     name="name"
                     placeholder="Tìm kiếm sản phẩm"
+                    aria-label="Tìm kiếm sản phẩm"
                 />
-                <button className='flex px-[20px] cursor-pointer w-[30%] py-2 rounded-r-lg border-l-2 border-collapse hover:bg-[#EEFFF7]'>
-                    <li className="text-[20px]"><FontAwesomeIcon icon={faMagnifyingGlass} /></li>
-                    <label className='ml-[20px] cursor-pointer'>Tìm kiếm</label> 
+                <button className='flex justify-center cursor-pointer w-[10%] py-4 rounded-r-lg border-l-2 border-collapse bg-[#17AF91] hover:bg-[#15A78A]'>
+                    <FontAwesomeIcon className="text-[20px]" icon={faMagnifyingGlass} />
                 </button>
+                <ul ref={resultsRef1} className="items-center text-[15px] bold-900 absolute left-[65%] cursor-pointer w-[200px]">
+                    <li className="px-[15px] py-[10px] flex items-center border-l-2 border-[#8A8C91]" onClick={handleClick}>
+                        {currentCategory}
+                        <FontAwesomeIcon className='absolute right-[10px]' icon={faAnglesDown} />
+                    </li>
+                    {open && (
+                        <ul className="bold w-[200px] rounded-lg text-[15px] items-center absolute top-[50px] mt-[10px]">
+                            {listCategory}
+                        </ul>
+                    )}
+                </ul>
             </div>
-            <div ref={resultsRef} className='flex absolute z-20 w-[67%] bg-white mt-[10px] rounded-lg'>
+            <div ref={resultsRef} className='flex absolute z-20 w-[518px] bg-white mt-[10px] rounded-lg'>
                 {results.length > 0 && (
-                    <ul className=" results-list text-[20px] w-full">
+                    <ul className="results-list text-[20px] w-full">
                         {results.map((result, index) => (
                             <li className='w-full' key={index}>
-                                <a className='block w-fullh-full px-4 py-2 rounded-lg hover:bg-gray-100' href={`/Product/${result.Page}/${result.id}`}>
+                                <a className='block w-full h-full px-4 py-2 rounded-lg hover:bg-gray-100' href={`/Product/${result.Page}/${result.id}`}>
                                     {result.name}
                                 </a>
                                 {index !== results.length - 1 && (

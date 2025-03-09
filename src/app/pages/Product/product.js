@@ -2,7 +2,6 @@ import { Header } from "./../header/header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -13,7 +12,7 @@ import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
 import bg from './mau-background-dep-3.jpg';
 import { useLocation } from 'react-router-dom';
-import { useData } from './../helper/getData';
+import { useData } from './getData';
 
 export function Product() {
     const location = useLocation();
@@ -56,12 +55,25 @@ export function Product() {
         }
     });
 
+    const data = useData(image, link, result);
+    const element = data[0] || {
+        name: 'N/A',
+        tap: 'N/A',
+        gia: 0,
+        gia_goc: 0,
+        tac_gia: 'N/A',
+        doituong: 'N/A',
+        khuon_kho: 'N/A',
+        so_trang: 'N/A',
+        trong_luong: 0,
+    };
+
     function formatPrice(price) {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + 'đ';
+        return price;
     }
 
     function formatGram(price) {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return price;
     }
 
     function HandlePlus() {
@@ -74,102 +86,96 @@ export function Product() {
     }
 
     return (
-        <div className="h-[screen] bg-cover bg-center"
+        <div className="h-screen bg-cover bg-center"
         style={{
             backgroundImage: `url(${bg})`,
             backgroundAttachment: 'fixed',
         }}>
             <Header></Header>
-            <div className="bg-cover h-[1500px] bg-center pt-[200px] px-[100px] container mx-auto flex justify-center border bg-[#F4F4F4] border-black">
-                <div className="w-[100%] ml-[2%] z-0 flex justify-center  ">
-                    <div className="z-0 h-[760px] w-[40%] overflow-hidden relative fix  p-0 m-0 ml-[25px] mr-[25px]">
-                        <div>
+            <div className="bg-cover bg-center h-screen md:w-[100%] max-lg:pt-[100px] lg:px-[100px] container mx-auto flex justify-center border bg-[#F4F4F4] border-black">
+                <div className="lg:w-[100%] max-lg:w-[100%] md:w-[100%] flex justify-center items-center content-center max-lg:block">  
                             <Swiper
                                 spaceBetween={30}
                                 centeredSlides={true}
                                 navigation={true}
                                 modules={[Navigation]}
-                                className="w-100% h-[715px]"
+                                className="lg:w-[40%] sm:w-[70%] sm:mt-[10%] max-sm:w-[90%] max-sm:mt-[5%]"
                             >
-                                
                                 {image.map((image, index) => (
                                     <SwiperSlide key={index} className="flex content-center relative items-center justify-center">
-
-                                        <img className="w-full h-auto  object-contain " src={image} alt={`Slide ${index + 1}`} />
+                                        <img className="w-full object-contain" src={image} alt={`Slide ${index + 1}`} />
                                     </SwiperSlide>
                                 ))}
                             </Swiper>
-                        </div>
-                    </div>
-                    <div className="w-[60%] h-[715px] pl-[20px] rounded-3xl block relative">
+                    <div className="lg:w-[60%] max-lg:w-[100%] h-[715px] lg:pl-[20px] max-lg:px-[20px] rounded-3xl block relative max-lg:text-[14px]">
                         <div className="items-center break-words">
                             <div className="break-words font-sans-serif">
-                                <label className="text-[50px] block break-words">
-
+                                <label className="sm:text-[50px] max-sm:text-[20px] block break-words">
+                                    {element.name}
                                 </label>
 
-                                <label className="mt-0 text-[30px] block">
-
+                                <label className="mt-0 sm:text-[50px] max-sm:text-[20px]  block">
+                                    {element.tap}
                                 </label>
 
                                 <div className="flex items-center">
                                     <div>
-                                        <label className="text-[25px]">Rating: </label>
+                                        <label className="sm:text-[25px] max-sm:text-[14px]">Rating: </label>
 
-                                        <span className={"text-yellow-500 text-gray-400"}>
+                                        <span className={"text-yellow-500"}>
                                             <FontAwesomeIcon icon={faStar} />
                                         </span>
 
-                                        <label className="text-[25px]">{" | " + 10 + " đánh giá"} </label>
-                                        <p className="text-[25px]">Đã bán: 100</p>
+                                        <label className="sm:text-[25px] max-sm:text-[14px]">{" | " + 10 + " đánh giá"} </label>
+                                        <p className="sm:text-[25px] max-sm:text-[14px]">Đã bán: 100</p>
                                     </div>
-                                    <label className="text-[30px] pr-[50px] absolute right-0"><FontAwesomeIcon icon={faHeart} /></label>
+                                    <label className="sm:text-[30px] max-sm:text-[20px] pr-[50px] absolute right-0"><FontAwesomeIcon icon={faHeart} /></label>
                                 </div>
                             </div>
                         </div>
                         <div className="relative">
                             <div>
                                 <div className="border-t-2 border-black w-full my-2"></div>
-                                <div className="flex">
-                                    <div >
-                                        <label className="text-[red] text-[25px] mr-[30px]"><strong>{formatPrice(parseInt(parseInt(1000) - (parseInt(1000) * parseInt(1000)) / 100))}</strong></label>
+                                <div className="2xl:flex xl:block">
+                                    <div className="xl:flex">
+                                        <div >
+                                            <label className="text-[red] sm:text-[25px] max-sm:text-[14px] mr-[30px]"><strong>{formatPrice((parseInt(element.gia)))}</strong></label>
+                                        </div>
+                                        <div >
+                                            <label className="text-gray-400 sm:text-[25px] max-sm:text-[14px] line-through" id="original-price"><strong>{formatPrice(parseInt(element.gia_goc))}</strong></label>
+                                        </div>
                                     </div>
                                     <div >
-                                        <label className="text-gray-400 text-[25px] line-through" id="original-price"><strong>{formatPrice(parseInt(1000))}</strong></label>
-                                    </div>
-                                    <div >
-                                        <label className="text-[25px] absolute right-0" id="original-price"><strong>Bạn đã tiết kiệm được {formatPrice(parseInt((parseInt(1000) * parseInt(1000)) / 100))}</strong></label>
+                                        <label className="sm:text-[25px] max-sm:text-[14px]  right-0 2xl:absolute xl:block lg:block" id="original-price"><strong>Bạn đã tiết kiệm được {formatPrice(parseInt(element.gia_goc) - (parseInt(element.gia)))}</strong></label>
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="mt-4">
-                                        <label className="text-[red] text-[30px]"><strong>{formatPrice(1000)}</strong></label>
-                                    </div>
+
                                 </div>
                                 <div className="border-t-2 border-black w-full mt-2"></div>
                                 <li>
-                                    <label className="text-[30px]">Tác giả: <strong className="text-[red]">bao</strong></label>
+                                    <label className="sm:text-[30px] max-sm:text-[20px]">Tác giả: <strong className="text-[red]">{element.tac_gia}</strong></label>
                                 </li>
                                 <li>
-                                    <label className="text-[30px]">Đối tượng: <strong className="text-[red]">bao</strong></label>
+                                    <label className="sm:text-[30px] max-sm:text-[20px]">Đối tượng: <strong className="text-[red]">{element.tac_gia}</strong></label>
                                 </li>
                                 <li>
-                                    <label className="text-[30px]">Khuôn khổ: <strong className="text-[red]">bao</strong></label>
+                                    <label className="sm:text-[30px] max-sm:text-[20px]">Khuôn khổ: <strong className="text-[red]">{element.khuon_kho}</strong></label>
                                 </li>
                                 <li>
-                                    <label className="text-[30px]">Số trang: <strong className="text-[red]">{formatGram("bao")}</strong></label>
+                                    <label className="sm:text-[30px] max-sm:text-[20px]">Số trang: <strong className="text-[red]">{element.so_trang}</strong></label>
                                 </li>
                                 <li>
-                                    <label className="text-[30px]">Trọng lượng: <strong className="text-[red]">{formatGram("bao")}</strong></label>
+                                    <label className="sm:text-[30px] max-sm:text-[20px]">Trọng lượng: <strong className="text-[red]">{formatGram(element.trong_luong)}</strong></label>
                                 </li>
                             </div>
-                            <div className="absolute left-[72%] top-[130px]">
-                                <p className="text-[30px]">Số lượng</p>
-                                <ul className="flex border border-[#8A8C91] w-[200px] h-[50px] mt-[20px]">
+                            <div className="left-[72%] top-[130px] xl:absolute lg:block lg:mt-[20px] max-lg:block max-lg:w-[100%] ">
+                                <p className="sm:text-[30px] max-sm:text-[20px]">Số lượng</p>
+                                <ul className="flex border border-[#8A8C91] xl:w-[200px] lg:w-[100%] h-[50px] mt-[20px] max-lg:w-[100%]">
                                     <li className="w-[25%] flex items-center justify-center border border-[#8A8C91] cursor-pointer" onClick={HandlePlus}>
                                         <FontAwesomeIcon icon={faPlus} />
                                     </li>
-                                    <li className=" w-[50%] flex items-center justify-center border border-[#8A8C91]">
+                                    <li className="w-[50%] flex items-center justify-center border border-[#8A8C91]">
                                         <input
                                             value={soLuong}
                                             onChange={(e) => setSoLuong(Number(e.target.value) || 0)}
@@ -181,8 +187,8 @@ export function Product() {
                                         <FontAwesomeIcon icon={faMinus} />
                                     </li>
                                 </ul>
-                                <p className="bg-[#FF4086] rounded-lg text-white mt-[20px] py-4 flex text-center justify-center items-center cursor-pointer transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#FF0000]">THÊM VÀO GIỎ HÀNG</p>
-                                <p className="bg-[#28DD3B] rounded-lg text-white mt-[20px] py-4 flex text-center justify-center items-center cursor-pointer transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#007F00]">MUA NGAY</p>
+                                <p className="bg-[#FF4086] rounded-lg text-white mt-[20px] py-4 flex text-center justify-center items-center cursor-pointer transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#FF0000]">THÊM VÀO GIỎ HÀNG</p>
+                                <p className="bg-[#28DD3B] rounded-lg text-white mt-[20px] py-4 flex text-center justify-center items-center cursor-pointer transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#007F00]">MUA NGAY</p>
                             </div>
                         </div>
                     </div>

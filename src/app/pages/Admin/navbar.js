@@ -20,7 +20,7 @@ export function Navbar() {
     const [showHtml, setShowHtml] = useState(false);
     const [showHtmlBottom, setShowHtmlBottom] = useState(false);
     const pathSegments = location.pathname.split('/');
-    const [isActive, setInputSegment] = useState(pathSegments[pathSegments.length - 1]);
+    const [isActive, setInputSegment] = useState(pathSegments[2]);
     const [open, setOpen] = useState(true);
     const divRef = useRef(null);
     const divRef1 = useRef(null);

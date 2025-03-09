@@ -1,13 +1,14 @@
 import logoDark from "./../images/logo.webp";
 import "./style.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faList } from '@fortawesome/free-solid-svg-icons'; 
+import { faList } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { Search } from './search'
 import React, { useRef, useEffect, useState } from 'react';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 let category = [
     "Tất cả sản phẩm",
@@ -20,13 +21,13 @@ let category = [
 ];
 
 let linkCategory = [
-"/main/Tat_ca_san_pham",
-"/main/Lich_su_truyen_thong",
-"/main/Van_hoc_Viet_Nam",
-"/main/Van_hoc_nuoc_ngoai",
-"/main/Kien_thuc_khoa_hoc",
-"/main/Truyen_tranh",
-"/main/Wings_book",
+    "/main/Tat_ca_san_pham",
+    "/main/Lich_su_truyen_thong",
+    "/main/Van_hoc_Viet_Nam",
+    "/main/Van_hoc_nuoc_ngoai",
+    "/main/Kien_thuc_khoa_hoc",
+    "/main/Truyen_tranh",
+    "/main/Wings_book",
 ];
 
 let menu = [
@@ -48,7 +49,7 @@ const listCategory = category.map((element, index) => {
     } else {
         return (
             <li key={index} className="rounded-b-lg border-b border-black pt-[5px] p-[10px] bg-white hover:bg-[#F5ECD5] hover:text-[red]">
-                <FontAwesomeIcon  icon={faBook} />
+                <FontAwesomeIcon icon={faBook} />
                 <a className="pl-[5px] ml-[10px]" href={linkCategory[index]}>{element}</a>
             </li>
         );
@@ -84,32 +85,55 @@ export function Header() {
         };
     }, []);
     return (
-        <header id="yourElementId" className={`fixed w-full z-50 top-0 left-0 h-[110px] pl-[100px] items-center flex bg-[#E0E3E7] transition-transform duration-700 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-            <div className="logo flex items-center ">
-                <img src={logoDark} className="size-[80px] mr-[50px]" alt="" />
-            </div>
-            <ul className="flex items-center text-[120%] bold-900 absolute left-[12%]">
-                <li className="flex items-center danhmuc absolute py-[27px]">
-                    <i className=" px-[15px] py-[10px] rounded-lg hover:bg-[#EEFFF7] hover:text-[white] transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110">
-                        <FontAwesomeIcon className="text-[#009981] font-bold" icon={faList} />
-                    </i>
-                    <ul className="category bold w-[350px] rounded-b-lg text-[30px] flex items-center ">
-                        {listCategory}
+        <div className="z-100">
+            <header id="yourElementId" className={`fixed z-50 w-full top-0 left-0 h-[200px] transition-transform duration-700 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+                <div className="flex z-50 pl-[100px] bg-[white] items-center">
+                    <div className="logo flex items-center">
+                        <img src={logoDark} className="h-[80px] mr-[50px]" alt="Logo" />
+                    </div>
+
+                    <ul className="absolute z-100 flex w-[45%] right-[500px]">
+                        <form className="mr-10 w-full">
+                            <Search />
+                        </form>
                     </ul>
-                </li>
-                {listMenu}
-            </ul>
-            <ul className="right-[15%] absolute flex w-[45%]">
-                <form className="mr-10 w-full">
-                    <Search/>              
-                </form>
-                <li className="text-[30px] pr-[50px]"><FontAwesomeIcon icon={faHeart} /></li>
-                <li className="text-[30px]"><FontAwesomeIcon icon={faBagShopping} /> </li>
-            </ul>
-            <a href="#" className="flex p-[30px] pt-[10px] pb-[10px] text-[#009981] text-[20px] right-[3%] absolute rounded-[8px] transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#EEFFF7]">
-                <div className="mr-[20px]"><FontAwesomeIcon icon={faUser} /> </div>
-                Tài khoản
-            </a>
-        </header>
+
+                    <ul className="absolute flex p-[30px] pt-[10px] pb-[10px] text-[#009981] text-[20px] right-[3%]">
+                        <li className="text-[30px] px-[20px] mx-[5px] rounded-lg transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#EEFFF7]">
+                            <FontAwesomeIcon icon={faHeart} />
+                        </li>
+                        <li className="text-[30px] px-[20px] mx-[5px] rounded-lg transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#EEFFF7]">
+                            <FontAwesomeIcon icon={faBagShopping} />
+                        </li>
+                        <li className="text-[30px] px-[20px] mx-[5px] rounded-lg transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#EEFFF7]">
+                            <FontAwesomeIcon icon={faUser} />
+                        </li>
+                    </ul>
+                </div>
+
+                <div className={`h-[72px] w-full bg-[black] flex items-center justify-center transition-transform duration-700 ${isVisible ? 'translate-y-0' : 'translate-y-[120px]'}`}>
+                    <div className="flex items-center text-[20px] relative w-[1400px] justify-center">
+                            <div className="flex items-center w-[300px] absolute left-0 h-full py-[36px] bg-[#15A78A] group">
+                                <i className="px-[15px] rounded-lg">
+                                    <FontAwesomeIcon className="text-[white] font-bold" icon={faList} />
+                                    <label className="text-white font-normal px-[10px]" style={{ fontStyle: 'normal' }}>Danh mục sản phẩm</label>
+                                </i>
+                                <ul className="absolute left-0 w-[300px] text-[23px] top-[70px] items-center bg-[#15A78A] hidden group-hover:block">
+                                    {listCategory}
+                                </ul>
+                            </div>
+                            <ul className="text-white flex text-[20px]">
+                                <li className="px-[20px] hover:text-[#15A78A] cursor-pointer">HOME <FontAwesomeIcon icon={faChevronDown} /></li>
+                                <li className="px-[20px] hover:text-[#15A78A] cursor-pointer">SHOP <FontAwesomeIcon icon={faChevronDown} /></li>
+                                <li className="px-[20px] hover:text-[#15A78A] cursor-pointer">PRODUCT <FontAwesomeIcon icon={faChevronDown} /></li>
+                                <li className="px-[20px] hover:text-[#15A78A] cursor-pointer">PAGES <FontAwesomeIcon icon={faChevronDown} /></li>
+                                <li className="px-[20px] hover:text-[#15A78A] cursor-pointer">BLOG <FontAwesomeIcon icon={faChevronDown} /></li>
+                                <li className="px-[20px] hover:text-[#15A78A] cursor-pointer">ELEMENTS <FontAwesomeIcon icon={faChevronDown} /></li>
+                            </ul>
+                            <p className="absolute right-0 text-white font-bold pl-[30px] border-l-2 border-white">Clearance Up to 30% Off</p>
+                        </div>
+                </div>
+            </header>
+        </div>
     );
 }

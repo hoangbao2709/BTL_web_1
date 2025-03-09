@@ -9,7 +9,7 @@ $objDb = new DbConnect();
 $conn = $objDb->connect();
 $currentPage = $_SERVER['REQUEST_URI'];
 
-$sql = "SELECT * FROM tat_ca_san_pham";
+$sql = "SELECT * FROM tat_ca_san_pham WHERE Status = 'Active'";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC); 

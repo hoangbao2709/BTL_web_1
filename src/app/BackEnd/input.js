@@ -160,26 +160,17 @@ export function Input() {
                             <label htmlFor="tap" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Tập</label>
                             <input type="text" id="tap" name="tap" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tập" />
                         </div>
-                        <div className="mb-2">
-                            <label htmlFor="gia_goc" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Giá gốc</label>
-                            <input type="text" id="gia_goc" name="gia_goc" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Giá gốc" />
-                        </div>
-                        <div className="mb-2">
-                            <label htmlFor="giam_gia" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Giảm giá</label>
-                            <input type="text" id="giam_gia" name="giam_gia" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Giảm giá" />
-                        </div>
                         <div className="flex">
-                            <div type="button" onClick={() => setOpen2(true)} className="cursor-pointer w-[50%] mr-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm flex items-center px-3 py-2.5 mt-[25px]">
+                            <div type="button" onClick={() => setOpen2(true)} className="cursor-pointer w-[50%] mr-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm text-center px-3 py-2.5 mt-[25px]">
                                 Thêm thông tin sản phẩm
                             </div>
-                            <div type="button" onClick={() => setOpen(true)} className="cursor-pointer w-[50%] ml-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm flex text-center justify-center py-2.5 mt-[25px]">
+                            <div type="button" onClick={() => setOpen(true)} className="cursor-pointer w-[50%] ml-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm text-center py-2.5 mt-[25px]">
                                 Chọn trang thêm
                             </div>
                         </div>
                         <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 mt-[25px]">
                             Submit
                         </button>
-                        {/* <h1>{result}</h1> */}
                     </div>
                     <Modal open={open2} onClose={() => setOpen2(false)}>
                         <div className="z-10 w-[400px]">
@@ -202,6 +193,14 @@ export function Input() {
                             <div className="mb-2">
                                 <label htmlFor="trong_luong" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Trọng lượng</label>
                                 <input type="text" id="trong_luong" name="trong_luong" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Trọng lượng" />
+                            </div>
+                            <div className="mb-2">
+                                <label htmlFor="gia_goc" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Giá gốc</label>
+                                <input type="text" id="gia_goc" name="gia_goc" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Giá gốc" />
+                            </div>
+                            <div className="mb-2">
+                                <label htmlFor="giam_gia" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Giảm giá</label>
+                                <input type="text" id="giam_gia" name="giam_gia" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Giảm giá" />
                             </div>
                         </div>
                     </Modal>
@@ -372,6 +371,7 @@ export function Input() {
                             <label className="text-[30px]">Trọng lượng: <strong className="text-[red]">{formatGram(submittedTrong_luong)}</strong></label>
                         </li>
                     )}
+                    
                 </div>
             </div>
         </div>

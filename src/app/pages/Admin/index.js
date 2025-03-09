@@ -25,8 +25,8 @@ export function Admin() {
             <Navbar/>
             <Routes>
                 <Route path="/" element={<div className=' w-full '></div>} />
-                <Route path="input" element={<Input />} />
-                <Route path="/post" element={<Post />} />
+                <Route path="input" element={<Input />} />  
+                <Route path="/post/:Status?" element={<Post />} />
             </Routes>
         </div>
     );

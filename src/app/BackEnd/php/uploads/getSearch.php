@@ -7,16 +7,20 @@ ini_set('display_errors', 1);
 include 'DbConnect.php';
 $objDb = new DbConnect();
 $conn = $objDb->connect();
-$currentPage = $_SERVER['REQUEST_URI'];
 
+$variable = isset($_GET['variable']) ? $_GET['variable'] : null;
 $url = isset($_GET['url']) ? $_GET['url'] : null;
 
-$sql = "SELECT * FROM kien_thuc_khoa_hoc WHERE Status = 'Active'";
+$sql = "SELECT * FROM $url";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
-$users = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$conn = null; 
-echo json_encode($users);
+if ($users) {
+    echo json_encode($users);
+} else {
+    echo json_encode(['message' => 'No records found']);
+}
+
+$conn = null;
 ?>
-

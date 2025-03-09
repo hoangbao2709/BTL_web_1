@@ -9,7 +9,7 @@ $objDb = new DbConnect();
 $conn = $objDb->connect();
 $currentPage = $_SERVER['REQUEST_URI'];
 
-$sql = "SELECT * FROM truyen_tranh";
+$sql = "SELECT * FROM truyen_tranh WHERE Status = 'Active'";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC); 

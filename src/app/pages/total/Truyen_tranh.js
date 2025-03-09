@@ -10,8 +10,8 @@ export function Truyen_tranh(item) {
     const location = useLocation();
     const pathParts = location.pathname;
     const pageNumber = pathParts.includes(item.resultLocation)
-      ? pathParts.replace(item.resultLocation + '/', "")  // Thay thế resultLocation bằng "1" nếu có
-      : pathParts.replace(item.resultLocation, "1"); // Loại bỏ resultLocation khi không có
+      ? pathParts.replace(item.resultLocation + '/', "")  
+      : pathParts.replace(item.resultLocation, "1"); 
     const resultLocation = pathParts.replace("/" + pageNumber, "");
     let itemNumber = "";
     if (String(pageNumber) === String(resultLocation)) {
@@ -20,8 +20,8 @@ export function Truyen_tranh(item) {
     else itemNumber = String(pageNumber);
     return (
       <div>
-        <div className="flex relative">
-          {paginationHelper(itemNumber, resultLocation, images)}
+        <div>
+          {paginationHelper(itemNumber, resultLocation, images, item.Width)}
         </div>
       </div>
     );
