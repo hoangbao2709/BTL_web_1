@@ -4,6 +4,8 @@ import { Input } from "./../../BackEnd/input";
 import { Post } from "./../../BackEnd/post";
 import { Navbar } from "./navbar";
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Edit } from "./../../BackEnd/edit";
+
 import {
     Drawer,
     Button,
@@ -27,6 +29,7 @@ export function Admin() {
                 <Route path="/" element={<div className=' w-full '></div>} />
                 <Route path="input" element={<Input />} />  
                 <Route path="/post/:Status?" element={<Post />} />
+                <Route path="/post/edit/:number?" element={<Edit />} />
             </Routes>
         </div>
     );

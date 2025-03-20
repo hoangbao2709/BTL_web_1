@@ -76,7 +76,6 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index, childWidth }) => 
                 </a>
             </li>
         );
-
         return null;
     });
 
@@ -96,8 +95,6 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index, childWidth }) => 
             </ul>
         );
     }
-
-    console.log("childWidth",childWidth);
 
     return (
         <div className='flex justify-center items-center content-center'>

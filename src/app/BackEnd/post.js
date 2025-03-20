@@ -7,6 +7,7 @@ import $ from "jquery";
 import { useLocation } from 'react-router-dom';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { faList } from '@fortawesome/free-solid-svg-icons'; 
+import PaginationHelper from "./../pages/Admin/pagination";
 
 export function Post() {
     const [submittedName, setSubmittedName] = useState('');
@@ -35,6 +36,7 @@ export function Post() {
     const [Category, setCategory] = useState(false);
     const [currentCategory, setCurrentCategory] = useState("Tất cả sản phẩm");
     const [index, setIndex] = useState(0);
+    const [ID, setID] = useState();
     let category = [
         "Tất cả sản phẩm",
         "Lịch sử truyền thống",
@@ -123,7 +125,7 @@ export function Post() {
         setAction(false);
         setAll(false);
         setUse("Edit");
-        setLink("/admin/post/Edit");
+        setLink(`/admin/post/Edit/${ID}`);
     }
 
     function HandleDelete() {
@@ -169,7 +171,8 @@ export function Post() {
             return newCheckedItems;
         });
     };
-
+    console.log(ID);
+    
     const handleCheckAll = () => {
         const newCheckedItems = Array(data.length).fill(!allChecked);
         setCheckedItems(newCheckedItems);
@@ -185,7 +188,6 @@ export function Post() {
             const updatedData = data.map((element) => {
                 if (element.id === id) {
                     const newStatus = element.Status === "Active" ? "Inactive" : "Active";
-
                     fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/setStatus.php?&url=${encodeURIComponent(element.Page)}&variable=${encodeURIComponent(newStatus)}&id=${encodeURIComponent(id)}`)
                         .then((response) => response.json())
                         .then((data) => {
@@ -211,44 +213,20 @@ export function Post() {
     };
 
     function getHTML() {
-        if (Array.isArray(data) && data.length > 0) { // Kiểm tra xem data có phải là mảng không
-            return data.map((element, index) => (
-                <ul className={`flex text-[20px] py-2 ${index % 2 === 0 ? "bg-[#E0E3E7]" : ""}`} key={element.id}>
-                    <li className="w-[2%] px-[2%]">
-                        <input
-                            type="checkbox"
-                            checked={checkedItems[index]}
-                            onChange={() => handleCheckboxChange(index)}
-                        />
-                    </li>
-                    <li className="w-[5%] px-[2%]">{element.id}</li>
-                    <li className="w-[30%] px-[2%]">{element.name}</li>
-                    <li className="w-[13%]">{formatPrice(element.gia_goc)}</li>
-                    <li className="w-[10%] px-[1.5%]">{formatPrice(element.gia)}</li>
-                    <li className="w-[10%] flex items-center justify-center">{element.giam_gia}</li>
-                    <li
-                        className={`w-[8%] cursor-pointer ml-[3%] rounded-lg flex items-center justify-center ${element.Status === "Active" ? "bg-[#5CB85C]" : "bg-[#ED9C28]"}`}
-                        onClick={() => handleStatusChange(element.id)}
-                    >
-                        {element.Status}
-                    </li>
-                    <li className="w-[10%] pl-[7.5%] flex items-center justify-center cursor-pointer" onClick={() => toggleModal(index)}>
-                        <FontAwesomeIcon className="size-7" icon={faBars} />
-                    </li>
-                    {open[index] && (
-                        <Modal open={open[index]} onClose={() => toggleModal(index)}>
-                            <ul className="w-[500px] text-[30px] text-white">
-                                <li className="px-[2%]">Tập: <label className="text-[red]">{element.tap}</label></li>
-                                <li className="px-[2%] bg-[#2D2F39]">Tác giả: <label className="text-[red]">{element.tac_gia}</label></li>
-                                <li className="px-[2%]">Đối tượng: <label className="text-[red]">{element.doi_tuong}</label></li>
-                                <li className="px-[2%] bg-[#2D2F39]">Khuôn khổ: <label className="text-[red]">{element.khuon_kho}</label></li>
-                                <li className="px-[2%]">Số trang: <label className="text-[red]">{element.Page}</label></li>
-                                <li className="px-[2%] bg-[#2D2F39]">Trọng lượng: <label className="text-[red]">{element.trong_luong}</label></li>
-                            </ul>
-                        </Modal>
-                    )}
-                </ul>
-            ));
+        if (Array.isArray(data) && data.length > 0) { 
+            return (
+                <PaginationHelper 
+                    data={data} 
+                    checkedItems={checkedItems} 
+                    handleCheckboxChange={handleCheckboxChange} 
+                    formatPrice={formatPrice} 
+                    handleStatusChange={handleStatusChange} 
+                    toggleModal={toggleModal} 
+                    open={open} 
+                    edit={edit}
+                    setID={setID}
+                />
+            );
         } else {
             return <p>No data available</p>; 
         }
@@ -276,12 +254,11 @@ export function Post() {
         } else if (Use === "Delete") {
             checkedItems.map((element, index) => {
                 if (element === true) {
-                    data.map((item) => {
-                        fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/delete.php?&url=${encodeURIComponent(item.Page)}&id=${encodeURIComponent(item.id)}`)
-                            .then((response) => response.json())
-                    });
+                    fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/delete.php?&url=${encodeURIComponent(data[index].Page)}&id=${encodeURIComponent(data[index].id)}`)
+                        .then((response) => response.json())
                 }
             });
+            window.location.reload();
         }
     }
 
@@ -301,7 +278,7 @@ export function Post() {
                 data-key={index}
                 onClick={(event) => {
                     handleCategory();
-                    handleClick(event); // Truyền event vào handleClick
+                    handleClick(event);
                 }}
                 className="cursor-pointer rounded-lg items-center flex pt-[5px] p-[10px] bg-white hover:bg-[#F5ECD5] hover:text-[red]"
             >
@@ -311,15 +288,13 @@ export function Post() {
         );
     });
 
-    console.log(index);
-
     return (
         <form className="mt-[70px] container mx-auto" action="http://localhost:8000/input.php" method="post" onSubmit={handleSubmit}>
-            <header className="flex"><p className="text-[70px] font-serif">Edit Item</p></header>
+            <header className="flex"><p className="text-[70px] font-serif">List Item</p></header>
             <div>
                 <p className="bg-[#D9EDF7] py-[15px] pl-[15px] rounded-t-lg flex">List Items</p>
                 <div className="border-x-4 border-b-4 pb-[20px] px-[20px] rounded-b-lg border-[#D9EDF7]">
-                    <div className="flex h-[80px] items-center relative">
+                    <div className="flex h-[80px] items-center relative ">
                         <div className={`flex w-[114px] h-[40px] items-center cursor-pointer transition-transform absolute duration-700 ease-in-out ${action ? "translate-x-[115px] hover:scale-110 " : "-translate-x-[0px] "}`} onClick={HandleAll}>
                             <p href="/admin/post/All" className="w-[100px] m-[10px] z-0 flex h-full justify-center items-center text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                 All
@@ -359,18 +334,18 @@ export function Post() {
                         `} onClick={handleAction}>
                             <p>{Use}</p>
                         </div>
-                        <i onClick={HandleCategory} className="absolute w-[400px] text-[#009981] flex items-center right-[0] px-[15px] py-[10px] rounded-lg hover:bg-[#EEFFF7] hover:text-[black]">
+                        <i onClick={HandleCategory} className="absolute  w-[400px] text-[#009981] flex items-center right-[0] px-[15px] py-[10px] rounded-lg hover:bg-[#EEFFF7] hover:text-[black]">
                             <FontAwesomeIcon className="text-[30px] font-bold" icon={faList} />
                             <label className="text-[30px] font-bold px-4">{currentCategory}</label>
                         </i>
                         {Category &&
-                            <ul className="absolute shadow-lg right-[20px] top-[70px] bold w-[370px] rounded-b-lg text-[30px] items-center">
+                            <ul className="absolute shadow-lg right-[0px] border bg-white top-[90px] bold w-[400px] rounded-lg text-[30px] items-center">
                                 {listCategory}
                             </ul>
                         }
                     </div>
-                    <ul className="flex py-[20px] text-[20px]">
-                        <li className="w-[2%] px-[2%]"><input type="checkbox" onClick={() => handleCheckAll()} /></li>
+                    <ul className="flex py-[20px] text-[20px] shadow-lg border rounded-t-lg ">
+                        <li className="w-[2%] px-[2%]"><input type="checkbox" disabled={edit} className="size-4 cursor-pointer" onClick={() => handleCheckAll()} /></li>
                         <li className="w-[5%] px-[2%]">ID</li>
                         <li className="w-[30%] px-[2%]">Name</li>
                         <li className="w-[13%]">Giá gốc</li>

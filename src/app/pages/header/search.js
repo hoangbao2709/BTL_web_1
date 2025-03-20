@@ -78,14 +78,14 @@ class Trie {
 
 const trie = new Trie();
 
-export function Search() {
+export function Search(item) {
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState([]);
     const [currentCategory, setCurrentCategory] = useState('Tất cả sản phẩm');
     const [open, setOpen] = useState(false);
+    const [index, setIndex] = useState(0);
     const resultsRef = useRef();
     const resultsRef1 = useRef();
-    const data = Data("tat_ca_san_pham");
 
     const categories = [
         "Tất cả sản phẩm",
@@ -97,13 +97,25 @@ export function Search() {
         "Wings Books"
     ];
 
+    let linkCategory = [
+        "tat_ca_san_pham",
+        "lich_su_truyen_thong",
+        "van_hoc_Viet_Nam",
+        "van_hoc_nuoc_ngoai",
+        "kien_thuc_khoa_hoc",
+        "truyen_tranh",
+        "wings_book",
+    ];
+    
+    const data = Data(linkCategory[index]);
+
     const listCategory = categories.map((element, index) => (
         <li
             key={index}
             className={`border-b border-black pt-[5px] p-[10px] bg-white hover:bg-[#F5ECD5] hover:text-[red]`}
             onClick={() => {
                 setCurrentCategory(element);
-                handleClick();
+                handleClick(index);
             }}
         >
             <FontAwesomeIcon icon={faBook} />
@@ -144,12 +156,13 @@ export function Search() {
         };
     }, []);
 
-    const handleClick = () => {
+    const handleClick = (index) => {
         setOpen(!open);
+        setIndex(index);
     };
 
     return (
-        <div className="w-[800px] z-50">
+        <div className={`${item.childWidth >= 1300 ? "w-[800px]" : "w-[600px] ml-[100px]"} z-50`}>
             <div className='flex items-center z-50 bg-[#F8F8F8] w-[100%] relative'>
                 <input
                     onKeyUp={test}
@@ -165,7 +178,7 @@ export function Search() {
                 <ul ref={resultsRef1} className="items-center text-[15px] bold-900 absolute left-[65%] cursor-pointer w-[200px]">
                     <li className="px-[15px] py-[10px] flex items-center border-l-2 border-[#8A8C91]" onClick={handleClick}>
                         {currentCategory}
-                        <FontAwesomeIcon className='absolute right-[10px]' icon={faAnglesDown} />
+                        <FontAwesomeIcon className={`absolute right-[10px] ${item.childWidth >= 1300 ? "" : "hidden"}`} icon={faAnglesDown} />
                     </li>
                     {open && (
                         <ul className="bold w-[200px] rounded-lg text-[15px] items-center absolute top-[50px] mt-[10px]">

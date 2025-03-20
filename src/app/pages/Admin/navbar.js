@@ -60,10 +60,9 @@ export function Navbar() {
     };
 
     const navigate = useNavigate();
-    console.log(width);
     return (
         <div className="bg-[#161A23] z-50 h-screen">
-            <div className={` ${open ? "w-[292px]" : ""}  bg-[#161A23] h-screen font-sans`}>
+            <div className={` ${open ? "w-[292px]" : ""}  bg-[#161A23] font-sans`}>
                 <header className="relative">
                     <div className="flex mt-[20px] justify-center ">
                         <img className={`h-[50px] ${open ? "mr-7" : ""} w-[50px] object-cover" `} src={avt}></img>
@@ -148,7 +147,7 @@ export function Navbar() {
                             </li>
                         </ul>
                     </div>
-                    <div className={`text-white h-screen font-sans transition-all duration-700 ease-in-out`}
+                    <div className={`text-white font-sans transition-all duration-700 ease-in-out`}
                         style={{
                             width: open ? `${width - 100}px` : '0px',
                             overflow: open ? '' : 'hidden',

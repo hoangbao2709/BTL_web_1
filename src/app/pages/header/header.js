@@ -64,7 +64,7 @@ const listMenu = menu.map((element, index) => {
     );
 });
 
-export function Header() {
+export function Header(item) {
     const [isVisible, setIsVisible] = useState(true);
     const lastScrollY = useRef(0);
 
@@ -91,10 +91,9 @@ export function Header() {
                     <div className="logo flex items-center">
                         <img src={logoDark} className="h-[80px] mr-[50px]" alt="Logo" />
                     </div>
-
-                    <ul className="absolute z-100 flex w-[45%] right-[500px]">
+                    <ul className={`absolute z-100 ${item.childWidth >= 1024 ? 'block' : 'hidden'}  w-[45%] right-[500px]`}>
                         <form className="mr-10 w-full">
-                            <Search />
+                            <Search childWidth={item.childWidth}/>
                         </form>
                     </ul>
 

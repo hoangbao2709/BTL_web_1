@@ -92,21 +92,21 @@ export function Product() {
             backgroundAttachment: 'fixed',
         }}>
             <Header></Header>
-            <div className="bg-cover bg-center h-screen md:w-[100%] max-lg:pt-[100px] lg:px-[100px] container mx-auto flex justify-center border bg-[#F4F4F4] border-black">
-                <div className="lg:w-[100%] max-lg:w-[100%] md:w-[100%] flex justify-center items-center content-center max-lg:block">  
-                            <Swiper
-                                spaceBetween={30}
-                                centeredSlides={true}
-                                navigation={true}
-                                modules={[Navigation]}
-                                className="lg:w-[40%] sm:w-[70%] sm:mt-[10%] max-sm:w-[90%] max-sm:mt-[5%]"
-                            >
-                                {image.map((image, index) => (
-                                    <SwiperSlide key={index} className="flex content-center relative items-center justify-center">
-                                        <img className="w-full object-contain" src={image} alt={`Slide ${index + 1}`} />
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
+            <div className="bg-cover mt-[100px] bg-center h-screen md:w-[100%] max-lg:pt-[100px] lg:px-[100px] container mx-auto flex justify-center border bg-[#F4F4F4] border-black">
+                <div className="lg:w-[100%] max-lg:w-[100%] md:w-[100%] flex justify-center items-center content-center border  max-lg:block">  
+                    <Swiper
+                        spaceBetween={30}
+                        centeredSlides={true}
+                        navigation={true}
+                        modules={[Navigation]}
+                        className="lg:w-[40%] sm:w-[70%] max-sm:w-[90%] max-sm:mt-[5%"
+                    >
+                        {image.map((image, index) => (
+                            <SwiperSlide key={index} className="flex  content-center relative items-center justify-center">
+                                <img className="w-full object-contain size-[700px]" src={image} alt={`Slide ${index + 1}`} />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
                     <div className="lg:w-[60%] max-lg:w-[100%] h-[715px] lg:pl-[20px] max-lg:px-[20px] rounded-3xl block relative max-lg:text-[14px]">
                         <div className="items-center break-words">
                             <div className="break-words font-sans-serif">
