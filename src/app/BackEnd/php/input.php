@@ -4,19 +4,22 @@ $username = "root";
 $password = "";
 $dbname = "tiem_sach";
 
+// Kết nối đến cơ sở dữ liệu
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    die("Kết nối thất bại: " . $conn->connect_error);
+    die(json_encode(["success" => false, "message" => "Kết nối thất bại: " . $conn->connect_error]));
 }
 
 header('Access-Control-Allow-Origin: http://localhost:3000');
+header('Content-Type: application/json; charset=utf-8');
 $conn->set_charset("utf8");
 
+// Bảo vệ dữ liệu đầu vào
 $id = mysqli_real_escape_string($conn, $_POST["id"]);
 $name = mysqli_real_escape_string($conn, $_POST["name"]);
 $gia_goc = mysqli_real_escape_string($conn, $_POST["gia_goc"]);
 $giam_gia = mysqli_real_escape_string($conn, $_POST["giam_gia"]);
-$gia = intval( $gia_goc - ($gia_goc * $giam_gia)/100);
+$gia = intval($gia_goc - ($gia_goc * $giam_gia) / 100);
 $tap = mysqli_real_escape_string($conn, $_POST["tap"]);
 $tac_gia = mysqli_real_escape_string($conn, $_POST["tac_gia"]);
 $doi_tuong = mysqli_real_escape_string($conn, $_POST["doi_tuong"]);
@@ -25,6 +28,7 @@ $so_trang = mysqli_real_escape_string($conn, $_POST["so_trang"]);
 $trong_luong = mysqli_real_escape_string($conn, $_POST["trong_luong"]);
 $status = "Active";
 
+// Các bảng cần chèn dữ liệu
 $tables = [
     "Kien_thuc_khoa_hoc",
     "Lich_su_truyen_thong",
@@ -34,35 +38,39 @@ $tables = [
     "Wings_book",
 ];
 
-$isActive = [
-    'kien_thuc_khoa_hoc' => false,
-    'lich_su_truyen_thong' => false,
-    'truyen_tranh' => false,
-    'van_hoc_nuoc_ngoai' => false,
-    'van_hoc_viet_nam' => false,
-    'wings_book' => false,
-];
-
-
+// Chèn dữ liệu vào bảng 'tat_ca_san_pham'
 $sql = "INSERT INTO tat_ca_san_pham (id, name, gia_goc, gia, giam_gia, tap, tac_gia, doi_tuong, khuon_kho, so_trang, trong_luong, Page, Status) 
         VALUES ('$id', '$name', '$gia_goc', '$gia', '$giam_gia', '$tap', '$tac_gia', '$doi_tuong', '$khuon_kho', '$so_trang', '$trong_luong', 'tat_ca_san_pham', 'Active')";
 
+$response = [];
 if ($conn->query($sql) === TRUE) {
-} 
+    $response["success"] = true;
+    $response["message"] = "Dữ liệu đã được thêm thành công.";
+} else {
+    $response["success"] = false;
+    $response["message"] = "Lỗi khi thêm dữ liệu: " . $conn->error;
+    echo json_encode($response);
+    $conn->close();
+    exit;
+}
 
+// Xử lý các bảng khác
 foreach ($tables as $table) {
     if (isset($_POST[$table])) {
-        echo $table;
         $sql = "INSERT INTO " . strtolower($table) . "(id, name, gia_goc, gia, giam_gia, tap, tac_gia, doi_tuong, khuon_kho, so_trang, trong_luong, Page, Status)
                 VALUES ('$id', '$name', '$gia_goc', '$gia', '$giam_gia', '$tap', '$tac_gia', '$doi_tuong', '$khuon_kho', '$so_trang', '$trong_luong', '$table', 'Active')";
 
-        if ($conn->query($sql) === TRUE) {
-            $isActive[strtolower($table)] = true;
-        } 
+        if ($conn->query($sql) !== TRUE) {
+            $response["success"] = false;
+            $response["message"] = "Lỗi khi thêm vào bảng $table: " . $conn->error;
+            echo json_encode($response);
+            $conn->close();
+            exit;
+        }
     }
 }
 
-
+// Đường dẫn cho việc tải lên hình ảnh
 $upload_dirs = [
     'kien_thuc_khoa_hoc' => './images/kien_thuc_khoa_hoc/' . $id . '/',
     'lich_su_truyen_thong' => './images/lich_su_truyen_thong/' . $id . '/',
@@ -73,64 +81,41 @@ $upload_dirs = [
     'wings_book' => './images/wings_book/' . $id . '/'
 ];
 
-$test = true;
-
+// Tải lên hình ảnh
 if (isset($_FILES['file'])) {
     foreach ($_FILES['file']['name'] as $key => $name) {
         $temp_path = $_FILES['file']['tmp_name'][$key];
         $filename = $id . '_' . basename($name);
 
-        if($test == true){
-            $test = false;
-            $filename = $id . '_isReview_' . basename($name);
-        }
-
-        $target_path = $upload_dirs['tat_ca_san_pham'] . $filename;
-
+        // Tạo thư mục nếu chưa tồn tại
         if (!file_exists($upload_dirs['tat_ca_san_pham'])) {
             mkdir($upload_dirs['tat_ca_san_pham'], 0777, true);
         }
 
+        $target_path = $upload_dirs['tat_ca_san_pham'] . $filename;
+
         if (move_uploaded_file($temp_path, $target_path)) {
-            if ($isActive['kien_thuc_khoa_hoc']) {
-                if (!file_exists($upload_dirs['kien_thuc_khoa_hoc'])) {
-                    mkdir($upload_dirs['kien_thuc_khoa_hoc'], 0777, true);
+            // Sao chép file đến các thư mục khác nếu cần thiết
+            foreach ($tables as $table) {
+                if (isset($_POST[$table])) {
+                    $dir = $upload_dirs[strtolower($table)];
+                    if (!file_exists($dir)) {
+                        mkdir($dir, 0777, true);
+                    }
+                    copy($target_path, $dir . $filename);
                 }
-                copy($target_path, $upload_dirs['kien_thuc_khoa_hoc'] . $filename);
             }
-            if ($isActive['lich_su_truyen_thong']) {
-                if (!file_exists($upload_dirs['lich_su_truyen_thong'])) {
-                    mkdir($upload_dirs['lich_su_truyen_thong'], 0777, true);
-                }
-                copy($target_path, $upload_dirs['lich_su_truyen_thong'] . $filename);
-            }
-            if ($isActive['truyen_tranh']) {
-                if (!file_exists($upload_dirs['truyen_tranh'])) {
-                    mkdir($upload_dirs['truyen_tranh'], 0777, true);
-                }
-                copy($target_path, $upload_dirs['truyen_tranh'] . $filename);
-            }
-            if ($isActive['van_hoc_nuoc_ngoai']) {
-                if (!file_exists($upload_dirs['van_hoc_nuoc_ngoai'])) {
-                    mkdir($upload_dirs['van_hoc_nuoc_ngoai'], 0777, true); 
-                }
-                copy($target_path, $upload_dirs['van_hoc_nuoc_ngoai'] . $filename);
-            }
-            if ($isActive['van_hoc_viet_nam']) {
-                if (!file_exists($upload_dirs['van_hoc_viet_nam'])) {
-                    mkdir($upload_dirs['van_hoc_viet_nam'], 0777, true); 
-                }
-                copy($target_path, $upload_dirs['van_hoc_viet_nam'] . $filename);
-            }
-            if ($isActive['wings_book']) {
-                if (!file_exists($upload_dirs['wings_book'])) {
-                    mkdir($upload_dirs['wings_book'], 0777, true);
-                }
-                copy($target_path, $upload_dirs['wings_book'] . $filename);
-            }
+        } else {
+            $response["success"] = false;
+            $response["message"] = "Lỗi khi tải lên file: " . $name;
+            echo json_encode($response);
+            $conn->close();
+            exit;
         }
     }
 }
 
+$response["message"] = "Tất cả dữ liệu đã được xử lý thành công.";
+echo json_encode($response);
 $conn->close();
 ?>

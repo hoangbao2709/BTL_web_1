@@ -29,7 +29,8 @@ export function Input() {
     const [submittedKhuon_kho, setSubmittedKhuon_kho] = useState('');
     const [submittedSo_trang, setSubmittedSo_trang] = useState('');
     const [submittedTrong_luong, setSubmittedTrong_luong] = useState('');
-    const data = Data("tat_ca_san_pham", "All");
+    let data = Data("tat_ca_san_pham", "All");
+    let id = data.length > 0 ? data[data.length - 1].id + 1 : 0;
 
     const rating = 4;
     const [final, setFullfinal] = useState({
@@ -74,6 +75,7 @@ export function Input() {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
     const handleChange = (event) => {
+        // setID(data.length > 0 ? data[data.length - 1].id + 1 : 0);
         const { name, value, checked, type } = event.target;
         if (name === "name") setSubmittedName(value);
         if (name === "gia_goc") setSubmittedGia_goc(value);
@@ -104,12 +106,12 @@ export function Input() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = $(e.target);
-
+    
         const formData = new FormData(form[0]);
         for (let i = 0; i < files.length; i++) {
-            formData.append(`file[]`, files[i]);
+            formData.append('file[]', files[i]);
         }
-
+    
         $.ajax({
             type: "POST",
             url: form.attr("action"),
@@ -117,10 +119,21 @@ export function Input() {
             processData: false,
             contentType: false,
             success(data) {
-                setResult(data);
+                setResult(data); 
+                if (data.success) {
+                    alert(data.message); 
+                    window.location.reload();
+                } else {
+                    alert(data.message); 
+                }
             },
+            error(jqXHR, textStatus, errorThrown) {
+                console.error('Lỗi:', textStatus, errorThrown);
+                alert('Đã xảy ra lỗi khi gửi dữ liệu.');
+            }
         });
     };
+
 
     const handleDrop = (event) => {
         event.preventDefault();
@@ -154,7 +167,7 @@ export function Input() {
                     <div className="grid mb-10">
                         <div className="mb-2">
                             <label htmlFor="id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">ID</label>
-                            <input type="text" disabled={true} id="id" name="id" value={data.length + 1} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ID" />
+                            <input type="text" id="id" name="id" value={id} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ID" />
                         </div>
                         <div className="mb-2">
                             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Name</label>
