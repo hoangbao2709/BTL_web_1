@@ -36,7 +36,7 @@ export function Post() {
     const [Category, setCategory] = useState(false);
     const [currentCategory, setCurrentCategory] = useState("Tất cả sản phẩm");
     const [index, setIndex] = useState(0);
-    const [ID, setID] = useState();
+    const [ID, setID] = useState(0);
     let category = [
         "Tất cả sản phẩm",
         "Lịch sử truyền thống",
@@ -96,6 +96,9 @@ export function Post() {
     }
 
     function HandleActive() {
+        if (edit) {
+            setCheckedItems(Array(data.length).fill(false));
+        }
         setActive(true);
         setInActive(false);
         setEdit(false);
@@ -107,6 +110,9 @@ export function Post() {
     }
 
     function HandleInActive() {
+        if (edit) {
+            setCheckedItems(Array(data.length).fill(false));
+        }
         setActive(false);
         setInActive(true);
         setEdit(false);
@@ -125,10 +131,12 @@ export function Post() {
         setAction(false);
         setAll(false);
         setUse("Edit");
-        setLink(`/admin/post/Edit/${ID}`);
     }
 
     function HandleDelete() {
+        if (edit) {
+            setCheckedItems(Array(data.length).fill(false));
+        }
         setActive(false);
         setInActive(false);
         setEdit(false);
@@ -140,6 +148,9 @@ export function Post() {
     }
 
     function HandleAll() {
+        if (edit) {
+            setCheckedItems(Array(data.length).fill(false));
+        }
         setActive(false);
         setInActive(false);
         setEdit(false);
@@ -170,8 +181,11 @@ export function Post() {
             newCheckedItems[index] = !newCheckedItems[index];
             return newCheckedItems;
         });
+        if (edit) {
+            setCheckedItems(Array(data.length).fill(false));
+            setLink("/admin/post/edit/" + data[index].id);
+        }
     };
-    console.log(ID);
     
     const handleCheckAll = () => {
         const newCheckedItems = Array(data.length).fill(!allChecked);

@@ -138,16 +138,20 @@ const PaginationHelper = ({ data = [], checkedItems, handleCheckboxChange, forma
         checkedItems = [];
     }
 
+    let type;
+
+    edit ? type = "radio" : type = "checkbox";
+
     function getData() {
         return data.slice(index, index + max_index).map((element, index) => (
             <ul className={`flex text-[20px] py-2 ${index % 2 === 0 ? "bg-[#E0E3E7]" : ""}`} key={element.id}>
                 <li className="w-[2%] px-[2%]">
-                    <input type="checkbox" className="size-4 rounded-[50%] cursor-pointer"
+                    <input type={type} className="size-4 rounded-[50%] cursor-pointer"
                         checked={checkedItems[index]}
                         onChange={() => {
-                            setID(data[index].id); 
                             handleCheckboxChange(index);
                         }}
+                        name = "isRadio"
                     />
                 </li>
                 <li className="w-[5%] px-[2%]">{element.id}</li>

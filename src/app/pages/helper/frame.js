@@ -34,7 +34,7 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index, childWidth }) => 
     }else if(childWidth < 1600){
         count = 4;
     }else{
-        count = 5;
+        count = 4;
     }
 
     const view = item.slice(index, index + max_index).map((element, idx) => {

@@ -12,6 +12,8 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { Minus } from "react-feather";
+import { Data } from "./getData";
+
 
 export function Input() {
     const [open, setOpen] = useState(false);
@@ -27,6 +29,8 @@ export function Input() {
     const [submittedKhuon_kho, setSubmittedKhuon_kho] = useState('');
     const [submittedSo_trang, setSubmittedSo_trang] = useState('');
     const [submittedTrong_luong, setSubmittedTrong_luong] = useState('');
+    const data = Data("tat_ca_san_pham", "All");
+
     const rating = 4;
     const [final, setFullfinal] = useState({
         Kien_thuc_khoa_hoc: false,
@@ -150,7 +154,7 @@ export function Input() {
                     <div className="grid mb-10">
                         <div className="mb-2">
                             <label htmlFor="id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">ID</label>
-                            <input type="text" id="id" name="id" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ID" />
+                            <input type="text" disabled={true} id="id" name="id" value={data.length + 1} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ID" />
                         </div>
                         <div className="mb-2">
                             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Name</label>
@@ -269,7 +273,7 @@ export function Input() {
                 </div>
             </form>
             <div className="w-[70%] ml-[2%] z-0 flex justify-center  items-center bg-">
-                {files.length > 0 && (
+                {/* {files.length > 0 && ( */}
                     <div className="z-0 bg-white w-[500px] relative shadow-2xl rounded-3xl overflow-hidden transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-white fix border border-[#e9e9e9] p-0 m-0 ml-[25px] mr-[25px]">
                         <div className="relative h-[715px] w-[500px]">
                             <Swiper
@@ -279,7 +283,6 @@ export function Input() {
                                 modules={[Navigation]}
                                 className="w-100% h-[715px]"
                             >
-                                
                                 {files.map((image, index) => (
                                     <SwiperSlide key={index} className="flex content-center relative items-center justify-center">
                                         <div onClick={ () => handleMinus(index)} className="z-10 absolute cursor-pointer top-[3%] left-[85%]">
@@ -291,7 +294,7 @@ export function Input() {
                             </Swiper>
                         </div>
                     </div>
-                )}
+                {/* )} */}
                 <div className="w-[55%] h-[715px] pl-[20px] rounded-3xl block relative">
                     <div className="items-center break-words">
                         {submittedName && (
