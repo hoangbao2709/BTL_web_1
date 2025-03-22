@@ -2,7 +2,6 @@ import React from 'react';
 import Frame from '../helper/frame';
 
 export const paginationHelper = (currentPage, location, images = [], childWidth) => {
-
     const pagination = {
         totalItems: images.length,
         totalItemsPerPage: 16,

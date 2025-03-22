@@ -11,7 +11,6 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index, childWidth }) => 
     let totalView: JSX.Element[] = []; 
     let oneView: JSX.Element[] = []; 
 
-
     function formatPrice(price: number) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + 'đ';
     }
@@ -20,8 +19,10 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index, childWidth }) => 
         const result = img.filter(ele => {
             const fileName = ele.split('/');
             const pathParts = fileName[fileName.length - 1].split("_");
+            console.log(pathParts);
             return pathParts.includes("isReview");
         });
+        console.log(result);
         return result;
     };
 
@@ -39,7 +40,6 @@ const Frame: React.FC<FrameProps> = ({ item, index, max_index, childWidth }) => 
 
     const view = item.slice(index, index + max_index).map((element, idx) => {
         const imgs = getImg(element.img); 
-
         if (idx % count === 0 && idx !== 0) {
             totalView.push(
                 <ul className='flex w-full h-full mb-[50px] justify-center' key={`group-${idx}`}>

@@ -14,6 +14,5 @@ export function Data(url) {
       });
   }, [url]); 
 
-  console.log(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/getSearch.php?&url=${encodeURIComponent(url)}`);
   return data;
 }

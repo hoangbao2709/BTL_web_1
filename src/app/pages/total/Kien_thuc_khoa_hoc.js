@@ -18,6 +18,7 @@ export function Kien_thuc_khoa_hoc(item) {
     itemNumber = "1";
   }
   else itemNumber = String(pageNumber);
+  
   return (
     <div>
       <div className="flex relative">

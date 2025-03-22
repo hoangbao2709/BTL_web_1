@@ -14,6 +14,16 @@ import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { Minus } from "react-feather";
 import { Data } from "./getDataID";
 import { useLocation } from 'react-router-dom';
+import { DndContext, closestCorners } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy, useSortable } from "@dnd-kit/sortable";
+import { Task } from "./image";
+import {
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from "@dnd-kit/core";
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
 export function Edit() {
     const location = useLocation();
@@ -46,14 +56,14 @@ export function Edit() {
 
     useEffect(() => {
         fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/Data.php?&url=${encodeURIComponent("tat_ca_san_pham")}&variable=${encodeURIComponent(value)}`)
-          .then((response) => response.json())
-          .then((data) => {
-            setData(data);
-          })
-          .catch((error) => {
-            console.error("Error fetching data:", error);
-          });
-      }, [value]); 
+            .then((response) => response.json())
+            .then((data) => {
+                setData(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+            });
+    }, [value]);
 
     useEffect(() => {
         if (data && data.length > 0 && IDRef.current) {
@@ -109,8 +119,6 @@ export function Edit() {
             setSubmittedTrong_luong(initialValue);
         }
     }, [data]);
-
-    let image = [];
 
     const rating = 4;
     const [final, setFullfinal] = useState({
@@ -187,8 +195,8 @@ export function Edit() {
             }
             const blob = await response.blob();
             const file = new File([blob], fileName, { type: blob.type });
-    
-            return file; 
+
+            return file;
         } catch (error) {
             console.error('Error fetching file:', error);
         }
@@ -203,32 +211,29 @@ export function Edit() {
             let subParts = parts[3].split("_");
             return subParts.length === 0 || subParts[0] === value;
         }
-        return true; 
+        return true;
     });
+
 
     const [files, setFiles] = useState(() => {
         const image = [];
-        filesTemp.forEach((element) => {
+        filesTemp.forEach((element, index) => {
             convertPathToFile(element, element).then(file => {
-                image.push(file);
+                image.push({ id: index, title: file });
             });
         })
-        
         return image;
     });
 
     console.log(files);
 
-    if (!data || data.length === 0) {
-        return <div>Loading...</div>;
-    }
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = $(e.target);
 
         const formData = new FormData(form[0]);
         for (let i = 0; i < files.length; i++) {
-            formData.append('file[]', files[i]);
+            formData.append('file[]', files[i].title);
         }
 
         $.ajax({
@@ -256,8 +261,18 @@ export function Edit() {
     const handleDrop = (event) => {
         event.preventDefault();
         const droppedFiles = event.dataTransfer.files;
-        if (droppedFiles.length > 0) {
-            setFiles(prevFiles => [...prevFiles, ...Array.from(droppedFiles)]);
+        const fileTemp = Array.from(droppedFiles);
+        if (fileTemp.length > 0) {
+            const image = [];
+            if (fileTemp.length > 0) {
+                fileTemp.map((element, index) => {
+                    console.log("element", element);
+                    setFiles(prevFiles => [
+                        ...prevFiles,
+                        { id: index, title: element }
+                    ]);
+                })
+            }
         }
     };
 
@@ -271,12 +286,50 @@ export function Edit() {
 
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
-        setFiles(prevFiles => [...prevFiles, ...selectedFiles]);
+        if (selectedFiles.length > 0) {
+            const image = [];
+            if (selectedFiles.length > 0) {
+                selectedFiles.map((element, index) => {
+                    console.log("element",element);
+                    setFiles(prevFiles => [
+                        ...prevFiles,
+                        { id: index, title: element }
+                    ]);
+                })
+            }
+        }
     };
 
     const handleMinus = (index) => {
         setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
+
+
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+
+    const getTaskPos = (id) => files.findIndex((task) => task.id === id);
+
+    const handleDragEnd = (event) => {
+        const { active, over } = event;
+
+        if (active.id === over.id) return;
+
+        setFiles((tasks) => {
+            const originalPos = getTaskPos(active.id);
+            const newPos = getTaskPos(over.id);
+
+            return arrayMove(tasks, originalPos, newPos);
+        });
+    };
+
+    if (!data || data.length === 0) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="w-[100%] lg bg-[#E0E3E7] justify-center content-center relative flex h-screen">
@@ -401,9 +454,25 @@ export function Edit() {
                     {files && <p>File: {files.name}</p>}
                 </div>
             </form >
-            <div className="w-[70%] ml-[2%] z-0 flex justify-center  items-center bg-">
-                {/* {files.length > 0 && ( */}
-                <div className="z-0 bg-white w-[500px] relative shadow-2xl rounded-3xl overflow-hidden fix border border-[#e9e9e9] p-0 m-0 ml-[25px] mr-[25px]">
+            <div className="w-[70%] ml-[2%] z-0 flex justify-center items-center bg-">
+                <div className="w-[10%] h-[715px]">
+                    <DndContext
+                        sensors={sensors}
+                        collisionDetection={closestCorners}
+                        onDragEnd={handleDragEnd}
+                    >
+                        <div>
+                            <SortableContext items={files} strategy={verticalListSortingStrategy}>
+                                {files.map((image, index) => (
+                                    <div>
+                                        <Task key={image.id} id={image.id} title={image} />
+                                    </div>
+                                ))}
+                            </SortableContext>
+                        </div>
+                    </DndContext>
+                </div>
+                <div className="z-0  w-[500px] relative overflow-hidden fix border  p-0 m-0 ml-[25px] mr-[25px]">
                     <div className="relative h-[715px] w-[500px]">
                         <Swiper
                             spaceBetween={30}
@@ -413,22 +482,22 @@ export function Edit() {
                             className="w-100% h-[715px]"
                         >
                             {files.map((image, index) => (
-                                <SwiperSlide key={index} className="flex content-center relative items-center justify-center">
-                                    <div onClick={ () => handleMinus(index)} className="z-10 absolute cursor-pointer top-[3%] left-[85%]">
+                                <SwiperSlide key={index} className="flex  relative justify-center">
+                                    <div onClick={() => handleMinus(index)} className="z-10 absolute cursor-pointer top-[3%] left-[85%]">
                                         <FontAwesomeIcon className="size-10 bg-[red] rounded-[50%]" icon={faMinus} />
                                     </div>
-                                    <img className="w-full h-auto  object-contain " src={URL.createObjectURL(image)} alt={`Slide ${index + 1}`} />
+                                    <img className="w-full h-auto  object-contain " src={URL.createObjectURL(image.title)} alt={`Slide ${index + 1}`} />
                                 </SwiperSlide>
                             ))}
                         </Swiper>
                     </div>
                 </div>
-                {/* )} */}
-                <div className="w-[55%] h-[715px] pl-[20px] rounded-3xl block relative">
+
+                <div className="w-[45%] h-[715px] pl-[20px] rounded-3xl block relative">
                     <div className="items-center break-words">
                         {submittedName && (
                             <div className="break-words font-sans-serif">
-                                <label className="text-[50px] block break-words">
+                                <label className="text-[30px] block break-words">
                                     {submittedName}
                                 </label>
                                 {submittedTap && (
@@ -458,20 +527,20 @@ export function Edit() {
                             {submittedGiam_gia && (
                                 <div className="flex">
                                     <div >
-                                        <label className="text-[red] text-[25px] mr-[30px]"><strong>{formatPrice(parseInt(parseInt(submittedGia_goc) - (parseInt(submittedGia_goc) * parseInt(submittedGiam_gia)) / 100))}</strong></label>
+                                        <label className="text-[red] text-[20px] mr-[30px]"><strong>{formatPrice(parseInt(parseInt(submittedGia_goc) - (parseInt(submittedGia_goc) * parseInt(submittedGiam_gia)) / 100))}</strong></label>
                                     </div>
                                     <div >
-                                        <label className="text-gray-400 text-[25px] line-through" id="original-price"><strong>{formatPrice(parseInt(submittedGia_goc))}</strong></label>
+                                        <label className="text-gray-400 text-[20px] line-through" id="original-price"><strong>{formatPrice(parseInt(submittedGia_goc))}</strong></label>
                                     </div>
                                     <div >
-                                        <label className="text-[25px] absolute right-0" id="original-price"><strong>Bạn đã tiết kiệm được {formatPrice(parseInt((parseInt(submittedGia_goc) * parseInt(submittedGiam_gia)) / 100))}</strong></label>
+                                        <label className="text-[20px] absolute right-0" id="original-price"><strong>Bạn đã tiết kiệm được {formatPrice(parseInt((parseInt(submittedGia_goc) * parseInt(submittedGiam_gia)) / 100))}</strong></label>
                                     </div>
                                 </div>
                             )}
                             {!submittedGiam_gia && (
                                 <div>
                                     <div className="mt-4">
-                                        <label className="text-[red] text-[30px]"><strong>{formatPrice(submittedGia_goc)}</strong></label>
+                                        <label className="text-[red] text-[20px]"><strong>{formatPrice(submittedGia_goc)}</strong></label>
                                     </div>
                                 </div>
                             )}
@@ -480,27 +549,27 @@ export function Edit() {
                     )}
                     {submittedTac_gia && (
                         <li>
-                            <label className="text-[30px]">Tác giả: <strong className="text-[red]">{submittedTac_gia}</strong></label>
+                            <label className="text-[20px]">Tác giả: <strong className="text-[red]">{submittedTac_gia}</strong></label>
                         </li>
                     )}
                     {submittedDoi_tuong && (
                         <li>
-                            <label className="text-[30px]">Đối tượng: <strong className="text-[red]">{submittedDoi_tuong}</strong></label>
+                            <label className="text-[20px]">Đối tượng: <strong className="text-[red]">{submittedDoi_tuong}</strong></label>
                         </li>
                     )}
                     {submittedKhuon_kho && (
                         <li>
-                            <label className="text-[30px]">Khuôn khổ: <strong className="text-[red]">{submittedKhuon_kho}</strong></label>
+                            <label className="text-[20px]">Khuôn khổ: <strong className="text-[red]">{submittedKhuon_kho}</strong></label>
                         </li>
                     )}
                     {submittedSo_trang && (
                         <li>
-                            <label className="text-[30px]">Số trang: <strong className="text-[red]">{formatGram(submittedSo_trang)}</strong></label>
+                            <label className="text-[20px]">Số trang: <strong className="text-[red]">{formatGram(submittedSo_trang)}</strong></label>
                         </li>
                     )}
                     {submittedTrong_luong && (
                         <li>
-                            <label className="text-[30px]">Trọng lượng: <strong className="text-[red]">{formatGram(submittedTrong_luong)}</strong></label>
+                            <label className="text-[20px]">Trọng lượng: <strong className="text-[red]">{formatGram(submittedTrong_luong)}</strong></label>
                         </li>
                     )}
 
