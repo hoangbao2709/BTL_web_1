@@ -4,7 +4,6 @@ $username = "root";
 $password = "";
 $dbname = "tiem_sach";
 
-// Kết nối đến cơ sở dữ liệu
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die(json_encode(["success" => false, "message" => "Kết nối thất bại: " . $conn->connect_error]));
@@ -14,7 +13,6 @@ header('Access-Control-Allow-Origin: http://localhost:3000');
 header('Content-Type: application/json; charset=utf-8');
 $conn->set_charset("utf8");
 
-// Bảo vệ dữ liệu đầu vào
 $id = mysqli_real_escape_string($conn, $_POST["id"]);
 $name = mysqli_real_escape_string($conn, $_POST["name"]);
 $gia_goc = mysqli_real_escape_string($conn, $_POST["gia_goc"]);
@@ -28,7 +26,6 @@ $so_trang = mysqli_real_escape_string($conn, $_POST["so_trang"]);
 $trong_luong = mysqli_real_escape_string($conn, $_POST["trong_luong"]);
 $status = "Active";
 
-// Các bảng cần chèn dữ liệu
 $tables = [
     "Kien_thuc_khoa_hoc",
     "Lich_su_truyen_thong",
@@ -38,7 +35,6 @@ $tables = [
     "Wings_book",
 ];
 
-// Chèn dữ liệu vào bảng 'tat_ca_san_pham'
 $sql = "INSERT INTO tat_ca_san_pham (id, name, gia_goc, gia, giam_gia, tap, tac_gia, doi_tuong, khuon_kho, so_trang, trong_luong, Page, Status) 
         VALUES ('$id', '$name', '$gia_goc', '$gia', '$giam_gia', '$tap', '$tac_gia', '$doi_tuong', '$khuon_kho', '$so_trang', '$trong_luong', 'tat_ca_san_pham', 'Active')";
 
@@ -54,7 +50,6 @@ if ($conn->query($sql) === TRUE) {
     exit;
 }
 
-// Xử lý các bảng khác
 foreach ($tables as $table) {
     if (isset($_POST[$table])) {
         $sql = "INSERT INTO " . strtolower($table) . "(id, name, gia_goc, gia, giam_gia, tap, tac_gia, doi_tuong, khuon_kho, so_trang, trong_luong, Page, Status)
@@ -70,7 +65,6 @@ foreach ($tables as $table) {
     }
 }
 
-// Đường dẫn cho việc tải lên hình ảnh
 $upload_dirs = [
     'kien_thuc_khoa_hoc' => './images/kien_thuc_khoa_hoc/' . $id . '/',
     'lich_su_truyen_thong' => './images/lich_su_truyen_thong/' . $id . '/',
@@ -81,13 +75,11 @@ $upload_dirs = [
     'wings_book' => './images/wings_book/' . $id . '/'
 ];
 
-// Tải lên hình ảnh
 if (isset($_FILES['file'])) {
     foreach ($_FILES['file']['name'] as $key => $name) {
         $temp_path = $_FILES['file']['tmp_name'][$key];
         $filename = $id . '_' . basename($name);
 
-        // Tạo thư mục nếu chưa tồn tại
         if (!file_exists($upload_dirs['tat_ca_san_pham'])) {
             mkdir($upload_dirs['tat_ca_san_pham'], 0777, true);
         }
@@ -95,7 +87,6 @@ if (isset($_FILES['file'])) {
         $target_path = $upload_dirs['tat_ca_san_pham'] . $filename;
 
         if (move_uploaded_file($temp_path, $target_path)) {
-            // Sao chép file đến các thư mục khác nếu cần thiết
             foreach ($tables as $table) {
                 if (isset($_POST[$table])) {
                     $dir = $upload_dirs[strtolower($table)];

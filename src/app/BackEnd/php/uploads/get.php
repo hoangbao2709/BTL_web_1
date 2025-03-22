@@ -8,7 +8,6 @@ include 'DbConnect.php';
 $objDb = new DbConnect();
 $conn = $objDb->connect();
 
-// Get and validate the URL parameter
 $url = isset($_GET['url']) ? $_GET['url'] : null;
 $variable = isset($_GET['variable']) ? $_GET['variable'] : null;
 

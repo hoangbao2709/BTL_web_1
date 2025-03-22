@@ -6,7 +6,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import $ from "jquery";
 import { useLocation } from 'react-router-dom';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
-import { faList } from '@fortawesome/free-solid-svg-icons'; 
+import { faList } from '@fortawesome/free-solid-svg-icons';
 import PaginationHelper from "./../pages/Admin/pagination";
 
 export function Post() {
@@ -46,8 +46,8 @@ export function Post() {
         "Truyện tranh",
         "Wings Books"
     ];
-      
-    const [linkCategory, setLinkCategory] = useState(new Array(category.length).fill(false)); 
+
+    const [linkCategory, setLinkCategory] = useState(new Array(category.length).fill(false));
 
     let linkcategory = [
         "tat_ca_san_pham",
@@ -57,7 +57,7 @@ export function Post() {
         "kien_thuc_khoa_hoc",
         "truyen_tranh",
         "wings_book",
-      ];
+    ];
 
     const location = useLocation();
     let pathParts = location.pathname;
@@ -124,6 +124,7 @@ export function Post() {
     }
 
     function HandleEdit() {
+        setCheckedItems(Array(data.length).fill(false));
         setActive(false);
         setInActive(false);
         setEdit(true);
@@ -161,16 +162,16 @@ export function Post() {
         setLink("/admin/post/All");
     }
 
-    function HandleCategory(){
+    function HandleCategory() {
         setCategory(!Category);
     }
-    
+
     function HandleCurrentCategory(index) {
         setCurrentCategory(category[index]);
-        
+
         setLinkCategory(prevState => {
             const newState = new Array(category.length).fill(false);
-            newState[index] = true; 
+            newState[index] = true;
             return newState;
         });
     }
@@ -186,7 +187,7 @@ export function Post() {
             setLink("/admin/post/edit/" + data[index].id);
         }
     };
-    
+
     const handleCheckAll = () => {
         const newCheckedItems = Array(data.length).fill(!allChecked);
         setCheckedItems(newCheckedItems);
@@ -227,22 +228,22 @@ export function Post() {
     };
 
     function getHTML() {
-        if (Array.isArray(data) && data.length > 0) { 
+        if (Array.isArray(data) && data.length > 0) {
             return (
-                <PaginationHelper 
-                    data={data} 
-                    checkedItems={checkedItems} 
-                    handleCheckboxChange={handleCheckboxChange} 
-                    formatPrice={formatPrice} 
-                    handleStatusChange={handleStatusChange} 
-                    toggleModal={toggleModal} 
-                    open={open} 
+                <PaginationHelper
+                    data={data}
+                    checkedItems={checkedItems}
+                    handleCheckboxChange={handleCheckboxChange}
+                    formatPrice={formatPrice}
+                    handleStatusChange={handleStatusChange}
+                    toggleModal={toggleModal}
+                    open={open}
                     edit={edit}
                     setID={setID}
                 />
             );
         } else {
-            return <p>No data available</p>; 
+            return <p>No data available</p>;
         }
     }
     const result = getHTML();
@@ -266,12 +267,19 @@ export function Post() {
         } else if (Use === "Edit") {
             navigateTo(Link);
         } else if (Use === "Delete") {
-            checkedItems.map((element, index) => {
-                if (element === true) {
-                    fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/delete.php?&url=${encodeURIComponent(data[index].Page)}&id=${encodeURIComponent(data[index].id)}`)
-                        .then((response) => response.json())
+            const deleteCheckedItems = async () => {
+                for (let index = 0; index < checkedItems.length; index++) {
+                    if (checkedItems[index] === true) {
+                        try {
+                            const response = await fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/delete.php?&id=${encodeURIComponent(data[index].id)}`);
+                            const result = await response.json();
+                        } catch (error) {
+                            console.error("Error deleting item:", error);
+                        }
+                    }
                 }
-            });
+            };
+            deleteCheckedItems();
             window.location.reload();
         }
     }
@@ -281,11 +289,11 @@ export function Post() {
             HandleCurrentCategory(index);
             setIndex(event.currentTarget.getAttribute('data-key'));
         };
-    
+
         const handleCategory = () => {
             setCategory(false);
         };
-    
+
         return (
             <li
                 key={index}

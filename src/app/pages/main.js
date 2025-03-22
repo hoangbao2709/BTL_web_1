@@ -163,7 +163,7 @@ export function Main() {
               <Route path="/Truyen_tranh/:pageNumber?" element={<Truyen_tranh resultLocation="/main/Truyen_tranh" Width={childWidth} />} />
               <Route path="/Van_hoc_nuoc_ngoai/:pageNumber?" element={<Van_hoc_nuoc_ngoai resultLocation="/main/Van_hoc_nuoc_ngoai" Width={childWidth} />} />
               <Route path="/Van_hoc_Viet_Nam/:pageNumber?" element={<Van_hoc_Viet_Nam resultLocation="/main/Van_hoc_Viet_Nam" Width={childWidth} />} />
-              ${childWidth >= 1024 ? 'block' : 'hidden'}              <Route path="/Wings_book/:pageNumber?" element={<Wings_book resultLocation="/main/Wings_book" Width={childWidth} />} />
+              ${childWidth >= 1024 ? 'block' : 'hidden'} <Route path="/Wings_book/:pageNumber?" element={<Wings_book resultLocation="/main/Wings_book" Width={childWidth} />} />
             </Routes>
           </div>
         </div>

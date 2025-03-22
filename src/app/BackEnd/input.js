@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import $ from "jquery";
 import Modal from "../pages/helper/modal";
 import "./css/style.css";
@@ -29,8 +29,14 @@ export function Input() {
     const [submittedKhuon_kho, setSubmittedKhuon_kho] = useState('');
     const [submittedSo_trang, setSubmittedSo_trang] = useState('');
     const [submittedTrong_luong, setSubmittedTrong_luong] = useState('');
-    let data = Data("tat_ca_san_pham", "All");
-    let id = data.length > 0 ? data[data.length - 1].id + 1 : 0;
+    let data = null;
+    const [id, setID] = useState();
+    data = Data("tat_ca_san_pham", "All")
+    useEffect(() => {
+        if (data) {
+            setID(data.length > 0 ? data[data.length - 1].id + 1 : 1);
+        }
+    }, [data]);
 
     const rating = 4;
     const [final, setFullfinal] = useState({
@@ -75,7 +81,6 @@ export function Input() {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
     const handleChange = (event) => {
-        // setID(data.length > 0 ? data[data.length - 1].id + 1 : 0);
         const { name, value, checked, type } = event.target;
         if (name === "name") setSubmittedName(value);
         if (name === "gia_goc") setSubmittedGia_goc(value);
@@ -121,8 +126,8 @@ export function Input() {
             success(data) {
                 setResult(data); 
                 if (data.success) {
+                    setID(id + 1);
                     alert(data.message); 
-                    window.location.reload();
                 } else {
                     alert(data.message); 
                 }

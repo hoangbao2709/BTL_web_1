@@ -108,7 +108,6 @@ export function Navbar() {
                                 </a>
                                 {showHtml && (
                                     <div style={{ height: `${height}px` }} className={`flex w-[20px] justify-center`}>
-
                                     </div>
                                 )}
                             </li>
