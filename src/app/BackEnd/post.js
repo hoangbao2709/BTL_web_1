@@ -8,6 +8,11 @@ import { useLocation } from 'react-router-dom';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { faList } from '@fortawesome/free-solid-svg-icons';
 import PaginationHelper from "./../pages/Admin/pagination";
+import { Search } from "./search";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
 export function Post() {
     const [submittedName, setSubmittedName] = useState('');
@@ -176,15 +181,15 @@ export function Post() {
         });
     }
 
-    const handleCheckboxChange = (index) => {
+    const handleCheckboxChange = (index, results) => {
         setCheckedItems(prevCheckedItems => {
             const newCheckedItems = [...prevCheckedItems];
             newCheckedItems[index] = !newCheckedItems[index];
             return newCheckedItems;
         });
-        if (edit) {
-            setCheckedItems(Array(data.length).fill(false));
-            setLink("/admin/post/edit/" + data[index].id);
+        if(Use === "Edit"){
+            setCheckedItems(Array(results.length).fill(false));
+            setLink("/admin/post/edit/" + results[index].id);
         }
     };
 
@@ -210,7 +215,6 @@ export function Post() {
                         .catch((error) => {
                             console.error("Error fetching data:", error);
                         });
-
                     return { ...element, Status: newStatus };
                 }
                 return element;
@@ -240,6 +244,7 @@ export function Post() {
                     open={open}
                     edit={edit}
                     setID={setID}
+                    results={data}
                 />
             );
         } else {
@@ -267,19 +272,16 @@ export function Post() {
         } else if (Use === "Edit") {
             navigateTo(Link);
         } else if (Use === "Delete") {
-            const deleteCheckedItems = async () => {
-                for (let index = 0; index < checkedItems.length; index++) {
-                    if (checkedItems[index] === true) {
-                        try {
-                            const response = await fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/delete.php?&id=${encodeURIComponent(data[index].id)}`);
-                            const result = await response.json();
-                        } catch (error) {
-                            console.error("Error deleting item:", error);
-                        }
+            for (let index = 0; index < checkedItems.length; index++) {
+                if (checkedItems[index] === true) {
+                    try {
+                        const response = fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/delete.php?&id=${encodeURIComponent(data[index].id)}`);
+                        const result = response.json();
+                    } catch (error) {
+                        console.error("Error deleting item:", error);
                     }
                 }
-            };
-            deleteCheckedItems();
+            }
             window.location.reload();
         }
     }
@@ -302,16 +304,23 @@ export function Post() {
                     handleCategory();
                     handleClick(event);
                 }}
-                className="cursor-pointer rounded-lg items-center flex pt-[5px] p-[10px] bg-white hover:bg-[#F5ECD5] hover:text-[red]"
+                class="cursor-pointer rounded-lg pt-[5px] bg-white hover:text-[red] relative group"
             >
-                <FontAwesomeIcon icon={faBook} />
-                <p className="pl-[5px] ml-[10px]">{element}</p>
+                <div className="flex items-center p-[10px]">
+                    <FontAwesomeIcon icon={faBook} />
+                    <p className="pl-[5px] ml-[10px]">{element}</p>
+                </div>
+                <div className="relative w-full h-1 bg-white">
+                    <div className="absolute left-0 bottom-0 h-full w-0 bg-[red] transition-all duration-700 ease-in-out group-hover:w-full"></div>
+                </div>
             </li>
         );
     });
 
+    const [input, SecrchResult, results] = Search(fetchedData, checkedItems, handleCheckboxChange, formatPrice, handleStatusChange, toggleModal, open, edit, setID);
+
     return (
-        <form className="mt-[70px] container mx-auto" action="http://localhost:8000/input.php" method="post" onSubmit={handleSubmit}>
+        <form className="container mx-auto" action="http://localhost:8000/input.php" method="post" onSubmit={handleSubmit}>
             <header className="flex"><p className="text-[70px] font-serif">List Item</p></header>
             <div>
                 <p className="bg-[#D9EDF7] py-[15px] pl-[15px] rounded-t-lg flex">List Items</p>
@@ -361,10 +370,17 @@ export function Post() {
                             <label className="text-[30px] font-bold px-4">{currentCategory}</label>
                         </i>
                         {Category &&
-                            <ul className="absolute shadow-lg right-[0px] border bg-white top-[90px] bold w-[400px] rounded-lg text-[30px] items-center">
+                            <ul className="absolute z-50 shadow-lg right-[0px] border bg-white top-[90px] bold w-[400px] rounded-lg text-[30px] items-center">
                                 {listCategory}
                             </ul>
                         }
+                        <div
+                            className={`w-[1000px] items-center justify-center flex transition-opacity duration-300 ease-in-out ${
+                                !action ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                            }`}
+                            >
+                        {input}
+                        </div>
                     </div>
                     <ul className="flex py-[20px] text-[20px] shadow-lg border rounded-t-lg ">
                         <li className="w-[2%] px-[2%]"><input type="checkbox" disabled={edit} className="size-4 cursor-pointer" onClick={() => handleCheckAll()} /></li>
@@ -376,7 +392,7 @@ export function Post() {
                         <li className="w-[10%] px-[5%]">Status</li>
                         <li className="w-[10%] ml-[8%]" >Thêm</li>
                     </ul>
-                    {result}
+                    {results.length > 0 ? SecrchResult : result}
                 </div>
             </div>
         </form>

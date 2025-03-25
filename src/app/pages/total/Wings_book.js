@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { paginationHelper } from './../helper/pagination';
+import { Test } from './../helper/pagination';
 import { useData } from './../helper/getData';
 
 export function Wings_book(item) {
@@ -22,7 +22,7 @@ export function Wings_book(item) {
     return (
       <div>
         <div>
-          {paginationHelper(itemNumber, resultLocation, images, item.Width)}
+          <Test currentPage={Number(itemNumber)} location={resultLocation} images={images} childWidth={item.Width}/>
         </div>
       </div>
     );

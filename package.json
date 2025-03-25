@@ -10,6 +10,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@material-tailwind/react": "^2.1.10",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
@@ -18,12 +19,16 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-feather": "^2.0.10",
+    "react-native": "^0.78.1",
+    "react-native-toggle-element": "^2.1.1",
     "react-router": "^7.2.0",
     "react-router-dom": "^7.2.0",
     "react-scripts": "5.0.1",
+    "react-select": "^5.10.1",
     "react-slick": "^0.30.3",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.2.4",
+    "toggle-switch-react-native": "^3.3.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -51,6 +56,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.26.3",
     "tailwindcss": "^3.4.17"
   }
 }

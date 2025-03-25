@@ -36,30 +36,39 @@ $tables = [
     "Wings_book",
 ];
 
-$sql = "UPDATE tat_ca_san_pham SET name = '$name', gia_goc = '$gia_goc', gia = '$gia', giam_gia = '$giam_gia', tap = '$tap', tac_gia = '$tac_gia', doi_tuong = '$doi_tuong', khuon_kho = '$khuon_kho', so_trang = '$so_trang', trong_luong = '$trong_luong' WHERE id = '$id'";
-
 $response = [];
-if ($conn->query($sql) === TRUE) {
+
+// Update `tat_ca_san_pham` table
+$sql = "UPDATE tat_ca_san_pham SET name = ?, gia_goc = ?, gia = ?, giam_gia = ?, tap = ?, tac_gia = ?, doi_tuong = ?, khuon_kho = ?, so_trang = ?, trong_luong = ? WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ssssssssssi", $name, $gia_goc, $gia, $giam_gia, $tap, $tac_gia, $doi_tuong, $khuon_kho, $so_trang, $trong_luong, $id);
+
+if ($stmt->execute()) {
     $response["success"] = true;
     $response["message"] = "Dữ liệu đã được cập nhật thành công.";
 } else {
     $response["success"] = false;
-    $response["message"] = "Lỗi khi cập nhật dữ liệu: " . $conn->error;
+    $response["message"] = "Lỗi khi cập nhật dữ liệu: " . $stmt->error;
     echo json_encode($response);
     $conn->close();
     exit;
 }
+$stmt->close();
 
 foreach ($tables as $table) {
     if (isset($_POST[$table])) {
-        $sql = "UPDATE " . strtolower($table) . " SET name = '$name', gia_goc = '$gia_goc', gia = '$gia', giam_gia = '$giam_gia', tap = '$tap', tac_gia = '$tac_gia', doi_tuong = '$doi_tuong', khuon_kho = '$khuon_kho', so_trang = '$so_trang', trong_luong = '$trong_luong' WHERE id = '$id'";
-        if ($conn->query($sql) !== TRUE) {
+        $sql = "UPDATE " . strtolower($table) . " SET name = ?, gia_goc = ?, gia = ?, giam_gia = ?, tap = ?, tac_gia = ?, doi_tuong = ?, khuon_kho = ?, so_trang = ?, trong_luong = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssssssssi", $name, $gia_goc, $gia, $giam_gia, $tap, $tac_gia, $doi_tuong, $khuon_kho, $so_trang, $trong_luong, $id);
+
+        if (!$stmt->execute()) {
             $response["success"] = false;
-            $response["message"] = "Lỗi khi cập nhật bảng $table: " . $conn->error;
+            $response["message"] = "Lỗi khi cập nhật bảng $table: " . $stmt->error;
             echo json_encode($response);
             $conn->close();
             exit;
         }
+        $stmt->close();
     }
 }
 
@@ -73,17 +82,15 @@ $upload_dirs = [
     'wings_book' => './images/wings_book/' . $id . '/',
 ];
 
-function deleteDirectory($dir)
-{
+function deleteDirectory($dir) {
     if (!is_dir($dir)) {
         return false;
     }
 
-    $files = array_diff(scandir($dir), array('.', '..'));
+    $files = array_diff(scandir($dir), ['.', '..']);
 
     foreach ($files as $file) {
         $filePath = "$dir/$file";
-
         if (is_dir($filePath)) {
             deleteDirectory($filePath);
         } else {
@@ -99,10 +106,19 @@ foreach ($upload_dirs as $dir) {
     }
 }
 
+function getName($name) {
+    $path = explode("_", $name); 
+    echo $path[count($path) - 1];
+    return $path[count($path) - 1]; 
+}
+
+$countName = 0;
+
 if (isset($_FILES['file'])) {
     foreach ($_FILES['file']['name'] as $key => $name) {
         $temp_path = $_FILES['file']['tmp_name'][$key];
-        $filename = $id . '_' . basename($name);
+        $fileInfo = pathinfo($name);
+        $filename = $id . '_' . basename($countName++) . '_.' . $fileInfo['extension'];
         if (!file_exists($upload_dirs['tat_ca_san_pham'])) {
             mkdir($upload_dirs['tat_ca_san_pham'], 0777, true);
         }
@@ -127,6 +143,6 @@ if (isset($_FILES['file'])) {
     }
 }
 
-$response["message"] = "Tất cả dữ liệu đã được xử lý thành công.";
 echo json_encode($response);
 $conn->close();
+?>

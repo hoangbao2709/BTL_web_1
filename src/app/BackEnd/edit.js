@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import $ from "jquery";
 import Modal from "../pages/helper/modal";
 import "./css/style.css";
-import { Navigation } from 'swiper/modules';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -24,6 +24,8 @@ import {
     useSensors,
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 export function Edit() {
     const location = useLocation();
@@ -32,7 +34,8 @@ export function Edit() {
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
     const [data, setData] = useState([]);
-    const [result, setResult] = useState("");
+    const [edit, setEdit] = useState(false);
+    const [result, setResult] = useState('');
     const [submittedId, setSubmittedId] = useState('');
     const [submittedName, setSubmittedName] = useState('');
     const [submittedGia_goc, setSubmittedGia_goc] = useState('');
@@ -53,6 +56,11 @@ export function Edit() {
     const trong_luongRef = useRef(null);
     const gia_gocRef = useRef(null);
     const giam_giaRef = useRef(null);
+    const chillSwiperRef = useRef(null);
+    const [from, setFrom] = useState(0);
+    const [to, setTo] = useState(3);
+    const swiperRef = useRef(null);
+    const [index, setIndex] = useState(0);
 
     useEffect(() => {
         fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/Data.php?&url=${encodeURIComponent("tat_ca_san_pham")}&variable=${encodeURIComponent(value)}`)
@@ -225,8 +233,6 @@ export function Edit() {
         return image;
     });
 
-    console.log(files);
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = $(e.target);
@@ -243,17 +249,13 @@ export function Edit() {
             processData: false,
             contentType: false,
             success(data) {
-                setResult(data);
                 if (data.success) {
                     alert(data.message);
+                    setResult(data.message);
                 } else {
                     alert(data.message);
                 }
             },
-            error(jqXHR, textStatus, errorThrown) {
-                console.error('Lỗi:', textStatus, errorThrown);
-                alert('Đã xảy ra lỗi khi gửi dữ liệu.');
-            }
         });
     };
 
@@ -266,7 +268,6 @@ export function Edit() {
             const image = [];
             if (fileTemp.length > 0) {
                 fileTemp.map((element, index) => {
-                    console.log("element", element);
                     setFiles(prevFiles => [
                         ...prevFiles,
                         { id: index, title: element }
@@ -290,7 +291,6 @@ export function Edit() {
             const image = [];
             if (selectedFiles.length > 0) {
                 selectedFiles.map((element, index) => {
-                    console.log("element",element);
                     setFiles(prevFiles => [
                         ...prevFiles,
                         { id: index, title: element }
@@ -327,9 +327,40 @@ export function Edit() {
         });
     };
 
+    function handleUp() {
+        if (files.length > 0 && from + to < files.length) {
+            if (chillSwiperRef.current) {
+                chillSwiperRef.current.slideTo(from + 1);
+            }
+            setFrom(from + 1);
+        }
+    }
+
+    function handleDown() {
+        if (from > 0) {
+            if (chillSwiperRef.current) {
+                chillSwiperRef.current.slideTo(from - 1);
+            }
+            setFrom(from - 1);
+        }
+    }
+
     if (!data || data.length === 0) {
         return <div>Loading...</div>;
     }
+
+    function HandleClick(index) {
+        setIndex(index);
+        if (swiperRef.current) {
+            swiperRef.current.slideTo(index);
+        }
+    }
+
+    const handleEdit= () => {
+        setEdit(!edit);
+    };
+
+    console.log(files);
 
     return (
         <div className="w-[100%] lg bg-[#E0E3E7] justify-center content-center relative flex h-screen">
@@ -453,24 +484,62 @@ export function Edit() {
                     />
                     {files && <p>File: {files.name}</p>}
                 </div>
+                <p className="w-full flex items-center justify-center text-[red] text-[20px]">{result}</p>
             </form >
             <div className="w-[70%] ml-[2%] z-0 flex justify-center items-center bg-">
-                <div className="w-[10%] h-[715px]">
-                    <DndContext
+            <div className="w-[10%] h-[715px]">
+                <DndContext
                         sensors={sensors}
                         collisionDetection={closestCorners}
                         onDragEnd={handleDragEnd}
                     >
-                        <div>
+                        <div className="relative">
                             <SortableContext items={files} strategy={verticalListSortingStrategy}>
-                                {files.map((image, index) => (
-                                    <div>
-                                        <Task key={image.id} id={image.id} title={image} />
-                                    </div>
-                                ))}
+                                <Swiper
+                                    modules={[Scrollbar]}
+                                    spaceBetween={30}
+                                    slidesPerView={3}
+                                    scrollbar={{ draggable: true }}
+                                    direction="vertical"
+                                    style={{ height: '600px' }}
+                                    allowTouchMove={false}
+                                    onSwiper={(swiper) => (chillSwiperRef.current = swiper)}
+                                >
+                                    {files.length > 0 ? 
+                                        <div className="flex w-full absolute top-0 z-20 cursor-pointer justify-center" onClick={handleDown}>
+                                            <FontAwesomeIcon className="flex justify-center items-center text-white bottom-0 h-[30px] w-[30px] cursor-pointer bg-opacity-50 bg-[red]" icon={faChevronUp} />
+                                        </div>    
+                                        : <div></div>
+                                    }
+                                    {files.map((image, ind) => {
+                                        return (
+                                            <SwiperSlide  className="cursor-pointer" onClick={() => HandleClick(ind)}>
+                                                {edit ? 
+                                                    <Task  key={image.id} id={image.id} title={image} handleClick={HandleClick} index={ind}/>:
+                                                    <img className="w-full h-auto  object-contain " src={URL.createObjectURL(image.title)} alt={`Slide ${index + 1}`} />
+                                                    
+                                                }  
+                                            </SwiperSlide>
+                                        );
+                                    })}
+                                    {files.length > 0 ? 
+                                        <div className="flex w-full z-50 absolute bottom-0 justify-center" onClick={handleUp}>
+                                            <FontAwesomeIcon className="flex justify-center items-center text-white bottom-0 h-[30px] w-[30px] cursor-pointer bg-opacity-50 bg-[red]" icon={faChevronDown} />
+                                        </div>
+                                        : <div></div>
+                                    }
+                                </Swiper>
                             </SortableContext>
                         </div>
                     </DndContext>
+                    {files.length > 0 ? 
+                        <div class={`inline-flex items-center justify-center rounded-lg mt-[20px] cursor-pointer h-[50px] w-full bg-[#77CBDE] ${edit ? "bg-[#FF5555] text-[white]" : ""}`} onClick={handleEdit}>
+                            <span class="w-full inline-flex items-center justify-center text-[20px] font-medium ">
+                                {edit ? "Edit Image" : "Show Image" }
+                            </span>
+                        </div>
+                        : <div></div>
+                    }
                 </div>
                 <div className="z-0  w-[500px] relative overflow-hidden fix border  p-0 m-0 ml-[25px] mr-[25px]">
                     <div className="relative h-[715px] w-[500px]">
@@ -478,6 +547,7 @@ export function Edit() {
                             spaceBetween={30}
                             centeredSlides={true}
                             navigation={true}
+                            onSwiper={(swiper) => (swiperRef.current = swiper)}
                             modules={[Navigation]}
                             className="w-100% h-[715px]"
                         >
@@ -492,8 +562,7 @@ export function Edit() {
                         </Swiper>
                     </div>
                 </div>
-
-                <div className="w-[45%] h-[715px] pl-[20px] rounded-3xl block relative">
+                <div className="w-[45%] h-[715px]  pl-[20px] rounded-3xl block relative">
                     <div className="items-center break-words">
                         {submittedName && (
                             <div className="break-words font-sans-serif">
@@ -572,7 +641,6 @@ export function Edit() {
                             <label className="text-[20px]">Trọng lượng: <strong className="text-[red]">{formatGram(submittedTrong_luong)}</strong></label>
                         </li>
                     )}
-
                 </div>
             </div>
         </div >

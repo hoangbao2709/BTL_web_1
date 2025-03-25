@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faBook, faAnglesDown } from '@fortawesome/free-solid-svg-icons';
 import { Data } from './getData';
-import "./style.css";
 
 class Node {
     constructor() {

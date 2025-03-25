@@ -70,9 +70,7 @@ export function Navbar() {
                             <div>
                                 <p className="text-[#8A8C91] text-base">PRODUCT MANAGER</p>
                                 <p className="text-white text-14">Andrew Smith</p>
-
                             </div>
-
                         )}
                         {open && (
                             <button onClick={handleClickOpen} type="button" class={`focus:outline-none absolute right-[-40px]   hover:bg-white focus:ring-white font-medium rounded-lg text-sm dark:hover:bg-white dark:focus:ring-white`}>
@@ -96,14 +94,15 @@ export function Navbar() {
                         </li>
                         <ul className="border-r-4 border-[#8A8C91] rounded-[50%]">
                             <li>
-                                <div
-                                    className={`my-1 flex py-4 w-full pl-4 rounded-lg `}
+                                <a
+                                    className={`my-1 flex py-4 w-full px-4 rounded-lg ${!open ? "cursor-pointer transition delay-150 duration-300 ease-in-out hover:scale-[1.4]": ""}`}
+                                    href={`${!open ? "/admin/dashboard": ""}`}
                                 >
                                     <img className="pr-4 w-[50px]" src={home}></img>
-                                </div>
+                                </a>
                             </li>
                             <li>
-                                <a onClick={handleClick} className={`my-1 flex py-4 relative w-full pl-4 rounded-lg `}>
+                                <a onClick={handleClick} className={`my-1 flex py-4 relative w-full pl-4 rounded-lg ${!open ? "cursor-pointer transition delay-150 duration-300 ease-in-out hover:scale-[1.4]": ""}`}>
                                     <img className="pr-4 w-[50px]" src={audience}></img>
                                 </a>
                                 {showHtml && (
@@ -113,32 +112,25 @@ export function Navbar() {
                             </li>
 
                             <li>
-                                <div className={`my-1 flex py-4 w-full pl-4 rounded-lg  relative`}>
+                                <a href={`${!open ? "/admin/post": ""}`} className={`my-1 flex py-4 w-full pl-4 rounded-lg  relative ${!open ? "cursor-pointer transition delay-150 duration-300 ease-in-out hover:scale-[1.4]": ""}`}>
                                     <img className="pr-4 w-[50px] relative" src={post}></img>
-                                </div>
+                                </a>
                             </li>
 
                             <li >
                                 <div className={`my-1} `}>
-                                    {isActive !== "input" && (
-                                        <div className="flex z-50 py-4 bg-[none] w-full pl-2 rounded-lg content-center">
-                                            <FontAwesomeIcon className="pr-4 pt-1 w-[50px] text-[35px]" icon={faRightToBracket} />
-                                        </div>
-                                    )}
-                                    {isActive === "input" && (
-                                        <div onClick={() => navigate(-1)} className="flex z-50 py-4 bg-[none] w-full pl-2 rounded-lg content-center">
-                                            <FontAwesomeIcon className="pr-4 pt-1 w-[50px] text-[35px]" icon={faRightToBracket} />
-                                        </div>
-                                    )}
+                                    <a href={`${!open ? "/admin/input": ""}`} className={`flex z-50 py-4 bg-[none] w-full pl-2 rounded-lg content-center ${!open ? "cursor-pointer transition delay-150 duration-300 ease-in-out hover:scale-[1.4]": ""}`}>
+                                        <FontAwesomeIcon className="pr-4 pt-1 w-[50px] text-[35px]" icon={faRightToBracket} />
+                                    </a>
                                 </div>
                             </li>
                             <li>
-                                <div className={`flex py-4 my-2 w-full pl-4 rounded-lg`}>
+                                <a href={`${!open ? "/admin/schedules": ""}`} className={`flex py-4 my-2 w-full pl-4 rounded-lg ${!open ? "cursor-pointer transition delay-150 duration-300 ease-in-out hover:scale-[1.4]": ""}`}>
                                     <img className="pr-4 w-[50px]" src={schedule}></img>
-                                </div>
+                                </a>
                             </li>
                             <li>
-                                <div className={`flex py-4 w-full my-3 bg-[none] relative pl-4 rounded-lg`} onClick={() => {
+                                <div className={`flex py-4 w-full my-3 bg-[none] relative pl-4 rounded-lg cursor-pointer`} onClick={() => {
                                     handleClickBottom();
                                 }}>
                                     <img className="pr-4 w-[50px]" src={report}></img>

@@ -5,16 +5,17 @@ export function useData(img = [], url, variable) {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/Data.php?&url=${encodeURIComponent(url)}&variable=${encodeURIComponent(variable)}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        alert("An error occurred while fetching data. Please check the console for more details.");
-      });
-  }, []);
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/Data.php?&url=${encodeURIComponent(url)}&variable=${encodeURIComponent(variable)}`);
+            const result = await response.json();
+            setData(result);
+        } catch (error) {
+            console.error("Error fetching data: ", error);
+        }
+    };
+    fetchData();
+}, [url, variable]);
 
   function getTampNumber(item) {
     const fileName = item.split('/').pop();

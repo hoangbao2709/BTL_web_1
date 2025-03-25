@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { paginationHelper } from './../helper/pagination';
+import  {Test}  from "./../helper/pagination";
 import { useData } from './../helper/getData';
 
-export function Tat_ca_san_pham(item) {
+export const Tat_ca_san_pham = (item) => {
     const importAll = (r) => r.keys().map(r);
     const img = importAll(require.context('./../../BackEnd/php/images/tat_ca_san_pham', true, /\.(png|webp|svg|jpg)$/));
     const images = useData(img, "tat_ca_san_pham", "");
@@ -18,10 +17,9 @@ export function Tat_ca_san_pham(item) {
       itemNumber = "1";
     }
     else itemNumber = String(pageNumber);
-    
     return (
       <div>
-        {paginationHelper(itemNumber, resultLocation, images, item.Width)}
+        <Test currentPage={Number(itemNumber)} location={resultLocation} images={images} childWidth={item.Width}/>
       </div>
     );
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export function Data(url, variable) {  
+export function DataID(url, variable) {  
   const [data, setData] = useState([]);
   useEffect(() => {
     fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/Data.php?&url=${encodeURIComponent(url)}&variable=${encodeURIComponent(variable)}`)

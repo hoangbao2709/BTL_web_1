@@ -75,17 +75,14 @@ $upload_dirs = [
     'wings_book' => './images/wings_book/' . $id . '/'
 ];
 
+$countName = 0;
+
 if (isset($_FILES['file'])) {
     $test = 1;
     foreach ($_FILES['file']['name'] as $key => $name) {
         $temp_path = $_FILES['file']['tmp_name'][$key];
-        if($test === 1){
-            $filename = $id . '_isReview_' . basename($name);
-            $test = 0;
-        }else{
-            $filename = $id . '_' . basename($name);
-        }
-        
+        $fileInfo = pathinfo($name);
+        $filename = $id . '_' . basename($countName++) . '_.' . $fileInfo['extension'];
 
         if (!file_exists($upload_dirs['tat_ca_san_pham'])) {
             mkdir($upload_dirs['tat_ca_san_pham'], 0777, true);

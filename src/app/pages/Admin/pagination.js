@@ -5,8 +5,8 @@ import { faList } from '@fortawesome/free-solid-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Modal from "../helper/modal";
 import React, { useState } from 'react';
-
-const PaginationHelper = ({ data = [], checkedItems, handleCheckboxChange, formatPrice, handleStatusChange, toggleModal, open, edit, setID}) => {
+import "./style/style.css"
+const PaginationHelper = ({ data = [], checkedItems, handleCheckboxChange, formatPrice, handleStatusChange, toggleModal, open, edit, setID, results}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const pagination = {
         totalItems: data.length,
@@ -144,12 +144,12 @@ const PaginationHelper = ({ data = [], checkedItems, handleCheckboxChange, forma
 
     function getData() {
         return data.slice(index, index + max_index).map((element, index) => (
-            <ul className={`flex text-[20px] py-2 ${index % 2 === 0 ? "bg-[#E0E3E7]" : ""}`} key={element.id}>
+            <ul className={`flex text-[20px] py-2  ${index % 2 === 0 ? "bg-[#E0E3E7]" : ""}`} key={element.id}>
                 <li className="w-[2%] px-[2%]">
                     <input type={type} className="size-4 rounded-[50%] cursor-pointer"
                         checked={checkedItems[index]}
                         onChange={() => {
-                            handleCheckboxChange(index);
+                            handleCheckboxChange(index, results);
                         }}
                         name = "isRadio"
                     />
@@ -159,11 +159,9 @@ const PaginationHelper = ({ data = [], checkedItems, handleCheckboxChange, forma
                 <li className="w-[13%]">{formatPrice(element.gia_goc)}</li>
                 <li className="w-[10%] px-[1.5%]">{formatPrice(element.gia)}</li>
                 <li className="w-[10%] flex items-center justify-center">{element.giam_gia}</li>
-                <li
-                    className={`w-[8%] cursor-pointer ml-[3%] rounded-lg flex items-center justify-center ${element.Status === "Active" ? "bg-[#5CB85C]" : "bg-[#ED9C28]"}`}
-                    onClick={() => handleStatusChange(element.id)}
-                >
-                    {element.Status}
+                <li class="checkbox-wrapper-8 w-[8%]  cursor-pointer ml-[3%] rounded-lg flex items-center justify-center" >
+                    <input class="tgl tgl-skewed" onClick={() => handleStatusChange(element.id)} id={index} checked={element.Status === "Active" ? true : false} type="checkbox"/>
+                    <label class="tgl-btn" data-tg-off="InActive" data-tg-on="Active"  for={index}></label>
                 </li>
                 <li className="w-[10%] pl-[7.5%] flex items-center justify-center cursor-pointer" onClick={() => toggleModal(index)}>
                     <FontAwesomeIcon className="size-7" icon={faBars} />
@@ -183,20 +181,36 @@ const PaginationHelper = ({ data = [], checkedItems, handleCheckboxChange, forma
             </ul>
         ));
     }
+
+    const countStatus = results.reduce((accumulator, item) => {
+        if (item.Status === "Active") {
+            accumulator.active += 1;
+        } else if (item.Status === "Inactive") {
+            accumulator.inactive += 1;
+        }
+        return accumulator;
+    }, { active: 0, inactive: 0 });
+
     return (
         <div className='shadow-lg rounded-lg'>
             {getData()}
-            <nav aria-label="Page navigation example" className='flex justify-end'>
-                <ul className="inline-flex text-[30px] max-sm:text-[15px] max-sm:w-[30]">
-                    {xhtmlStart}
-                    {xhtmlPrevious}
-                    {xhtmlPages}
-                    {xhtmlNext}
-                    {xhtmlEnd}
-                </ul>
-            </nav>
+            <div className='flex relative h-[70px] w-full border-t border-[#D0D1D3]'>
+                <div className='flex  relative items-center text-[20px] '>
+                    <p className='ml-[10px]'> Tổng số sản phẩm được tìm thấy: {results.length}</p>
+                    <p className='ml-[50px]'> Active: {countStatus.active}</p>
+                    <p className='ml-[50px]'> Inactive: {countStatus.inactive}</p>
+                </div>
+                <nav className='absolute right-0'>
+                    <ul className="inline-flex text-[30px] max-sm:text-[15px] max-sm:w-[30]">
+                        {xhtmlStart}
+                        {xhtmlPrevious}
+                        {xhtmlPages}
+                        {xhtmlNext}
+                        {xhtmlEnd}
+                    </ul>
+                </nav>
+            </div>
         </div>
-
     );
 }
 

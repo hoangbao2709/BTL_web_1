@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import $ from "jquery";
 import Modal from "../pages/helper/modal";
 import "./css/style.css";
-import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -23,12 +22,20 @@ import {
     useSensors,
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { CSS } from "@dnd-kit/utilities";
+import "./css/Task.css";
 
 export function Input() {
     const [open, setOpen] = useState(false);
-    const [open1, setOpen1] = useState(false);
     const [open2, setOpen2] = useState(false);
-    const [result, setResult] = useState("");
+    const [edit, setEdit] = useState(false);
     const [submittedName, setSubmittedName] = useState('');
     const [submittedGia_goc, setSubmittedGia_goc] = useState('');
     const [submittedGiam_gia, setSubmittedGiam_gia] = useState('');
@@ -39,7 +46,13 @@ export function Input() {
     const [submittedSo_trang, setSubmittedSo_trang] = useState('');
     const [submittedTrong_luong, setSubmittedTrong_luong] = useState('');
     let data = null;
+    const chillSwiperRef = useRef(null);
+    const [from, setFrom] = useState(0);
+    const [to, setTo] = useState(3);
+    const swiperRef = useRef(null);
+    const [index, setIndex] = useState(0);
     const [id, setID] = useState();
+
     data = Data("tat_ca_san_pham", "All")
     useEffect(() => {
         if (data) {
@@ -83,6 +96,10 @@ export function Input() {
         }
     };
 
+    const handleEdit= () => {
+        setEdit(!edit);
+    };
+
     function formatPrice(price) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + 'đ';
     }
@@ -120,7 +137,6 @@ export function Input() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = $(e.target);
-    
         const formData = new FormData(form[0]);
         for (let i = 0; i < files.length; i++) {
             formData.append('file[]', files[i].title);
@@ -133,35 +149,15 @@ export function Input() {
             processData: false,
             contentType: false,
             success(data) {
-                setResult(data); 
                 if (data.success) {
                     setID(id + 1);
-                    alert(data.message); 
+                    // alert(data.message); 
                 } else {
                     alert(data.message); 
                 }
             },
-            error(jqXHR, textStatus, errorThrown) {
-                console.error('Lỗi:', textStatus, errorThrown);
-                alert('Đã xảy ra lỗi khi gửi dữ liệu.');
-            }
         });
     };
-
-    async function convertPathToFile(path, fileName) {
-        try {
-            const response = await fetch(path);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const blob = await response.blob();
-            const file = new File([blob], fileName, { type: blob.type });
-
-            return file;
-        } catch (error) {
-            console.error('Error fetching file:', error);
-        }
-    }
 
     const handleDrop = (event) => {
         event.preventDefault();
@@ -172,7 +168,6 @@ export function Input() {
             const image = [];
             if (fileTemp.length > 0) {
                 fileTemp.map((element, index) => {
-                    console.log("element",element);
                     setFiles(prevFiles => [
                         ...prevFiles,
                         { id: index, title: element }
@@ -196,7 +191,6 @@ export function Input() {
             const image = [];
             if (selectedFiles.length > 0) {
                 selectedFiles.map((element, index) => {
-                    console.log("element",element);
                     setFiles(prevFiles => [
                         ...prevFiles,
                         { id: index, title: element }
@@ -232,14 +226,41 @@ export function Input() {
         });
     };
 
+    function handleUp() {
+        if (files.length > 0 && from + to < files.length) {
+            if (chillSwiperRef.current) {
+                chillSwiperRef.current.slideTo(from + 1);
+            }
+            setFrom(from + 1);
+        }
+    }
+
+    function handleDown() {
+        if (from > 0) {
+            if (chillSwiperRef.current) {
+                chillSwiperRef.current.slideTo(from - 1);
+            }
+            setFrom(from - 1);
+        }
+    }
+
+    function HandleClick(index) {
+        setIndex(index);
+        if (swiperRef.current) {
+            swiperRef.current.slideTo(index);
+        }
+    }
+
+    console.log(files);
+
     return (
-        <div className="w-[100%] lg bg-[#E0E3E7] justify-center content-center relative flex h-screen">
-            <form className="w-[20%] z-10 content-center" action="http://localhost:8000/input.php" method="post" onSubmit={handleSubmit}>
+        <div className="w-[100%] lg justify-center content-center relative flex h-screen">
+            <form className="w-[20%] z-10 content-center" action={"http://localhost:8000/input.php"} method="post" onSubmit={handleSubmit}>
                 <div>
                     <div className="grid mb-10">
                         <div className="mb-2">
                             <label htmlFor="id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">ID</label>
-                            <input type="text" id="id" name="id" value={id} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ID" />
+                            <input type="text" id="id" name="id" defaultValue={id} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ID" />
                         </div>
                         <div className="mb-2">
                             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Name</label>
@@ -253,8 +274,8 @@ export function Input() {
                             <div type="button" onClick={() => setOpen2(true)} className="cursor-pointer w-[50%] mr-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm text-center px-3 py-2.5 mt-[25px]">
                                 Thêm thông tin sản phẩm
                             </div>
-                            <div type="button" onClick={() => setOpen(true)} className="cursor-pointer w-[50%] ml-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm text-center py-2.5 mt-[25px]">
-                                Chọn trang thêm
+                            <div type="button" onClick={() => setOpen(true)} className="cursor-pointer w-[50%] flex justify-center content-center ml-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm text-center py-2.5 mt-[25px]">
+                                <p className="h-full flex items-center justify-center">Chọn trang thêm</p>
                             </div>
                         </div>
                         <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 mt-[25px]">
@@ -359,21 +380,59 @@ export function Input() {
             </form>
             <div className="w-[70%] ml-[2%] z-0 flex justify-center items-center bg-">
                 <div className="w-[10%] h-[715px]">
-                    <DndContext
+                <DndContext
                         sensors={sensors}
                         collisionDetection={closestCorners}
                         onDragEnd={handleDragEnd}
                     >
-                        <div>
+                        <div className="relative">
                             <SortableContext items={files} strategy={verticalListSortingStrategy}>
-                                {files.map((image, index) => (
-                                    <div>
-                                        <Task key={image.id} id={image.id} title={image} />
-                                    </div>
-                                ))}
+                                <Swiper
+                                    modules={[Scrollbar]}
+                                    spaceBetween={30}
+                                    slidesPerView={3}
+                                    scrollbar={{ draggable: true }}
+                                    direction="vertical"
+                                    style={{ height: '600px' }}
+                                    allowTouchMove={false}
+                                    onSwiper={(swiper) => (chillSwiperRef.current = swiper)}
+                                >
+                                    {files.length > 0 ? 
+                                        <div className="flex w-full absolute top-0 z-20 cursor-pointer justify-center" onClick={handleDown}>
+                                            <FontAwesomeIcon className="flex justify-center items-center text-white bottom-0 h-[30px] w-[30px] cursor-pointer bg-opacity-50 bg-[red]" icon={faChevronUp} />
+                                        </div>    
+                                        : <div></div>
+                                    }
+
+                                    {files.map((image, ind) => {
+                                        return (
+                                            <SwiperSlide  className="cursor-pointer" onClick={() => HandleClick(ind)}>
+                                                {edit ? 
+                                                    <Task  key={image.id} id={image.id} title={image} handleClick={HandleClick} index={ind}/>:
+                                                    <img className="w-full h-auto  object-contain " src={URL.createObjectURL(image.title)} alt={`Slide ${index + 1}`} />
+                                                    
+                                                }  
+                                            </SwiperSlide>
+                                        );
+                                    })}
+                                    {files.length > 0 ? 
+                                        <div className="flex w-full z-50 absolute bottom-0 justify-center" onClick={handleUp}>
+                                            <FontAwesomeIcon className="flex justify-center items-center text-white bottom-0 h-[30px] w-[30px] cursor-pointer bg-opacity-50 bg-[red]" icon={faChevronDown} />
+                                        </div>
+                                        : <div></div>
+                                    }
+                                </Swiper>
                             </SortableContext>
                         </div>
                     </DndContext>
+                    {files.length > 0 ? 
+                        <div class={`inline-flex items-center justify-center rounded-lg mt-[20px] cursor-pointer h-[50px] w-full bg-[#77CBDE] ${edit ? "bg-[#FF5555] text-[white]" : ""}`} onClick={handleEdit}>
+                            <span class="w-full inline-flex items-center justify-center text-[20px] font-medium ">
+                                {edit ? "Edit Image" : "Show Image" }
+                            </span>
+                        </div>
+                        : <div></div>
+                    }
                 </div>
                 <div className="z-0  w-[500px] relative overflow-hidden fix border  p-0 m-0 ml-[25px] mr-[25px]">
                     <div className="relative h-[715px] w-[500px]">
@@ -383,6 +442,8 @@ export function Input() {
                             navigation={true}
                             modules={[Navigation]}
                             className="w-100% h-[715px]"
+                            onSwiper={(swiper) => (swiperRef.current = swiper)}
+
                         >
                             {files.map((image, index) => (
                                 <SwiperSlide key={index} className="flex  relative justify-center">
@@ -475,7 +536,6 @@ export function Input() {
                             <label className="text-[20px]">Trọng lượng: <strong className="text-[red]">{formatGram(submittedTrong_luong)}</strong></label>
                         </li>
                     )}
-
                 </div>
             </div>
         </div>

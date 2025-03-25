@@ -3,9 +3,8 @@ import { CSS } from "@dnd-kit/utilities";
 
 import "./css/Task.css";
 
-export const Task = ({ id, title }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
+export const Task = ({ id, title, handleClick, index }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 
   const style = {
     transition,
@@ -18,8 +17,7 @@ export const Task = ({ id, title }) => {
       style={style}
       {...attributes}
       {...listeners}
-      className="pb-[20px] px-[10px]"
     >
-    <img className="w-full h-auto  object-contain cursor-move" src={URL.createObjectURL(title.title)} />    </div>
+    <img  className="w-full h-auto  object-contain cursor-pointer" src={URL.createObjectURL(title.title)} />    </div>
   );
 };
