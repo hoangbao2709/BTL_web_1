@@ -3,22 +3,15 @@ import React, { useRef, useEffect, useState } from 'react';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-type FrameProps = {
-    item: { img: string[]; page: string; id: string; giam_gia: number; name: string; gia: number; gia_goc: number }[];
-    index: number;
-    max_index: number;
-    childWidth: number; // Added childWidth to props
-};
-
-const FFrame: React.FC<FrameProps> = ({ item, index, max_index, childWidth }) => {
-    let totalView: JSX.Element[] = [];
-    let oneView: JSX.Element[] = [];
+const FFrame = ({ item, index, max_index, childWidth }) => {
+    let totalView = [];
+    let oneView = [];
     const [clickFavorite, setClickFavorite] = useState(Array(item.length).fill(false));
-    function formatPrice(price: number) {
+    function formatPrice(price) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + 'đ';
     }
 
-    const getImg = (img: string[]) => {
+    const getImg = (img) => {
         const result = img.filter(ele => {
             const fileName = ele.split('/');
             const pathParts = fileName[fileName.length - 1].split("_");

@@ -31,7 +31,7 @@ export const Favorite = (item) => {
     fetchData();
   }, [favourite]);
   let image = useState([]);
-  const getImg = (img: string[]) => {
+  const getImg = (img) => {
     let result = [];
     if (favourite.length > 0)
       favourite.forEach(element => {

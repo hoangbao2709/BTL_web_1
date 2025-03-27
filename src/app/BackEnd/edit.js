@@ -203,7 +203,6 @@ export function Edit() {
             }
             const blob = await response.blob();
             const file = new File([blob], fileName, { type: blob.type });
-
             return file;
         } catch (error) {
             console.error('Error fetching file:', error);
@@ -232,13 +231,14 @@ export function Edit() {
         })
         return image;
     });
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = $(e.target);
 
         const formData = new FormData(form[0]);
         for (let i = 0; i < files.length; i++) {
+            console.log(files[i].title);
             formData.append('file[]', files[i].title);
         }
 
