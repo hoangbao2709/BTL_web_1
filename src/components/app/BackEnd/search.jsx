@@ -168,6 +168,8 @@ export default function Search(fetchedData, checkedItems, handleCheckboxChange, 
         </li>
     ));
 
+
+    console.log("results ",results);
     input.push(
         <div className={"w-[600px] z-0"}>
             <div className='flex items-center z-50 bg-[#F8F8F8] w-[100%] relative'>
