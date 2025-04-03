@@ -208,7 +208,7 @@ export default function Post() {
             const updatedData = data.map((element) => {
                 if (element.id === id) {
                     const newStatus = element.Status === "Active" ? "Inactive" : "Active";
-                    fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/setStatus.php?&url=${encodeURIComponent(element.Page)}&variable=${encodeURIComponent(newStatus)}&id=${encodeURIComponent(id)}`)
+                    fetch(`https://localhost/book_store_web/src/components/app/BackEnd/php/uploads/setStatus.php?&url=${encodeURIComponent(element.Page)}&variable=${encodeURIComponent(newStatus)}&id=${encodeURIComponent(id)}`)
                         .then((response) => response.json())
                         .then((data) => {
                         })
@@ -320,43 +320,42 @@ export default function Post() {
     const [input, SecrchResult, results] = Search(fetchedData, checkedItems, handleCheckboxChange, formatPrice, handleStatusChange, toggleModal, open, edit, setID);
 
     return (
-        <form className="container mx-auto" action="http://localhost:8000/input.php" method="post" onSubmit={handleSubmit}>
-            <header className="flex"><p className="text-[70px] font-serif">List Item</p></header>
-            <div>
-                <p className="bg-[#D9EDF7] py-[15px] pl-[15px] rounded-t-lg flex">List Items</p>
-                <div className="border-x-4 border-b-4 pb-[20px] px-[20px] rounded-b-lg border-[#D9EDF7]">
-                    <div className="flex h-[80px] items-center relative ">
-                        <div className={`flex w-[114px] h-[40px] items-center cursor-pointer transition-transform absolute duration-700 ease-in-out ${action ? "translate-x-[115px] hover:scale-110 " : "-translate-x-[0px] "}`} onClick={HandleAll}>
-                            <p href="/admin/post/All" className="w-[100px] m-[10px] z-0 flex h-full justify-center items-center text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+        <form className="flex w-full h-screen justify-center items-center" action="http://localhost:8000/input.php" method="post" onSubmit={handleSubmit}>   
+            <div className="w-[1000px] ">
+                <p className="bg-[#D9EDF7] py-[5px] pl-[15px] rounded-t-lg flex">List Items</p>
+                <div className="border-x-4 border-b-4  px-[20px] rounded-b-lg border-[#D9EDF7] pb-4">
+                    <div className="flex h-[50px] items-center relative ">
+                        <div className={`flex w-[114px] h-[30px] items-center cursor-pointer transition-transform absolute duration-700 ease-in-out ${action ? "translate-x-[100px] hover:scale-110 " : "-translate-x-[0px] "}`} onClick={HandleAll}>
+                            <p href="/admin/post/All" className="w-[80px] m-[10px] z-0 flex h-full justify-center items-center text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                 All
                             </p>
                         </div>
-                        <div className={`flex w-[114px] h-[40px] items-center cursor-pointer transition-transform absolute duration-700 ease-in-out ${action ? "translate-x-[230px] hover:scale-110 " : "-translate-x-[0px] "}`} onClick={HandleActive}>
-                            <p className="w-[100px] m-[10px] z-0 flex h-full justify-center items-center text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                        <div className={`flex w-[114px] h-[30px] items-center cursor-pointer transition-transform absolute duration-700 ease-in-out ${action ? "translate-x-[200px] hover:scale-110 " : "-translate-x-[0px] "}`} onClick={HandleActive}>
+                            <p className="w-[80px] m-[10px] z-0 flex h-full justify-center items-center text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                 Active
                             </p>
                         </div>
-                        <div className={`flex w-[114px] h-[40px] cursor-pointer items-center transition-transform absolute duration-700 ease-in-out ${action ? "translate-x-[345px] hover:scale-110 " : "-translate-x-[0px]"}`} onClick={HandleInActive}>
-                            <p className={`w-[100px] m-[10px] z-0 flex h-full justify-center items-center text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2`}>
+                        <div className={`flex w-[114px] h-[30px] cursor-pointer items-center transition-transform absolute duration-700 ease-in-out ${action ? "translate-x-[300px] hover:scale-110 " : "-translate-x-[0px]"}`} onClick={HandleInActive}>
+                            <p className={`w-[80px] m-[10px] z-0 flex h-full justify-center items-center text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2`}>
                                 InActive
                             </p>
                         </div>
-                        <div className={`flex w-[114px] h-[40px] cursor-pointer items-center transition-transform absolute duration-700 ease-in-out ${action ? "translate-x-[460px] hover:scale-110 " : "-translate-x-[0px]"} `} onClick={HandleEdit}>
-                            <p className={`w-[100px] m-[10px] z-0 flex h-full justify-center items-center focus:outline-none text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2`}>
+                        <div className={`flex w-[114px] h-[30px] cursor-pointer items-center transition-transform absolute duration-700 ease-in-out ${action ? "translate-x-[400px] hover:scale-110 " : "-translate-x-[0px]"} `} onClick={HandleEdit}>
+                            <p className={`w-[80px] m-[10px] z-0 flex h-full justify-center items-center focus:outline-none text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2`}>
                                 Edit
                             </p>
                         </div>
-                        <div className={`flex w-[114px] h-[40px] cursor-pointer items-center transition-transform absolute duration-700 ease-in-out ${action ? "translate-x-[575px] hover:scale-110" : "-translate-x-[0px]"}`} onClick={HandleDelete}>
-                            <p className={`w-[100px] m-[10px] z-0 flex h-full justify-center items-center focus:outline-none text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2`}>
+                        <div className={`flex w-[114px] h-[30px] cursor-pointer items-center transition-transform absolute duration-700 ease-in-out ${action ? "translate-x-[500px] hover:scale-110" : "-translate-x-[0px]"}`} onClick={HandleDelete}>
+                            <p className={`w-[80px] m-[10px] z-0 flex h-full justify-center items-center focus:outline-none text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2`}>
                                 Delete
                             </p>
                         </div>
-                        <div className={`flex w-[114px] h-[40px] cursor-pointer items-center transition-transform absolute duration-700 ease-in-out ${!action ? "translate-x-[115px] hover:scale-110" : "-translate-x-[0px]"}`} onClick={HandleApply}>
-                            <p className={`w-[100px] m-[10px] z-0 flex h-full justify-center items-center focus:outline-none text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2`}>
+                        <div className={`flex w-[114px] h-[30px] cursor-pointer items-center transition-transform absolute duration-700 ease-in-out ${!action ? "translate-x-[100px] hover:scale-110" : "-translate-x-[0px]"}`} onClick={HandleApply}>
+                            <p className={`w-[80px] m-[10px] z-0 flex h-full justify-center items-center focus:outline-none text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2`}>
                                 Apply
                             </p>
                         </div>
-                        <div className={`hover:scale-110 m-[10px] h-[42px]  w-[100px] flex relative cursor-pointer items-center justify-center  ${Use === "Bulk Action" && "text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm  text-center "}
+                        <div className={`hover:scale-110 m-[10px] h-[32px]  w-[80px] flex relative cursor-pointer items-center justify-center  ${Use === "Bulk Action" && "text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm  text-center "}
                                                                                                                                             ${Use === "Active" && "text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"}
                                                                                                                                             ${Use === "InActive" && "text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"}
                                                                                                                                             ${Use === "Edit" && "text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"}
@@ -365,36 +364,38 @@ export default function Post() {
                         `} onClick={handleAction}>
                             <p>{Use}</p>
                         </div>
-                        <i onClick={HandleCategory} className="absolute  w-[400px] text-[#009981] flex items-center right-[0] px-[15px] py-[10px] rounded-lg hover:bg-[#EEFFF7] hover:text-[black]">
-                            <FontAwesomeIcon className="text-[30px] font-bold" icon={faList} />
-                            <label className="text-[30px] font-bold px-4">{currentCategory}</label>
+                        <i onClick={HandleCategory} className="absolute  w-[250px] text-[#009981] flex items-center right-[0] px-[15px] py-[10px] rounded-lg hover:bg-[#EEFFF7] hover:text-[black]">
+                            <FontAwesomeIcon className="text-[20px] font-bold" icon={faList} />
+                            <label className="text-[20px] font-bold px-4">{currentCategory}</label>
                         </i>
                         {Category &&
-                            <ul className="absolute z-50 shadow-lg right-[0px] border bg-white top-[90px] bold w-[400px] rounded-lg text-[30px] items-center">
+                            <ul className="absolute z-50 shadow-lg right-[0px] border bg-white top-[90px] bold w-[250px] rounded-lg text-[20px] items-center">
                                 {listCategory}
                             </ul>
                         }
                         <div
-                            className={`w-[1000px] items-center justify-center flex transition-opacity duration-300 ease-in-out ${
+                            className={`absolute left-[50%] top-[50%] transition-opacity duration-300 ease-in-out ${
                                 !action ? 'opacity-100' : 'opacity-0 pointer-events-none'
                             }`}
-                            >
-                        {input}
+                            style={{ transform: 'translate(-50%, -50%)' }}
+                        >
+                            {input}
                         </div>
                     </div>
-                    <ul className="flex py-[20px] text-[20px] shadow-lg border rounded-t-lg ">
+                    <ul className="flex py-[20px] text-[20px] shadow-2xl rounded-t-lg ">
                         <li className="w-[2%] px-[2%]"><input type="checkbox" disabled={edit} className="size-4 cursor-pointer" onClick={() => handleCheckAll()} /></li>
                         <li className="w-[5%] px-[2%]">ID</li>
                         <li className="w-[30%] px-[2%]">Name</li>
                         <li className="w-[13%]">Giá gốc</li>
                         <li className="w-[10%] px-[2%]">Giá</li>
-                        <li className="w-[10%] px-[2%]">Giảm giá</li>
+                        <li className="w-[10%] pl-[1%]">Giảm giá</li>
                         <li className="w-[10%] px-[5%]">Status</li>
                         <li className="w-[10%] ml-[8%]" >Thêm</li>
                     </ul>
                     {results.length > 0 ? SecrchResult : result}
                 </div>
             </div>
+
         </form>
     );
 }

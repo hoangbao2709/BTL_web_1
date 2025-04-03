@@ -36,22 +36,17 @@ let linkCategory = [
     "/main/Wings_book",
 ];
 
-let menu = [
-    "Tin tức",
-    "Giới thiệu",
-];
-
 const listCategory = category.map((element, index) => {
     if (index !== category.length - 1) {
         return (
-            <li key={index} className="border-b  border-black pt-[5px] p-[10px] bg-white hover:text-[red]">
+            <li key={index} className="border-b  border-black pt-[5px] bg-white hover:text-[red]">
                 <FontAwesomeIcon icon={faBook} />
                 <a className="pl-[5px] ml-[10px]" href={linkCategory[index]}>{element}</a>
             </li>
         );
     } else {
         return (
-            <li key={index} className="rounded-b-lg border-b border-black pt-[5px] p-[10px] bg-white hover:text-[red]">
+            <li key={index} className="rounded-b-lg border-b border-black pt-[5px] bg-white hover:text-[red]">
                 <FontAwesomeIcon icon={faBook} />
                 <a className="pl-[5px] ml-[10px]" href={linkCategory[index]}>{element}</a>
             </li>
@@ -59,13 +54,6 @@ const listCategory = category.map((element, index) => {
     }
 });
 
-const listMenu = menu.map((element, index) => {
-    return (
-        <li className="pr-[15px] pl-[10px] pt-[10px] pb-[10px] text-[#009981] font-bold ml-[5px] mr-[5px] rounded-lg hover:bg-[#EEFFF7] transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 ">
-            <a href="">{element}</a>
-        </li>
-    );
-});
 
 export default function Header(item) {
     const [isVisible, setIsVisible] = useState(true);
@@ -310,7 +298,7 @@ export default function Header(item) {
             <header id="yourElementId" className={`fixed z-50 w-full top-0 left-0 transition-transform duration-700 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
                 <div className="flex z-50 pl-[100px] bg-[white] items-center">
                     <div className="logo flex items-center">
-                        <img src={logoDark} className="h-[80px] mr-[50px]" alt="Logo" />
+                        <img src={logoDark} className="h-[50px] my-[10px] mr-[50px]" alt="Logo" />
                     </div>
                     <ul className={`absolute z-100 block w-[45%] right-[500px]`}>
                         <form className="mr-10 w-full">
@@ -335,29 +323,26 @@ export default function Header(item) {
                     </ul>
                 </div>
                 
-                <div className={`h-[72px] w-full bg-[black] flex items-center justify-center transition-transform duration-700 ${isVisible ? 'translate-y-0' : 'translate-y-[72px]'}`}>
-                    <div className="flex items-center text-[20px] relative w-[1400px] justify-center">
-                            <div className="flex items-center w-[300px] absolute left-0 h-full py-[36px] bg-[#15A78A] group">
+                <div className={`h-[50px] w-full bg-[black] flex items-center justify-center transition-transform duration-700 ${isVisible ? 'translate-y-0' : 'translate-y-[50px]'}`}>
+                    <div className="flex items-center text-[20px] h-full relative w-[1400px] justify-center">
+                            <div className="flex items-center w-[300px] absolute left-0 h-full  bg-[#15A78A] group">
                                 <i className="px-[15px] rounded-lg">
                                     <FontAwesomeIcon className="text-[white] font-bold" icon={faList} />
                                     <label className="text-white font-normal px-[10px]" style={{ fontStyle: 'normal' }}>Danh mục sản phẩm</label>
                                 </i>
-                                <ul className="absolute left-0 w-[300px] text-[23px] top-[70px] items-center bg-[#15A78A] hidden group-hover:block">
+                                <ul className="absolute bg-white left-0 w-[300px] text-[23px] top-[50px] px-[15px] items-center hidden group-hover:block">
                                     {listCategory}
                                 </ul>
                             </div>
                             <ul className="text-white flex text-[20px]">
-                                <li className="px-[20px] hover:text-[#15A78A] cursor-pointer">HOME <FontAwesomeIcon icon={faChevronDown} /></li>
-                                <li className="px-[20px] hover:text-[#15A78A] cursor-pointer">SHOP <FontAwesomeIcon icon={faChevronDown} /></li>
-                                <li className="px-[20px] hover:text-[#15A78A] cursor-pointer">PRODUCT <FontAwesomeIcon icon={faChevronDown} /></li>
-                                <li className="px-[20px] hover:text-[#15A78A] cursor-pointer">PAGES <FontAwesomeIcon icon={faChevronDown} /></li>
-                                <li className="px-[20px] hover:text-[#15A78A] cursor-pointer">BLOG <FontAwesomeIcon icon={faChevronDown} /></li>
-                                <li className="px-[20px] hover:text-[#15A78A] cursor-pointer">ELEMENTS <FontAwesomeIcon icon={faChevronDown} /></li>
+                                <li className="px-[10px] hover:text-[#15A78A] cursor-pointer">HOME <FontAwesomeIcon icon={faChevronDown} /></li>
+                                <li className="px-[10px] hover:text-[#15A78A] cursor-pointer">SHOP <FontAwesomeIcon icon={faChevronDown} /></li>
+                                <li className="px-[10px] hover:text-[#15A78A] cursor-pointer">PRODUCT <FontAwesomeIcon icon={faChevronDown} /></li>
+                                <li className="px-[10px] hover:text-[#15A78A] cursor-pointer">BLOG <FontAwesomeIcon icon={faChevronDown} /></li>
                             </ul>
                             <p className="absolute right-0 text-white font-bold pl-[30px] border-l-2 border-white">Clearance Up to 30% Off</p>
                         </div>
                 </div>
-
             </header>
         </div>
     );

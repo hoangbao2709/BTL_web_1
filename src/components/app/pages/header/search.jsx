@@ -166,16 +166,13 @@ export default function Search(item) {
                 <input
                     onKeyUp={test}
                     type="text"
-                    className="form-control bg-[#F8F8F8] py-4 outline-none rounded-[10px] w-[90%] pl-[20px] text-[20px] mr-[10px]"
+                    className="form-control bg-[#F8F8F8] outline-none rounded-[10px] w-[90%] pl-[20px] text-[20px] mr-[10px]"
                     name="name"
                     placeholder="Tìm kiếm sản phẩm"
                     aria-label="Tìm kiếm sản phẩm"
                 />
-                <button className='flex justify-center cursor-pointer w-[10%] py-4 rounded-r-lg border-l-2 border-collapse bg-[#17AF91] hover:bg-[#15A78A]'>
-                    <FontAwesomeIcon className="text-[20px]" icon={faMagnifyingGlass} />
-                </button>
-                <ul ref={resultsRef1} className="items-center text-[15px] bold-900 absolute left-[65%] cursor-pointer w-[200px]">
-                    <li className="px-[15px] py-[10px] flex items-center border-l-2 border-[#8A8C91]" onClick={handleClick}>
+                <ul ref={resultsRef1} className="items-center text-[15px] bold-900 cursor-pointer w-[300px]">
+                    <li className="px-[15px] py-[10px] flex items-center border-l-2 border-[#8A8C91] relative" onClick={handleClick}>
                         {currentCategory}
                         <FontAwesomeIcon className={`absolute right-[10px] ${item.childWidth >= 1300 ? "" : "hidden"}`} icon={faAnglesDown} />
                     </li>
@@ -185,6 +182,9 @@ export default function Search(item) {
                         </ul>
                     )}
                 </ul>
+                <button className='flex justify-center cursor-pointer w-[10%] p-4 rounded-r-lg border-l-2 border-collapse bg-[#17AF91] hover:bg-[#15A78A]'>
+                    <FontAwesomeIcon className="text-[20px]" icon={faMagnifyingGlass} />
+                </button>
             </div>
             <div ref={resultsRef} className='flex absolute z-20 w-[518px] bg-white mt-[10px] rounded-lg'>
                 {results.length > 0 && (

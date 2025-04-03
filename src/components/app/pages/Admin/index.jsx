@@ -12,7 +12,7 @@ export default function Admin() {
             <Navbar/>
             <div className='w-full'>
                 <Routes>
-                    <Route index element={<div className='w-full'>Admin Dashboard</div>} />
+                    {/* <Route index element={<div className='w-full'>Admin Dashboard</div>} /> */}
                     <Route path="/input" element={<Input />} />
                     <Route path="/post/:Status?" element={<Post />} />
                     <Route path="/post/edit/:number?" element={<Edit />} />

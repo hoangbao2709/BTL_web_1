@@ -22,7 +22,7 @@ const Frame  = ({ item, index, max_index, childWidth }) => {
 
     if (childWidth < 640) {
         count = 2;
-    } else if (childWidth < 1280) {
+    } else if (childWidth < 1080) {
         count = 3;
     } else if (childWidth < 1600) {
         count = 4;
@@ -43,7 +43,7 @@ const Frame  = ({ item, index, max_index, childWidth }) => {
         const imgSrc = imgs.length > 0 ? imgs[0] : '';
         oneView.push(
             <li
-                className='h-auto font-mono overflow-hidden w-full relative fix  m-0 mx-[15px] max-sm:mx-1'
+                className='h-auto font-mono overflow-hidden w-full relative fix  m-0 mx-[10px] max-sm:mx-1'
                 key={`item-${element.id}`}
             >   
                 <div className='w-full transition duration-700 ease-in-out p-2 relative fix hover:shadow-2xl hover:bg-white'>
@@ -80,7 +80,7 @@ const Frame  = ({ item, index, max_index, childWidth }) => {
                 {Array.from({ length: count - (oneView.length % count) }).map((_, ind) => (
                     oneView.length % count !== 0 && (
                         <li
-                            className='w-[100%] relative fix  p-0 m-0 ml-[25px] mr-[25px]'
+                            className='h-auto font-mono overflow-hidden w-full relative fix  m-0 mx-[15px] max-sm:mx-1'
                             key={`placeholder-${ind}`}
                         >
                         </li>
@@ -91,8 +91,8 @@ const Frame  = ({ item, index, max_index, childWidth }) => {
     }
 
     return (
-        <div className='flex min-h-[1000px] justify-center  content-center'>
-            <div className={`2xl:w-[1200px] xl:w-[1200px] lg:w-[full]  md:w-[full]  sm:w-[full] max-sm:w-[400px] `}>
+        <div className='flex min-h-[100px] justify-center  content-center'>
+            <div className={`2xl:w-[1200px] xl:w-[900px] lg:w-[full]  md:w-[full]  sm:w-[full] max-sm:w-[400px] `}>
                 <ul>
                     {totalView}
                 </ul>

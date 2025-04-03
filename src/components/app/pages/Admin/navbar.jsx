@@ -62,7 +62,7 @@ export default function Navbar() {
     const navigate = useNavigate();
     return (
         <div className="bg-[#161A23] z-50 h-screen">
-            <div className={` ${open ? "w-[292px]" : ""}  bg-[#161A23] font-sans`}>
+            <div className={` ${open ? "w-[240px]" : ""}  bg-[#161A23] font-sans`}>
                 <header className="relative">
                     <div className="flex mt-[20px] justify-center ">
                         <img className={`h-[50px] ${open ? "mr-7" : ""} w-[50px] object-cover" `} src={avt}></img>
@@ -73,25 +73,22 @@ export default function Navbar() {
                             </div>
                         )}
                         {open && (
-                            <button onClick={handleClickOpen} type="button" class={`focus:outline-none absolute right-[-40px]   hover:bg-white focus:ring-white font-medium rounded-lg text-sm dark:hover:bg-white dark:focus:ring-white`}>
-                                <FontAwesomeIcon className="rounded-lg m-0 p-0 size-10 " icon={faSquareCaretLeft} />
+                            <button onClick={handleClickOpen} type="button" class={`focus:outline-none absolute right-[-40px] hover:bg-white focus:ring-white rounded-lg text-sm dark:hover:bg-white dark:focus:ring-white`}>
+                                <FontAwesomeIcon className="rounded-lg m-0 p-0 text-[30px]" icon={faSquareCaretLeft} />
                             </button>
                         )}
                         {!open && (
-                            <button onClick={handleClickOpen} type="button" class={`focus:outline-none absolute right-[-40px]   hover:bg-white focus:ring-white font-medium rounded-lg text-sm dark:hover:bg-white dark:focus:ring-white`}>
-                                <FontAwesomeIcon className="rounded-lg m-0 p-0 size-10 " icon={faSquareCaretRight} />
+                            <button onClick={handleClickOpen} type="button" class={`focus:outline-none absolute right-[-40px]   hover:bg-white focus:ring-white rounded-lg text-sm dark:hover:bg-white dark:focus:ring-white`}>
+                                <FontAwesomeIcon className="rounded-lg m-0 p-0 text-[30px]" icon={faSquareCaretRight} />
                             </button>
                         )}
                     </div>
                     <div className="flex justify-center items-center content-center">
-                        <div className="w-[80%] mt-[20px] border-b-[5px] border-[#2D2F39] rounded-full"></div>
+                        <div className="w-[80%] my-[20px] border-b-[5px] border-[#2D2F39] rounded-full"></div>
                     </div>
                 </header>
                 <div ref={divRef1} className="flex pr-4">
                     <div className={`container mx-auto ${open ? "w-[110px]" : ""} text-white `}>
-                        <li className="flex py-7 relative content-center">
-                            <label className="hidden">Main </label>
-                        </li>
                         <ul className="border-r-4 border-[#8A8C91] rounded-[50%]">
                             <li>
                                 <a
@@ -145,9 +142,6 @@ export default function Navbar() {
                             opacity: open ? 10000 : 0,
                         }}>
                         <ul>
-                            <li className="flex py-7 relative content-center">
-                                <label className="hidden">Main </label>
-                            </li>
                             <li>
                                 <a
                                     href={"/admin/dashboard"}
@@ -160,9 +154,9 @@ export default function Navbar() {
                                 <div >
                                     <a onClick={handleClick1}  className={`my-1 flex py-5 relative w-full pl-4 rounded-lg hover:bg-[#2D2F39] cursor-pointer items-center ${showHtml ? 'bg-[#2D2F39] text-[#62fcaf]' : ''}`}>
                                         <p className="text-[20px]">Audience</p>
-                                        <button className="pr-4 absolute right-0 text-sm font-medium text-gray-900 dark:text-gray-400 dark:hover:bg-black">
-                                            <FontAwesomeIcon icon={showHtml ? faChevronUp : faChevronDown} />
-                                        </button>
+                                        <div className="pr-4 absolute flex items-center justify-center right-0 text-sm font-medium text-gray-900 dark:text-gray-400">
+                                            <FontAwesomeIcon className="flex items-center justify-center absolute right-2" icon={showHtml ? faChevronUp : faChevronDown} />
+                                        </div>
                                     </a>
                                     {showHtml && (
                                         <div ref={divRef} >

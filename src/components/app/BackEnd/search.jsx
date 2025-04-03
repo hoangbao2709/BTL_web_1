@@ -171,12 +171,12 @@ export default function Search(fetchedData, checkedItems, handleCheckboxChange, 
 
     console.log("results ",results);
     input.push(
-        <div className={"w-[600px] z-0"}>
+        <div className={"w-[500px] -translate-x-[30px] z-0"}>
             <div className='flex items-center z-50 bg-[#F8F8F8] w-[100%] relative'>
                 <input
                     onKeyUp={test}
                     type="text"
-                    className="form-control bg-[#F8F8F8] py-4 outline-none rounded-[10px] w-[75%] pl-[20px] text-[20px]"
+                    className="form-control bg-[#F8F8F8] py-1 outline-none rounded-[10px] w-[350px] pl-[20px] text-[20px]"
                     name="name"
                     placeholder="Tìm kiếm sản phẩm"
                     aria-label="Tìm kiếm sản phẩm"

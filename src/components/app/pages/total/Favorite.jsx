@@ -30,7 +30,7 @@ export const Favorite = (item) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://localhost/BTL_web_1/src/components/app/BackEnd/php/uploads/getAllFavorite.php`
+          `https://localhost/book_store_web/src/components/app/BackEnd/php/uploads/getAllFavorite.php`
         );
         const data = await response.json();
         setFavourite(data);

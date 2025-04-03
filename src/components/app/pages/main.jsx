@@ -10,34 +10,9 @@ import Wings_book  from "./total/Wings_book";
 import Favorite  from "./total/Favorite";
 import { Routes, Route, useLocation } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
 import bg from './images/nen2.jpg';
 
-let linkCategory = [
-  "/main/Tat_ca_san_pham",
-  "/main/Lich_su_truyen_thong",
-  "/main/Van_hoc_Viet_Nam",
-  "/main/Van_hoc_nuoc_ngoai",
-  "/main/Kien_thuc_khoa_hoc",
-  "/main/Truyen_tranh",
-  "/main/Wings_book",
-];
 
-let menu = [
-  "Tin tức",
-  "Giới thiệu",
-  "Our Story",
-  "Blog",
-  "Contact Us"
-];
-
-const listMenu = menu.map((element, index) => {
-  return (
-    <li className="pr-[15px] pl-[10px] pt-[10px] pb-[10px] text-[white] font-bold ml-[5px] mr-[5px] ">
-      <a href="">{element}</a>
-    </li>
-  );
-});
 const Main = () => {
   const location = useLocation();
   const pathParts = location.pathname;
@@ -94,7 +69,7 @@ const Main = () => {
       }}
     >
       <Header childWidth={childWidth}/>
-      <div className="flex mt-[150px] w-[200px]">
+      <div className="flex mt-[120px]">
         <Images />
       </div>
       <div className={`main flex w-[100%] justify-center mt-[50px] `}>

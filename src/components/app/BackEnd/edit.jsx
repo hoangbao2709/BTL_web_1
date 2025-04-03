@@ -63,7 +63,7 @@ export default function Edit() {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
-        fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/Data.php?&url=${encodeURIComponent("tat_ca_san_pham")}&variable=${encodeURIComponent(value)}`)
+        fetch(`https://localhost/book_store_web/src/components/app/BackEnd/php/uploads/Data.php?&url=${encodeURIComponent("tat_ca_san_pham")}&variable=${encodeURIComponent(value)}`)
             .then((response) => response.json())
             .then((data) => {
                 setData(data);
@@ -372,30 +372,124 @@ export default function Edit() {
     };
 
     return (
-        <div className="w-[100%] lg bg-[#E0E3E7] justify-center content-center relative flex h-screen">
+        <div className="w-[100%] lg justify-center content-center relative flex h-screen">
             <form className="w-[20%] z-10 content-center" action="http://localhost:8000/update.php" method="post" onSubmit={handleSubmit}>
-                <div className="grid mb-10">
-                    <div className="mb-2">
-                        <label htmlFor="id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">ID</label>
-                        <input type="text" ref={IDRef} id="id" name="id" defaultValue={data[0].id} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ID" />
+                <div className="grid">
+                    <div class="relative">
+                        <input
+                            type="text"
+                            id="id"
+                            name="id"
+                            defaultValue={data[0].id}
+                            ref={IDRef}
+                            onChange={handleChange}
+                            class="peer py-4 px-[10px] block w-full bg-transparent  border-t-transparent border-b-2 border-x-transparent border-b-gray-200 sm:text-sm placeholder:text-transparent  focus:ring-0 disabled:opacity-50 disabled:pointer-events-none
+                                    focus:pt-6
+                                    focus:pb-2
+                                    not-placeholder-shown:pt-6
+                                    not-placeholder-shown:pb-2
+                                    autofill:pt-6
+                                    autofill:pb-2"
+                            placeholder="ID"
+                        />
+                        <label
+                            for="hs-floating-underline-input-email"
+                            class="absolute top-0 start-0 py-4 px-0 h-full border border-transparent sm:text-sm truncate pointer-events-none transition ease-in-out duration-100 origin-[0_0] peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                                peer-focus:scale-90
+                                peer-focus:translate-x-0.5
+                                peer-focus:-translate-y-1.5
+                                peer-focus:text-gray-500
+                                peer-not-placeholder-shown:scale-90
+                                peer-not-placeholder-shown:translate-x-0.5
+                                peer-not-placeholder-shown:-translate-y-1.5
+                                peer-not-placeholder-shown:text-gray-500"
+                        >
+                        ID
+                        </label>
                     </div>
-                    <div className="mb-2">
-                        <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Name</label>
-                        <input type="text" ref={NameRef} id="name" name="name" defaultValue={data[0].name} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Name" />
+                    <div class="relative">
+                        <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        ref={NameRef}
+                        onChange={handleChange}
+                        defaultValue={data[0].name}
+                        class="peer py-4 px-[10px] block w-full bg-transparent border-t-transparent border-b-2 border-x-transparent border-b-gray-200 sm:text-sm placeholder:text-transparent focus:border-t-transparent focus:border-x-transparent focus:border-b-blue-500 focus:ring-0 disabled:opacity-50 disabled:pointer-events-none
+                                        focus:pt-6
+                                        focus:pb-2
+                                        not-placeholder-shown:pt-6
+                                        not-placeholder-shown:pb-2
+                                        autofill:pt-6
+                                        autofill:pb-2"
+                        placeholder="ID"
+                        />
+                        <label
+                        for="hs-floating-underline-input-email"
+                        class="absolute top-0 start-0 py-4 px-0 h-full sm:text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent  origin-[0_0] peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                                        peer-focus:scale-90
+                                        peer-focus:translate-x-0.5
+                                        peer-focus:-translate-y-1.5
+                                        peer-focus:text-gray-500
+                                        peer-not-placeholder-shown:scale-90
+                                        peer-not-placeholder-shown:translate-x-0.5
+                                        peer-not-placeholder-shown:-translate-y-1.5
+                                        peer-not-placeholder-shown:text-gray-500"
+                        >
+                        Name
+                        </label>
                     </div>
-                    <div className="mb-2">
-                        <label htmlFor="tap" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Tập</label>
-                        <input type="text" ref={TapRef} id="tap" name="tap" defaultValue={data[0].tap} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tập" />
+                    <div class="relative">
+                        <input
+                        type="text"
+                        id="tap"
+                        name="tap"
+                        ref={TapRef}
+                        onChange={handleChange}
+                        defaultValue={data[0].tap}
+                        class="peer py-4 px-[10px] block w-full bg-transparent border-t-transparent border-b-2 border-x-transparent border-b-gray-200 sm:text-sm placeholder:text-transparent focus:border-t-transparent focus:border-x-transparent focus:border-b-blue-500 focus:ring-0 disabled:opacity-50 disabled:pointer-events-none
+                                        focus:pt-6
+                                        focus:pb-2
+                                        not-placeholder-shown:pt-6
+                                        not-placeholder-shown:pb-2
+                                        autofill:pt-6
+                                        autofill:pb-2"
+                        placeholder="Tập"
+                        />
+                        <label
+                        for="hs-floating-underline-input-email"
+                        class="absolute top-0 start-0 py-4 px-0 h-full sm:text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent  origin-[0_0] peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                                        peer-focus:scale-90
+                                        peer-focus:translate-x-0.5
+                                        peer-focus:-translate-y-1.5
+                                        peer-focus:text-gray-500
+                                        peer-not-placeholder-shown:scale-90
+                                        peer-not-placeholder-shown:translate-x-0.5
+                                        peer-not-placeholder-shown:-translate-y-1.5
+                                        peer-not-placeholder-shown:text-gray-500"
+                        >
+                        Tập 
+                        </label>
                     </div>
-                    <div className="flex">
-                        <div type="button" onClick={() => setOpen2(true)} className="cursor-pointer w-[50%] mr-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm text-center px-3 py-2.5 mt-[25px]">
+                    <div className="flex z-0 mt-[10px]">
+                        <div
+                            type="button"
+                            onClick={() => setOpen2(true)}
+                            className="z-0 cursor-pointer text-[12px] w-[50%] mr-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm text-center px-3 py-2.5"
+                        >
                             Thêm thông tin sản phẩm
                         </div>
-                        <div type="button" onClick={() => setOpen(true)} className="cursor-pointer w-[50%] flex justify-center content-center ml-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm text-center py-2.5 mt-[25px]">
-                            <p className="h-full flex items-center justify-center">Chọn trang thêm</p>
+                        <div
+                            type="button"
+                            onClick={() => setOpen(true)}
+                            className="z-0 cursor-pointer text-[12px] w-[50%] flex justify-center content-center ml-[5px] text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm text-center py-2.5 "
+                        >
+                            <p className="h-full flex items-center justify-center">
+                            Chọn trang thêm
+                            </p>
                         </div>
                     </div>
-                    <button type="submit" className="w-full cursor-pointer text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 mt-[25px]">
+                    <button type="submit" className="w-full cursor-pointer text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 mt-[10px]">
                         Submit
                     </button>
                 </div>
@@ -475,181 +569,296 @@ export default function Edit() {
                     </div>
                 </Modal>
                 <div
-                    className="drag-area shadow-2xl border-2 border-[#DDDDDD] transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-white hover:bg-white relative fix"
+                    className="drag-area z-0 text-[12px] shadow-2xl border-2 border-[#DDDDDD] transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-white hover:bg-white"
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
                 >
-                    <div className="icon"><i className="fas fa-cloud-upload-alt"></i></div>
-                    <header className="bold">Drag & Drop to Upload File</header>
+                    <div className="icon">
+                    <i className="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <header className="bold text-[12px]">
+                    Drag & Drop to Upload File
+                    </header>
                     <span className="bold">OR</span>
-                    <div className="button m-[20px]" onClick={handleBrowseClick}>Browse Image</div>
+                    <div className="button m-[10px]" onClick={handleBrowseClick}>
+                    Browse Image
+                    </div>
                     <input
-                        type="file"
-                        name="file"
-                        ref={inputRef}
-                        onChange={handleFileChange}
-                        hidden
-                        multiple
+                    type="file"
+                    name="file"
+                    ref={inputRef}
+                    onChange={handleFileChange}
+                    hidden
+                    multiple
                     />
                     {files && <p>File: {files.name}</p>}
                 </div>
                 <p className="w-full flex items-center justify-center text-[red] text-[20px]">{result}</p>
             </form >
-            <div className="w-[70%] ml-[2%] z-0 flex justify-center items-center bg-">
-            <div className="w-[10%] h-[715px]">
+            <div className="w-[700px] ml-[2%] z-0 flex justify-center items-center bg-">
+                <div className="w-[100px] h-[515px]">
                 <DndContext
-                        sensors={sensors}
-                        collisionDetection={closestCorners}
-                        onDragEnd={handleDragEnd}
+                    sensors={sensors}
+                    collisionDetection={closestCorners}
+                    onDragEnd={handleDragEnd}
+                >
+                    <div className="relative">
+                    <SortableContext
+                        items={files}
+                        strategy={verticalListSortingStrategy}
                     >
-                        <div className="relative">
-                            <SortableContext items={files} strategy={verticalListSortingStrategy}>
-                                <Swiper
-                                    modules={[Scrollbar]}
-                                    spaceBetween={30}
-                                    slidesPerView={3}
-                                    scrollbar={{ draggable: true }}
-                                    direction="vertical"
-                                    style={{ height: '600px' }}
-                                    allowTouchMove={false}
-                                    onSwiper={(swiper) => (chillSwiperRef.current = swiper)}
-                                >
-                                    {files.length > 0 ? 
-                                        <div className="flex w-full absolute top-0 z-20 cursor-pointer justify-center" onClick={handleDown}>
-                                            <FontAwesomeIcon className="flex justify-center items-center text-white bottom-0 h-[30px] w-[30px] cursor-pointer bg-opacity-50 bg-[red]" icon={faChevronUp} />
-                                        </div>    
-                                        : <div></div>
-                                    }
-                                    {files.map((image, ind) => {
-                                        return (
-                                            <SwiperSlide  className="cursor-pointer" onClick={() => HandleClick(ind)}>
-                                                {edit ? 
-                                                    <Task  key={image.id} id={image.id} title={image} handleClick={HandleClick} index={ind}/>:
-                                                    <img className="w-full h-auto  object-contain " src={URL.createObjectURL(image.title)} alt={`Slide ${index + 1}`} />
-                                                    
-                                                }  
-                                            </SwiperSlide>
-                                        );
-                                    })}
-                                    {files.length > 0 ? 
-                                        <div className="flex w-full z-50 absolute bottom-0 justify-center" onClick={handleUp}>
-                                            <FontAwesomeIcon className="flex justify-center items-center text-white bottom-0 h-[30px] w-[30px] cursor-pointer bg-opacity-50 bg-[red]" icon={faChevronDown} />
-                                        </div>
-                                        : <div></div>
-                                    }
-                                </Swiper>
-                            </SortableContext>
-                        </div>
-                    </DndContext>
-                    {files.length > 0 ? 
-                        <div class={`inline-flex items-center justify-center rounded-lg mt-[20px] cursor-pointer h-[50px] w-full bg-[#77CBDE] ${edit ? "bg-[#FF5555] text-[white]" : ""}`} onClick={handleEdit}>
-                            <span class="w-full inline-flex items-center justify-center text-[20px] font-medium ">
-                                {edit ? "Edit Image" : "Show Image" }
-                            </span>
-                        </div>
-                        : <div></div>
-                    }
-                </div>
-                <div className="z-0  w-[500px] relative overflow-hidden fix border  p-0 m-0 ml-[25px] mr-[25px]">
-                    <div className="relative h-[715px] w-[500px]">
                         <Swiper
-                            spaceBetween={30}
-                            centeredSlides={true}
-                            navigation={true}
-                            onSwiper={(swiper) => (swiperRef.current = swiper)}
-                            modules={[Navigation]}
-                            className="w-100% h-[715px]"
+                        modules={[Scrollbar]}
+                        spaceBetween={30}
+                        slidesPerView={3}
+                        scrollbar={{ draggable: true }}
+                        direction="vertical"
+                        style={{ height: "500px" }}
+                        allowTouchMove={false}
+                        onSwiper={(swiper) => (chillSwiperRef.current = swiper)}
                         >
-                            {files.map((image, index) => (
-                                <SwiperSlide key={index} className="flex  relative justify-center">
-                                    <div onClick={() => handleMinus(index)} className="z-10 absolute cursor-pointer top-[3%] left-[85%]">
-                                        <FontAwesomeIcon className="size-10 bg-[red] rounded-[50%]" icon={faMinus} />
-                                    </div>
-                                    <img className="w-full h-auto  object-contain " src={URL.createObjectURL(image.title)} alt={`Slide ${index + 1}`} />
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
-                    </div>
-                </div>
-                <div className="w-[45%] h-[715px]  pl-[20px] rounded-3xl block relative">
-                    <div className="items-center break-words">
-                        {submittedName && (
-                            <div className="break-words font-sans-serif">
-                                <label className="text-[30px] block break-words">
-                                    {submittedName}
-                                </label>
-                                {submittedTap && (
-                                    <label className="mt-0 text-[30px] block">
-                                        {submittedTap}
-                                    </label>
-                                )}
-                                <div className="flex items-center">
-                                    <div>
-                                        <label className="text-[25px]">Rating: </label>
-                                        {Array.from({ length: 5 }, (_, index) => (
-                                            <span key={index} className={(index < rating ? "text-yellow-500" : "text-gray-400")}>
-                                                <FontAwesomeIcon icon={faStar} />
-                                            </span>
-                                        ))}
-                                        <label className="text-[25px]">{" | " + 10 + " đánh giá"} </label>
-                                        <p className="text-[25px]">Đã bán: 100</p>
-                                    </div>
-                                    <label className="text-[30px] pr-[50px] absolute right-0"><FontAwesomeIcon icon={faHeart} /></label>
-                                </div>
+                        {files.length > 0 ? (
+                            <div
+                            className="flex w-full absolute top-0 z-20 cursor-pointer justify-center"
+                            onClick={handleDown}
+                            >
+                            <FontAwesomeIcon
+                                className="flex justify-center items-center text-white bottom-0 h-[30px] w-[30px] cursor-pointer bg-opacity-50 bg-[red]"
+                                icon={faChevronUp}
+                            />
                             </div>
+                        ) : (
+                            <div></div>
                         )}
+
+                        {files.map((image, ind) => {
+                            return (
+                            <SwiperSlide
+                                className="cursor-pointer"
+                                onClick={() => HandleClick(ind)}
+                            >
+                                {edit ? (
+                                <Task
+                                    key={image.id}
+                                    id={image.id}
+                                    title={image}
+                                    handleClick={HandleClick}
+                                    index={ind}
+                                />
+                                ) : (
+                                <img
+                                    className="w-full h-auto  object-contain "
+                                    src={URL.createObjectURL(image.title)}
+                                    alt={`Slide ${index + 1}`}
+                                />
+                                )}
+                            </SwiperSlide>
+                            );
+                        })}
+                        {files.length > 0 ? (
+                            <div
+                            className="flex w-full z-50 absolute bottom-0 justify-center"
+                            onClick={handleUp}
+                            >
+                            <FontAwesomeIcon
+                                className="flex justify-center items-center text-white bottom-0 h-[30px] w-[30px] cursor-pointer bg-opacity-50 bg-[red]"
+                                icon={faChevronDown}
+                            />
+                            </div>
+                        ) : (
+                            <div></div>
+                        )}
+                        </Swiper>
+                    </SortableContext>
                     </div>
-                    {submittedGia_goc && (
+                </DndContext>
+                {files.length > 0 ? (
+                    <div
+                    class={`inline-flex items-center justify-center rounded-lg mt-[20px] cursor-pointer h-[50px] w-full bg-[#77CBDE] ${
+                        edit ? "bg-[#FF5555] text-[white]" : ""
+                    }`}
+                    onClick={handleEdit}
+                    >
+                    <span class="w-full inline-flex items-center justify-center text-[14px] font-medium ">
+                        {edit ? "Edit Image" : "Show Image"}
+                    </span>
+                    </div>
+                ) : (
+                    <div></div>
+                )}
+                </div>
+                <div className="z-0 relative overflow-hidden p-0 m-0 mx-[25px] bg-white shadow-lg rounded-lg">
+                <div className="relative">
+                    <Swiper
+                    spaceBetween={30}
+                    centeredSlides={true}
+                    navigation={true}
+                    modules={[Navigation]}
+                    className="w-full h-auto max-w-[273px] mx-auto"
+                    onSwiper={(swiper) => (swiperRef.current = swiper)}
+                    >
+                    {files.map((image, index) => (
+                        <SwiperSlide
+                        key={index}
+                        className="flex justify-center items-center"
+                        >
+                        <div
+                            onClick={() => handleMinus(index)}
+                            className="z-10 absolute flex items-center justify-center h-[30px] w-[30px] cursor-pointer top-[3%] right-[3%] bg-red-600 rounded-[50%] transition-transform transform hover:scale-110"
+                        >
+                            <FontAwesomeIcon className="text-white" icon={faMinus} />
+                        </div>
+                        <img
+                            className="w-full h-auto rounded-lg shadow-md object-cover"
+                            src={URL.createObjectURL(image.title)}
+                            alt={`Slide ${index + 1}`}
+                        />
+                        </SwiperSlide>
+                    ))}
+                    </Swiper>
+                </div>
+                </div>
+
+                <div className="w-[45%] h-[515px] rounded-3xl block relative">
+                <div className="items-center break-words">
+                    {submittedName && (
+                    <div className="break-words font-sans-serif">
+                        <label className="text-[20px] block break-words">
+                            {submittedName}
+                        </label>
+                        {submittedTap && (
+                        <label className="mt-0 text-[20px] block">
+                            {submittedTap}
+                        </label>
+                        )}
+                        <div className="flex items-center">
+                            <div>
+                                <label className="text-[20px]">Rating: </label>
+                                {Array.from({ length: 5 }, (_, index) => (
+                                <span
+                                    key={index}
+                                    className={
+                                    index < rating ? "text-yellow-500" : "text-gray-400"
+                                    }
+                                >
+                                    <FontAwesomeIcon icon={faStar} />
+                                </span>
+                                ))}
+                                <label className="text-[20px]">
+                                {" | " + 10 + " đánh giá"}{" "}
+                                </label>
+                                <p className="text-[20px]">Đã bán: 100
+                                    <label className="text-[20px] absolute right-0">
+                                        <FontAwesomeIcon icon={faHeart} />
+                                    </label>
+                                </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    )}
+                </div>
+                {submittedGia_goc && (
+                    <div>
+                    <div className="border-t-2 border-black w-full my-2"></div>
+                    {submittedGiam_gia && (
+                        <div className="max-md:flex">
                         <div>
-                            <div className="border-t-2 border-black w-full my-2"></div>
-                            {submittedGiam_gia && (
-                                <div className="flex">
-                                    <div >
-                                        <label className="text-[red] text-[20px] mr-[30px]"><strong>{formatPrice(parseInt(parseInt(submittedGia_goc) - (parseInt(submittedGia_goc) * parseInt(submittedGiam_gia)) / 100))}</strong></label>
-                                    </div>
-                                    <div >
-                                        <label className="text-gray-400 text-[20px] line-through" id="original-price"><strong>{formatPrice(parseInt(submittedGia_goc))}</strong></label>
-                                    </div>
-                                    <div >
-                                        <label className="text-[20px] absolute right-0" id="original-price"><strong>Bạn đã tiết kiệm được {formatPrice(parseInt((parseInt(submittedGia_goc) * parseInt(submittedGiam_gia)) / 100))}</strong></label>
-                                    </div>
-                                </div>
-                            )}
-                            {!submittedGiam_gia && (
-                                <div>
-                                    <div className="mt-4">
-                                        <label className="text-[red] text-[20px]"><strong>{formatPrice(submittedGia_goc)}</strong></label>
-                                    </div>
-                                </div>
-                            )}
-                            <div className="border-t-2 border-black w-full mt-2"></div>
+                            <label className="text-[red] text-[20px] mr-[30px]">
+                            <strong>
+                                {formatPrice(
+                                parseInt(
+                                    parseInt(submittedGia_goc) -
+                                    (parseInt(submittedGia_goc) *
+                                        parseInt(submittedGiam_gia)) /
+                                        100
+                                )
+                                )}
+                            </strong>
+                            </label>
+            
+                            <label
+                            className="text-gray-400 text-[20px] md:absolute md:right-0 line-through"
+                            id="original-price"
+                            >
+                            <strong>{formatPrice(parseInt(submittedGia_goc))}</strong>
+                            </label>
+                        </div>
+                        <div>
+                            <label
+                            className="text-[18px] max-md:absolute right-0"
+                            id="original-price"
+                            >
+                            <strong>
+                                Bạn đã tiết kiệm được{" "}
+                                {formatPrice(
+                                parseInt(
+                                    (parseInt(submittedGia_goc) *
+                                    parseInt(submittedGiam_gia)) /
+                                    100
+                                )
+                                )}
+                            </strong>
+                            </label>
+                        </div>
                         </div>
                     )}
-                    {submittedTac_gia && (
-                        <li>
-                            <label className="text-[20px]">Tác giả: <strong className="text-[red]">{submittedTac_gia}</strong></label>
-                        </li>
+                    {!submittedGiam_gia && (
+                        <div>
+                        <div className="mt-4">
+                            <label className="text-[red] text-[20px]">
+                            <strong>{formatPrice(submittedGia_goc)}</strong>
+                            </label>
+                        </div>
+                        </div>
                     )}
-                    {submittedDoi_tuong && (
-                        <li>
-                            <label className="text-[20px]">Đối tượng: <strong className="text-[red]">{submittedDoi_tuong}</strong></label>
-                        </li>
-                    )}
-                    {submittedKhuon_kho && (
-                        <li>
-                            <label className="text-[20px]">Khuôn khổ: <strong className="text-[red]">{submittedKhuon_kho}</strong></label>
-                        </li>
-                    )}
-                    {submittedSo_trang && (
-                        <li>
-                            <label className="text-[20px]">Số trang: <strong className="text-[red]">{formatGram(submittedSo_trang)}</strong></label>
-                        </li>
-                    )}
-                    {submittedTrong_luong && (
-                        <li>
-                            <label className="text-[20px]">Trọng lượng: <strong className="text-[red]">{formatGram(submittedTrong_luong)}</strong></label>
-                        </li>
-                    )}
+                    <div className="border-t-2 border-black w-full mt-2"></div>
+                    </div>
+                )}
+                {submittedTac_gia && (
+                    <li>
+                    <label className="text-[20px]">
+                        Tác giả:{" "}
+                        <strong className="text-[red]">{submittedTac_gia}</strong>
+                    </label>
+                    </li>
+                )}
+                {submittedDoi_tuong && (
+                    <li>
+                    <label className="text-[20px]">
+                        Đối tượng:{" "}
+                        <strong className="text-[red]">{submittedDoi_tuong}</strong>
+                    </label>
+                    </li>
+                )}
+                {submittedKhuon_kho && (
+                    <li>
+                    <label className="text-[20px]">
+                        Khuôn khổ:{" "}
+                        <strong className="text-[red]">{submittedKhuon_kho}</strong>
+                    </label>
+                    </li>
+                )}
+                {submittedSo_trang && (
+                    <li>
+                    <label className="text-[20px]">
+                        Số trang:{" "}
+                        <strong className="text-[red]">
+                        {formatGram(submittedSo_trang)}
+                        </strong>
+                    </label>
+                    </li>
+                )}
+                {submittedTrong_luong && (
+                    <li>
+                    <label className="text-[20px]">
+                        Trọng lượng:{" "}
+                        <strong className="text-[red]">
+                        {formatGram(submittedTrong_luong)}
+                        </strong>
+                    </label>
+                    </li>
+                )}
                 </div>
             </div>
         </div >
