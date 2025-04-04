@@ -75,7 +75,7 @@ const PaginationHelper = ({ data = [], checkedItems, handleCheckboxChange, forma
                 <li key={i}>
                     <div 
                         onClick={() => handleClickI(i)} 
-                        className="flex items-center justify-center p-5 m-3 h-8 leading-tight text-gray-500 bg-white border rounded-lg border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        className="flex items-center justify-center p-2 m-1 h-8 leading-tight text-gray-500 bg-white border rounded-lg border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     >
                         {i}
                     </div>
@@ -87,7 +87,7 @@ const PaginationHelper = ({ data = [], checkedItems, handleCheckboxChange, forma
                     <div 
                         onClick={() => handleClickI(i)}
                         aria-current="page" 
-                        className="flex items-center justify-center p-5 m-3 h-8 text-blue-600 border border-gray-300 rounded-lg bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+                        className="flex items-center justify-center p-2 m-1 h-8 text-blue-600 border border-gray-300 rounded-lg bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
                     >
                         {i}
                     </div>
@@ -98,14 +98,14 @@ const PaginationHelper = ({ data = [], checkedItems, handleCheckboxChange, forma
 
     xhtmlStart.push(
         <li onClick={handleClickStart}>
-            <div className="flex items-center max-sm:hidden justify-center p-5 m-3 h-8  leading-tight text-gray-500 bg-white border border-e-0 rounded-lg border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <div className="flex items-center max-sm:hidden justify-center p-2 m-1 h-8  leading-tight text-gray-500 bg-white border border-e-0 rounded-lg border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                 Start
             </div>
         </li>
     );
     xhtmlPrevious.push(
         <li onClick={handleClickPrev}>
-            <div className="flex items-center justify-center p-5 m-3 h-8  leading-tight text-gray-500 bg-white rounded-lg border border-e-0 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <div className="flex items-center justify-center p-2 m-1 h-8  leading-tight text-gray-500 bg-white rounded-lg border border-e-0 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                 &#60;
             </div>
         </li>
@@ -113,14 +113,14 @@ const PaginationHelper = ({ data = [], checkedItems, handleCheckboxChange, forma
 
     xhtmlNext.push(
         <li onClick={handleClickNext}>
-            <div className="flex items-center justify-center p-5 m-3 h-8 leading-tight text-white bg-black border rounded-lg border-gray-300hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <div className="flex items-center justify-center p-2 m-1 h-8 leading-tight text-white bg-black border rounded-lg border-gray-300hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                 &#62;
             </div>
         </li>
     );
     xhtmlEnd.push(
         <li onClick={handleClickEnd}>
-            <div className="flex max-sm:hidden items-center max-sm:hiden justify-center p-5 m-3 h-8 leading-tight text-white bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <div className="flex max-sm:hidden items-center max-sm:hiden justify-center p-2 m-1 h-8 leading-tight text-white bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                 End
             </div>
         </li>
@@ -143,56 +143,63 @@ const PaginationHelper = ({ data = [], checkedItems, handleCheckboxChange, forma
     edit ? type = "radio" : type = "checkbox";
 
     function getData() {
-
-        const itemsToRender = data.slice(index, index + max_index);
-    
-        const paddedItems = [...itemsToRender, ...Array(Math.max(0, max_index - itemsToRender.length)).fill({})];
-
-        return paddedItems.slice(index, index + max_index).map((element, idx) => (
-            <ul className={`flex text-[20px] h-[40px] w-full py-2 ${idx % 2 === 0 ? "bg-[#E0E3E7]" : ""}`} key={element.id || ""}>
-                    <li className="w-[2%] px-[2%]">
-                        <input
-                            type={type}
-                            className={`size-4 rounded-[50%] cursor-pointer ${element.id || "hidden"}`}
-                            checked={checkedItems[idx]}
-                            onChange={() => {
-                                handleCheckboxChange(idx, results);
-                            }}
-                            name="isRadio"
-                        />
-                    </li>
-                    <li className="w-[5%] px-[2%]">{element.id || ""}</li>
-                    <li className="w-[30%] px-[2%] overflow-hidden">{element.name || ""}</li>
-                    <li className={`w-[13%]  ${element.id || "hidden"}`}>{formatPrice(element.gia_goc || "")}</li>
-                    <li className={`w-[10%] px-[1.5% ${element.id || "hidden"}`}>{formatPrice(element.gia || "")}</li>
-                    <li className="w-[10%] flex items-center justify-center">{element.giam_gia || ""}</li>
-                    <li className={`checkbox-wrapper-8 w-[9%] cursor-pointer ml-[3%] rounded-lg flex items-center justify-center ${element.id || "hidden"}`}>
-                        <input
-                            className="tgl tgl-skewed"
-                            onClick={() => handleStatusChange(element.id || "")}
-                            id={`checkbox-${idx}`}
-                            checked={element.Status === "Active"}
-                            type="checkbox"
-                        />
-                        <label className="tgl-btn" data-tg-off="Inactive" data-tg-on="Active" htmlFor={`checkbox-${idx}`}></label>
-                    </li>
-                    <li className={`w-[10%] pl-[7.5%] flex items-center justify-center cursor-pointer ${element.id || "hidden"}`} onClick={() => toggleModal(idx)}>
-                        <FontAwesomeIcon className="size-7" icon={faBars} />
-                    </li>
-                    {(open[idx] && element.id) && (
-                        <Modal open={open[idx]} onClose={() => toggleModal(idx)}>
-                            <ul className={`w-[500px] text-[30px] text-white ${element.id || "hidden"}`}>
-                                <li className="px-[2%]">Tập: <label className="text-[red]">{element.tap || ""}</label></li>
-                                <li className="px-[2%] bg-[#2D2F39]">Tác giả: <label className="text-[red]">{element.tac_gia || ""}</label></li>
-                                <li className="px-[2%]">Đối tượng: <label className="text-[red]">{element.doi_tuong || ""}</label></li>
-                                <li className="px-[2%] bg-[#2D2F39]">Khuôn khổ: <label className="text-[red]">{element.khuon_kho || ""}</label></li>
-                                <li className="px-[2%]">Số trang: <label className="text-[red]">{element.Page || ""}</label></li>
-                                <li className="px-[2%] bg-[#2D2F39]">Trọng lượng: <label className="text-[red]">{element.trong_luong || ""}</label></li>
-                            </ul>
-                        </Modal>
-                    )}
-                </ul>
-        ));
+        const items = [];
+        
+        for (let i = index; i < index + max_index; i++) {
+            if (i < data.length) {
+                const element = data[i] != null ? data[i] : {};
+                items.push(
+                    <ul className={`flex text-[20px] h-[40px] w-full py-2 ${i % 2 === 0 ? "bg-[#E0E3E7]" : ""}`} key={element.id || i}>
+                        <li className="w-[2%] px-[2%]">
+                            <input
+                                type={type}
+                                className={`size-4 rounded-[50%] cursor-pointer ${element.id ? "" : "hidden"}`}
+                                checked={checkedItems[i]}
+                                onChange={() => handleCheckboxChange(i, results)}
+                                name="isRadio"
+                            />
+                        </li>
+                        <li className="w-[5%] px-[2%]">{element.id || ""}</li>
+                        <li className="w-[30%] px-[2%] overflow-hidden">{element.name || ""}</li>
+                        <li className={`w-[13%] ${element.id ? "" : "hidden"}`}>{formatPrice(element.gia_goc || "")}</li>
+                        <li className={`w-[10%] px-[1.5%] ${element.id ? "" : "hidden"}`}>{formatPrice(element.gia || "")}</li>
+                        <li className="w-[10%] flex items-center justify-center">{element.giam_gia || ""}</li>
+                        <li className={`checkbox-wrapper-8 w-[9%] cursor-pointer ml-[3%] rounded-lg flex items-center justify-center ${element.id ? "" : "hidden"}`}>
+                            <input
+                                className="tgl tgl-skewed"
+                                onClick={() => handleStatusChange(element.id || "")}
+                                id={`checkbox-${i}`}
+                                checked={element.Status === "Active"}
+                                type="checkbox"
+                            />
+                            <label className="tgl-btn" data-tg-off="Inactive" data-tg-on="Active" htmlFor={`checkbox-${i}`}></label>
+                        </li>
+                        <li className={`w-[10%] pl-[7.5%] flex items-center justify-center cursor-pointer ${element.id ? "" : "hidden"}`} onClick={() => toggleModal(i)}>
+                            <FontAwesomeIcon className="size-7" icon={faBars} />
+                        </li>
+                        {open[i] && element.id && (
+                            <Modal open={open[i]} onClose={() => toggleModal(i)}>
+                                <ul className={`w-[500px] text-[30px] text-white`}>
+                                    <li className="px-[2%]">Tập: <label className="text-[red]">{element.tap || ""}</label></li>
+                                    <li className="px-[2%] bg-[#2D2F39]">Tác giả: <label className="text-[red]">{element.tac_gia || ""}</label></li>
+                                    <li className="px-[2%]">Đối tượng: <label className="text-[red]">{element.doi_tuong || ""}</label></li>
+                                    <li className="px-[2%] bg-[#2D2F39]">Khuôn khổ: <label className="text-[red]">{element.khuon_kho || ""}</label></li>
+                                    <li className="px-[2%]">Số trang: <label className="text-[red]">{element.Page || ""}</label></li>
+                                    <li className="px-[2%] bg-[#2D2F39]">Trọng lượng: <label className="text-[red]">{element.trong_luong || ""}</label></li>
+                                </ul>
+                            </Modal>
+                        )}
+                    </ul>
+                );
+            } else {
+                items.push(
+                    <ul className={`flex text-[20px] h-[40px] w-full py-2 ${i % 2 === 0 ? "bg-[#E0E3E7]" : ""}`} key={`empty-${i}`}>
+                    </ul>
+                );
+            }
+        }
+        
+        return items;
     }
 
     const countStatus = results.reduce((accumulator, item) => {
@@ -205,9 +212,9 @@ const PaginationHelper = ({ data = [], checkedItems, handleCheckboxChange, forma
     }, { active: 0, inactive: 0 });
 
     return (
-        <div className='shadow-lg rounded-lg'>
+        <div className='shadow-lg rounded-lg '>
             {getData()}
-            <div className='flex relative h-[70px] w-full border-t border-[#D0D1D3]'>
+            <div className='flex relative h-[70px] w-full border-t border-[#D0D1D3] items-center'>
                 <div className='flex  relative items-center text-[20px] '>
                     <p className='ml-[10px]'> Tổng số : {results.length}</p>
                     <p className='ml-[50px]'> Active: {countStatus.active}</p>

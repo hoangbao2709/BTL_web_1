@@ -94,7 +94,7 @@ export default function Product() {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/getFavorite.php?id=${encodeURIComponent(element.id)}`);
+            const response = await fetch(`https://localhost/book_store_web/src/components/app/BackEnd/php/uploads/getFavorite.php?id=${encodeURIComponent(element.id)}`);
             const data = await response.json();
             setFavourite(data.length > 0);
           } catch (error) {
@@ -166,8 +166,8 @@ export default function Product() {
 
     useEffect(() => {
         favourite ?
-        fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/favorite.php?id=${encodeURIComponent(element.id)}`)
-        : fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/deleteFavorite.php?id=${encodeURIComponent(element.id)}`)
+        fetch(`https://localhost/book_store_web/src/components/app/BackEnd/php/uploads/favorite.php?id=${encodeURIComponent(element.id)}`)
+        : fetch(`https://localhost/book_store_web/src/components/app/BackEnd/php/uploads/deleteFavorite.php?id=${encodeURIComponent(element.id)}`)
     }, [favourite]); 
 
     function handleFavorite(){
@@ -175,7 +175,7 @@ export default function Product() {
     }
 
     function addToStore(){
-        fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/store.php?&id=${encodeURIComponent(element.id)}&sl=${soLuong}`)
+        fetch(`https://localhost/book_store_web/src/components/app/BackEnd/php/uploads/store.php?&id=${encodeURIComponent(element.id)}&sl=${soLuong}`)
     }
 
     function formatPrice(price) {
@@ -186,8 +186,10 @@ export default function Product() {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
+    console.log(`https://localhost/book_store_web/src/components/app/BackEnd/php/uploads/store.php?&id=${encodeURIComponent(element.id)}&sl=${soLuong}`);
+
     return (
-        <div className="h-screen bg-cover w-[100%] bg-center"
+        <div className="bg-cover h-[2000px] w-[100%] bg-center"
             ref={parentRef}
             style={{
                 backgroundImage: `url(${bg})`,
@@ -195,9 +197,9 @@ export default function Product() {
             }}
         >
             <Header childWidth={childWidth} />
-            <div className="bg-cover mt-[70px] bg-center h-screen w-[100%] max-lg:pt-[100px] lg:px-[30px] container mx-auto flex justify-center border bg-[white] border-black">
+            <div className="bg-cover h-[2000px] mt-[70px] bg-center  w-[90%] max-lg:pt-[100px] lg:px-[30px] container mx-auto flex justify-center border bg-[white] border-black">
                 <div className="w-[100%] flex justify-center mt-[110px] content-center max-lg:block">
-                    <div className="w-[10%] h-[715px] relative">
+                    <div className="w-[10%] h-[515px] relative">
                         <Swiper
                             modules={[Scrollbar, A11y]}
                             spaceBetween={30}
@@ -205,7 +207,7 @@ export default function Product() {
                             scrollbar={{ draggable: true }}
                             onSwiper={(swiper) => (chillSwiperRef.current = swiper)}
                             direction="vertical"
-                            style={{ height: '600px' }}
+                            style={{ height: '500px' }}
                         >
                             <div className="flex w-full absolute top-0 z-20 cursor-pointer justify-center" onClick={handleDown}>
                                 <FontAwesomeIcon className="flex justify-center items-center text-white bottom-0 h-[30px] w-[30px] cursor-pointer bg-opacity-50 bg-[red]" icon={faChevronUp} />
@@ -236,7 +238,7 @@ export default function Product() {
                         centeredSlides={true}
                         navigation={true}
                         modules={[Navigation, Pagination]}
-                        className="lg:w-[39%] sm:w-[70%] h-[715px] max-sm:w-[90%] max-sm:mt-[5%]"
+                        className="lg:w-[39%] sm:w-[70%] h-[515px] max-sm:w-[90%] max-sm:mt-[5%]"
                         onSwiper={(swiper) => (swiperRef.current = swiper)}
                         pagination={{ clickable: true }}
                         scrollbar={{ draggable: true }}
@@ -305,7 +307,7 @@ export default function Product() {
                                     <label className="sm:text-[30px] max-sm:text-[20px]">Trọng lượng: <strong className="text-[red]">{formatGram(element.trong_luong)} gram</strong></label>
                                 </li>
                             </div>
-                            <div className="left-[72%] top-[130px] xl:absolute lg:block lg:mt-[20px] max-lg:block max-lg:w-[100%] ">
+                            <div className="right-[30px] top-[300px] xl:absolute lg:block lg:mt-[20px] max-lg:block max-lg:w-[100%] ">
                                 <p className="sm:text-[30px] max-sm:text-[20px]">Số lượng</p>
                                 <ul className="flex border border-[#8A8C91] xl:w-[200px] lg:w-[100%] h-[50px] mt-[20px] max-lg:w-[100%]">
                                     <li className="w-[25%] flex items-center justify-center border border-[#8A8C91] cursor-pointer" onClick={HandleMinus}>

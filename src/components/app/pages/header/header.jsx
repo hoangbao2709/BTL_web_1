@@ -115,7 +115,7 @@ export default function Header(item) {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/getAllFavorite.php`);
+            const response = await fetch(`https://localhost/book_store_web/src/components/app/BackEnd/php/uploads/getAllFavorite.php`);
             const data = await response.json();
             setFavourite(data);
           } catch (error) {
@@ -128,7 +128,7 @@ export default function Header(item) {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/getAllStore.php`);
+            const response = await fetch(`https://localhost/book_store_web/src/components/app/BackEnd/php/uploads/getAllStore.php`);
             const data = await response.json();
             setStore(data);
           } catch (error) {
@@ -140,7 +140,7 @@ export default function Header(item) {
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 700) {
+            if (window.scrollY > 100) {
                 setIsVisible(false);
             } else {
                 setIsVisible(true);
@@ -158,7 +158,7 @@ export default function Header(item) {
     useEffect(() => {
         const indexFavorite = clickFavorite.findIndex(value => value === true);
         if (indexFavorite !== -1) {
-            fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/deleteFavorite.php?id=${encodeURIComponent(indexFavorite)}`)
+            fetch(`https://localhost/book_store_web/src/components/app/BackEnd/php/uploads/deleteFavorite.php?id=${encodeURIComponent(indexFavorite)}`)
                 .then(response => response.json()) 
                 .catch(error => console.error('Error fetching data:', error));
                 setClickFavorite(prevCheckedItems => {
@@ -169,7 +169,7 @@ export default function Header(item) {
         }
         const indexStore = clickStore.findIndex(value => value === true);
         if (indexStore !== -1) {
-            fetch(`https://localhost/BTL_web_1/src/app/BackEnd/php/uploads/deleteStore.php?id=${encodeURIComponent(indexStore)}`)
+            fetch(`https://localhost/book_store_web/src/components/app/BackEnd/php/uploads/deleteStore.php?id=${encodeURIComponent(indexStore)}`)
                 .then(response => response.json()) 
                 .catch(error => console.error('Error fetching data:', error));
                 setClickStore(prevCheckedItems => {
@@ -245,7 +245,7 @@ export default function Header(item) {
             >
                 {store.length > 0 && store.map((element, index) => (
                     <SwiperSlide className="m-0" key={index}> 
-                        <div className="fit object-cover flex items-center" href={`/Product/tat_ca_san_pham/${element.id}`}>
+                        <a className="fit object-cover flex items-center" href={`/Product/tat_ca_san_pham/${element.id}`}>
                             <img className="h-[100px]" src={imageStore[index]}></img>
                             <div className="ml-2 w-[160px]">
                                 <p className="text-[14px]">{element.name}</p>
@@ -253,7 +253,7 @@ export default function Header(item) {
                                 <p className="text-[14px]">Giá sản phẩm: {formatPrice(element.gia)}</p>
                             </div>
                             <div className="text-[red] cursor-pointer" onClick={() => {handleClickStore(element.id)}}>x</div>
-                        </div>
+                        </a>
                     </SwiperSlide>
                 ))}
             </Swiper>

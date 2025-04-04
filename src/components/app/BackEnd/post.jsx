@@ -1,5 +1,5 @@
 import Modal from "../pages/helper/modal";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, use, useRef } from "react";
 import { Data } from "./getData";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -42,6 +42,8 @@ export default function Post() {
     const [currentCategory, setCurrentCategory] = useState("Tất cả sản phẩm");
     const [index, setIndex] = useState(0);
     const [ID, setID] = useState(0);
+    const resultsRef = useRef();
+    
     let category = [
         "Tất cả sản phẩm",
         "Lịch sử truyền thống",
@@ -317,6 +319,19 @@ export default function Post() {
         );
     });
 
+    const handleClickOutside = (event) => {
+        if (resultsRef.current && !resultsRef.current.contains(event.target)) {
+            setCategory(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     const [input, SecrchResult, results] = Search(fetchedData, checkedItems, handleCheckboxChange, formatPrice, handleStatusChange, toggleModal, open, edit, setID);
 
     return (
@@ -365,11 +380,11 @@ export default function Post() {
                             <p>{Use}</p>
                         </div>
                         <i onClick={HandleCategory} className="absolute  w-[250px] text-[#009981] flex items-center right-[0] px-[15px] py-[10px] rounded-lg hover:bg-[#EEFFF7] hover:text-[black]">
-                            <FontAwesomeIcon className="text-[20px] font-bold" icon={faList} />
-                            <label className="text-[20px] font-bold px-4">{currentCategory}</label>
+                            <FontAwesomeIcon className="text-[18px] font-bold" icon={faList} />
+                            <label className="text-[18px] font-bold pl-4">{currentCategory}</label>
                         </i>
                         {Category &&
-                            <ul className="absolute z-50 shadow-lg right-[0px] border bg-white top-[90px] bold w-[250px] rounded-lg text-[20px] items-center">
+                            <ul ref={resultsRef} className="absolute z-50 shadow-lg right-[0px] border bg-white top-[60px] bold w-[250px] rounded-lg text-[18px] items-center">
                                 {listCategory}
                             </ul>
                         }
@@ -392,7 +407,8 @@ export default function Post() {
                         <li className="w-[10%] px-[5%]">Status</li>
                         <li className="w-[10%] ml-[8%]" >Thêm</li>
                     </ul>
-                    {results.length > 0 ? SecrchResult : result}
+                    {results.length > 0 ? "" : result}
+                    {results.length == 0 ? "" : SecrchResult}
                 </div>
             </div>
 
